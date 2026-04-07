@@ -2,7 +2,7 @@
 
 The official Go SDK for [Keel](https://keelapi.com) — a permit-first AI governance and execution control plane.
 
-Keel sits between your application and AI providers (OpenAI, Anthropic, Google, xAI, Meta). Every request flows through: **auth → permit → firewall → routing → execution → accounting → audit**.
+Keel sits between your application and AI providers (OpenAI, Anthropic, Google, xAI, Meta).
 
 > **⚠️ Keel is currently in private beta.** You'll need a Keel account and API key to use this SDK.
 > [Sign up for early access →](https://dashboard.keelapi.com/signup)
