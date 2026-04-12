@@ -62,6 +62,15 @@ func (t *httpTransport) postStream(ctx context.Context, path string, body any, o
 	if resp.StatusCode >= 400 {
 		defer resp.Body.Close()
 		respBody, _ := io.ReadAll(resp.Body)
+		if resp.StatusCode == 429 {
+			var retryAfter time.Duration
+			if ra := resp.Header.Get("Retry-After"); ra != "" {
+				if secs, err := strconv.Atoi(ra); err == nil {
+					retryAfter = time.Duration(secs) * time.Second
+				}
+			}
+			return nil, parseThrottledResponse(respBody, retryAfter)
+		}
 		return nil, parseErrorResponse(resp.StatusCode, respBody, resp.Header)
 	}
 
@@ -105,6 +114,9 @@ func (t *httpTransport) doWithRetry(ctx context.Context, method, path string, bo
 	}
 
 	if resp.statusCode >= 400 {
+		if resp.statusCode == 429 {
+			return nil, parseThrottledResponse(resp.body, resp.retryAfter)
+		}
 		return nil, parseErrorResponse(resp.statusCode, resp.body, nil)
 	}
 
@@ -142,6 +154,41 @@ func (t *httpTransport) newRequest(ctx context.Context, method, path string, bod
 	}
 
 	return req, nil
+}
+
+func parseThrottledResponse(body []byte, retryAfter time.Duration) error {
+	te := &ThrottledError{
+		RetryAfter: retryAfter,
+	}
+
+	// Parse the 429 body: {"permit": {"decision": "throttled", ...}}
+	var resp struct {
+		Permit struct {
+			PermitID      string         `json:"permit_id"`
+			ReasonCode    string         `json:"reason_code"`
+			Message       string         `json:"message"`
+			OutcomeDetail map[string]any `json:"outcome_detail"`
+		} `json:"permit"`
+	}
+	if json.Unmarshal(body, &resp) == nil {
+		te.PermitID = resp.Permit.PermitID
+		te.ReasonCode = resp.Permit.ReasonCode
+		te.Message = resp.Permit.Message
+		if retryAfter == 0 {
+			if secs, ok := resp.Permit.OutcomeDetail["retry_after_seconds"]; ok {
+				if v, ok := secs.(float64); ok {
+					te.RetryAfterSeconds = int(v)
+					te.RetryAfter = time.Duration(te.RetryAfterSeconds) * time.Second
+				}
+			}
+		}
+	}
+
+	if te.RetryAfter > 0 && te.RetryAfterSeconds == 0 {
+		te.RetryAfterSeconds = int(te.RetryAfter.Seconds())
+	}
+
+	return te
 }
 
 func parseErrorResponse(status int, body []byte, headers http.Header) error {

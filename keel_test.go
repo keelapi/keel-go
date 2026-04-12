@@ -306,9 +306,10 @@ func TestErrorParsing(t *testing.T) {
 		w.Header().Set("Retry-After", "30")
 		w.WriteHeader(http.StatusTooManyRequests)
 		json.NewEncoder(w).Encode(map[string]any{
-			"error": map[string]any{
-				"code":    "rate_limit",
-				"message": "too many requests",
+			"permit": map[string]any{
+				"decision":    "throttled",
+				"reason_code": "budget.rate_limit_throttled",
+				"message":     "too many requests",
 			},
 		})
 	})
@@ -317,17 +318,17 @@ func TestErrorParsing(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected error")
 	}
-	ke, ok := err.(*KeelError)
+	te, ok := err.(*ThrottledError)
 	if !ok {
-		t.Fatalf("expected KeelError, got %T", err)
+		t.Fatalf("expected ThrottledError, got %T", err)
 	}
-	if ke.Status != 429 {
-		t.Errorf("expected 429, got %d", ke.Status)
+	if te.RetryAfterSeconds != 30 {
+		t.Errorf("expected retry_after 30, got %d", te.RetryAfterSeconds)
 	}
-	if ke.Code != "rate_limit" {
-		t.Errorf("expected rate_limit, got %s", ke.Code)
+	if te.ReasonCode != "budget.rate_limit_throttled" {
+		t.Errorf("expected budget.rate_limit_throttled, got %s", te.ReasonCode)
 	}
-	if !ke.IsRetryable() {
+	if !te.IsRetryable() {
 		t.Error("expected retryable")
 	}
 }
@@ -458,6 +459,165 @@ func TestExecutionsStream(t *testing.T) {
 	}
 	if received[0].EventType != "execution.started" {
 		t.Errorf("expected execution.started, got %s", received[0].EventType)
+	}
+}
+
+func TestThrottled429ReturnsThrottledError(t *testing.T) {
+	c, _ := testServer(t, func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Retry-After", "30")
+		w.WriteHeader(429)
+		json.NewEncoder(w).Encode(map[string]any{
+			"permit": map[string]any{
+				"permit_id":   "pmt_abc",
+				"decision":    "throttled",
+				"reason_code": "budget.rate_limit_throttled",
+				"message":     "Rate limit throttled.",
+				"outcome_detail": map[string]any{
+					"retry_after_seconds": 30,
+				},
+			},
+		})
+	})
+
+	_, err := c.Permits.Get(context.Background(), "pmt_abc")
+	if err == nil {
+		t.Fatal("expected error")
+	}
+	te, ok := err.(*ThrottledError)
+	if !ok {
+		t.Fatalf("expected ThrottledError, got %T: %v", err, err)
+	}
+	if te.PermitID != "pmt_abc" {
+		t.Errorf("expected permit_id pmt_abc, got %s", te.PermitID)
+	}
+	if te.ReasonCode != "budget.rate_limit_throttled" {
+		t.Errorf("expected reason_code budget.rate_limit_throttled, got %s", te.ReasonCode)
+	}
+	if te.RetryAfterSeconds != 30 {
+		t.Errorf("expected retry_after_seconds 30, got %d", te.RetryAfterSeconds)
+	}
+	if !te.IsRetryable() {
+		t.Error("expected retryable")
+	}
+}
+
+func TestThrottled429BodyFallback(t *testing.T) {
+	// No Retry-After header; falls back to body's retry_after_seconds
+	c, _ := testServer(t, func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(429)
+		json.NewEncoder(w).Encode(map[string]any{
+			"permit": map[string]any{
+				"decision":    "throttled",
+				"reason_code": "budget.rate_limit_throttled",
+				"outcome_detail": map[string]any{
+					"retry_after_seconds": 15,
+				},
+			},
+		})
+	})
+
+	_, err := c.Permits.Get(context.Background(), "pmt_abc")
+	te, ok := err.(*ThrottledError)
+	if !ok {
+		t.Fatalf("expected ThrottledError, got %T", err)
+	}
+	if te.RetryAfterSeconds != 15 {
+		t.Errorf("expected 15 from body fallback, got %d", te.RetryAfterSeconds)
+	}
+}
+
+func TestThrottled429RetryThenExhaust(t *testing.T) {
+	attempts := 0
+	rc := &RetryConfig{
+		MaxRetries:           1,
+		InitialDelay:         time.Millisecond,
+		MaxDelay:             10 * time.Millisecond,
+		BackoffMultiplier:    1,
+		RetryableStatusCodes: map[int]bool{429: true},
+	}
+
+	_, err := retryWithBackoff(context.Background(), rc, func() (*httpResponse, error) {
+		attempts++
+		return &httpResponse{
+			statusCode: 429,
+			body:       []byte(`{"permit":{"decision":"throttled","reason_code":"budget.rate_limit_throttled","outcome_detail":{"retry_after_seconds":1}}}`),
+			retryAfter: time.Millisecond,
+		}, nil
+	})
+
+	// After exhaustion, retryWithBackoff returns the last response (status 429)
+	// The caller (doWithRetry) then converts it to ThrottledError
+	if err != nil {
+		t.Fatalf("expected nil err from retryWithBackoff (returns resp), got %v", err)
+	}
+	if attempts != 2 { // initial + 1 retry
+		t.Errorf("expected 2 attempts, got %d", attempts)
+	}
+}
+
+func Test403NoRetry(t *testing.T) {
+	attempts := 0
+	rc := &RetryConfig{
+		MaxRetries:           2,
+		InitialDelay:         time.Millisecond,
+		MaxDelay:             10 * time.Millisecond,
+		BackoffMultiplier:    1,
+		RetryableStatusCodes: map[int]bool{429: true},
+	}
+
+	resp, err := retryWithBackoff(context.Background(), rc, func() (*httpResponse, error) {
+		attempts++
+		return &httpResponse{statusCode: 403, body: []byte(`{"error":{"code":"denied"}}`)}, nil
+	})
+
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if resp.statusCode != 403 {
+		t.Errorf("expected 403, got %d", resp.statusCode)
+	}
+	if attempts != 1 {
+		t.Errorf("expected 1 attempt (no retry for 403), got %d", attempts)
+	}
+}
+
+func TestPermitResponseShapeDFields(t *testing.T) {
+	data := `{
+		"permit_id": "pmt_123",
+		"project_id": "proj_1",
+		"decision": "deny",
+		"reason": "Budget exceeded",
+		"reason_code": "budget.daily_cap_exceeded",
+		"reason_detail": {"category": "budget", "kind": "daily_cap", "outcome": "deny"},
+		"outcome_detail": {"cap": 3000000, "current_spend": 3100000},
+		"message": "Daily budget cap exceeded.",
+		"budgets": {"schema_version": 1, "currency_unit": "usd_micros", "daily": {"current_spend": 3100000, "cap": 3000000}},
+		"constraints": {"schema_version": 1},
+		"actions": []
+	}`
+
+	var resp PermitResponse
+	if err := json.Unmarshal([]byte(data), &resp); err != nil {
+		t.Fatalf("unmarshal failed: %v", err)
+	}
+	if resp.Decision != DecisionDeny {
+		t.Errorf("expected deny, got %s", resp.Decision)
+	}
+	if resp.ReasonCode == nil || *resp.ReasonCode != "budget.daily_cap_exceeded" {
+		t.Errorf("expected reason_code budget.daily_cap_exceeded, got %v", resp.ReasonCode)
+	}
+	if resp.ReasonDetail == nil || resp.ReasonDetail["category"] != "budget" {
+		t.Errorf("unexpected reason_detail: %v", resp.ReasonDetail)
+	}
+	if resp.OutcomeDetail == nil {
+		t.Error("expected outcome_detail")
+	}
+	if resp.Message == nil || *resp.Message != "Daily budget cap exceeded." {
+		t.Errorf("unexpected message: %v", resp.Message)
+	}
+	// budgets_json remains opaque map — verify schema_version passes through
+	if resp.Budgets["schema_version"] != float64(1) {
+		t.Errorf("expected budgets schema_version 1, got %v", resp.Budgets["schema_version"])
 	}
 }
 

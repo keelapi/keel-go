@@ -63,6 +63,17 @@ func main() {
 }
 ```
 
+## Request Lifecycle
+
+Every request processed by Keel follows a consistent high-level flow:
+
+- **Evaluate:** identity, policy, and budget constraints are checked
+- **Decide:** a permit decision is issued — allow, deny, or constrain
+- **Execute:** the provider call occurs only if permitted
+- **Record:** usage, cost, and governance events are captured
+
+Requests are only executed if explicitly permitted.
+
 ## Drop-in Provider Replacements
 
 Swap your existing AI SDK imports with Keel-governed equivalents:
@@ -221,15 +232,44 @@ go run ./examples/end-to-end
 ```go
 resp, err := client.Permits.Create(ctx, req)
 if err != nil {
+    var te *keel.ThrottledError
+    if errors.As(err, &te) {
+        // Rate-limited (HTTP 429). Retry after the indicated delay.
+        fmt.Printf("Throttled: retry after %ds (reason: %s)\n",
+            te.RetryAfterSeconds, te.ReasonCode)
+        return
+    }
     var ke *keel.KeelError
     if errors.As(err, &ke) {
         fmt.Printf("Status: %d, Code: %s\n", ke.Status, ke.Code)
-        if ke.IsRetryable() {
-            // retry logic
-        }
     }
 }
 ```
+
+## Rate Limiting and Retries
+
+The SDK automatically retries failed requests with exponential backoff. By default, status codes 408, 429, 500, 502, 503, and 504 are retried up to 3 times.
+
+When the API returns HTTP 429 (rate limit throttled), the SDK respects the `Retry-After` header and waits the indicated duration before retrying. If the header is absent, it falls back to `retry_after_seconds` from the response body.
+
+After all retries are exhausted, a 429 response returns a `*ThrottledError` (not a `*KeelError`). This typed error exposes `RetryAfterSeconds`, `PermitID`, and `ReasonCode` so callers can implement custom backoff or surface details to end users.
+
+Configure retry behavior via `RetryConfig`:
+
+```go
+client := keel.NewClient(keel.ClientConfig{
+    BaseURL: "https://api.keel.so",
+    APIKey:  "your-api-key",
+    RetryConfig: &keel.RetryConfig{
+        MaxRetries:        2,              // default: 3
+        InitialDelay:      time.Second,    // default: 500ms
+        MaxDelay:          15 * time.Second, // default: 30s
+        BackoffMultiplier: 2.0,            // default: 2.0
+    },
+})
+```
+
+Non-retryable errors (400, 401, 403, 404) are returned immediately without retry.
 
 ## License
 

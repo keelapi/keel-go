@@ -9,9 +9,10 @@ import (
 type Decision string
 
 const (
-	DecisionAllow     Decision = "allow"
-	DecisionDeny      Decision = "deny"
-	DecisionChallenge Decision = "challenge"
+	DecisionAllow      Decision = "allow"
+	DecisionDeny       Decision = "deny"
+	DecisionChallenge  Decision = "challenge"
+	DecisionThrottled  Decision = "throttled"
 )
 
 // RoutingProvider represents a supported AI provider.
@@ -199,6 +200,10 @@ type PermitResponse struct {
 	DelegationDepth int                    `json:"delegation_depth"`
 	Decision        Decision               `json:"decision"`
 	Reason          string                 `json:"reason"`
+	ReasonCode      *string                `json:"reason_code,omitempty"`
+	ReasonDetail    map[string]any         `json:"reason_detail,omitempty"`
+	OutcomeDetail   map[string]any         `json:"outcome_detail,omitempty"`
+	Message         *string                `json:"message,omitempty"`
 	Status          *string                `json:"status,omitempty"`
 	Constraints     map[string]any         `json:"constraints,omitempty"`
 	Budgets         map[string]any         `json:"budgets,omitempty"`
@@ -210,9 +215,12 @@ type PermitResponse struct {
 
 // PermitDryRunResponse is the response from a dry-run permit evaluation.
 type PermitDryRunResponse struct {
-	Decision Decision       `json:"decision"`
-	Reason   string         `json:"reason"`
-	Routing  *RoutingDecision `json:"routing,omitempty"`
+	Decision     Decision         `json:"decision"`
+	Reason       string           `json:"reason"`
+	ReasonCode   *string          `json:"reason_code,omitempty"`
+	ReasonDetail map[string]any   `json:"reason_detail,omitempty"`
+	Message      *string          `json:"message,omitempty"`
+	Routing      *RoutingDecision `json:"routing,omitempty"`
 }
 
 // PermitAuditItem represents a permit in the audit log.
@@ -223,6 +231,10 @@ type PermitAuditItem struct {
 	DelegationDepth int                    `json:"delegation_depth"`
 	Decision        Decision               `json:"decision"`
 	Reason          string                 `json:"reason"`
+	ReasonCode      *string                `json:"reason_code,omitempty"`
+	ReasonDetail    map[string]any         `json:"reason_detail,omitempty"`
+	OutcomeDetail   map[string]any         `json:"outcome_detail,omitempty"`
+	Message         *string                `json:"message,omitempty"`
 	Status          *string                `json:"status,omitempty"`
 	Constraints     map[string]any         `json:"constraints,omitempty"`
 	Budgets         map[string]any         `json:"budgets,omitempty"`
