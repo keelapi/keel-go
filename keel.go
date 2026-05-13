@@ -35,6 +35,9 @@ type Client struct {
 
 	// Requests provides request timeline inspection.
 	Requests *RequestsClient
+
+	// Workflows manages caller-declared workflow intent.
+	Workflows *WorkflowsClient
 }
 
 // NewClient creates a new Keel client with the given configuration.
@@ -92,6 +95,7 @@ func NewClient(config ClientConfig) *Client {
 	c.Jobs = &JobsClient{t: t}
 	c.ApiKeys = &ApiKeysClient{t: t}
 	c.Requests = &RequestsClient{t: t}
+	c.Workflows = &WorkflowsClient{t: t}
 
 	return c
 }
