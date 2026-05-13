@@ -13,13 +13,13 @@ import (
 
 // Config configures the Anthropic-compatible Keel client.
 type Config struct {
-	APIKey      string
-	KeelBaseURL string
-	KeelAPIKey  string
-	KeelProjectID   string
-	KeelSubject     *keel.PermitSubject
-	Timeout     time.Duration
-	MaxRetries  int
+	APIKey        string
+	KeelBaseURL   string
+	KeelAPIKey    string
+	KeelProjectID string
+	KeelSubject   *keel.PermitSubject
+	Timeout       time.Duration
+	MaxRetries    int
 }
 
 func (c *Config) resolve() {
@@ -81,11 +81,11 @@ func NewClient(cfg Config) *Client {
 
 // MessageCreateParams are the parameters for creating a message.
 type MessageCreateParams struct {
-	Model     string           `json:"model"`
-	MaxTokens int              `json:"max_tokens"`
-	Messages  []MessageParam   `json:"messages"`
-	System    *string          `json:"system,omitempty"`
-	Extra     map[string]any   `json:"extra,omitempty"`
+	Model     string         `json:"model"`
+	MaxTokens int            `json:"max_tokens"`
+	Messages  []MessageParam `json:"messages"`
+	System    *string        `json:"system,omitempty"`
+	Extra     map[string]any `json:"extra,omitempty"`
 }
 
 // MessageParam represents a message in the conversation.

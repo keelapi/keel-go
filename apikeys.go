@@ -54,6 +54,7 @@ func (c *ApiKeysClient) List(ctx context.Context, params ApiKeyListParams) (*Api
 	}
 	return &resp, nil
 }
+
 // Revoke revokes an API key.
 func (c *ApiKeysClient) Revoke(ctx context.Context, keyID string) error {
 	_, err := c.t.post(ctx, "/v1/api-keys/"+keyID+"/revoke", nil, nil)

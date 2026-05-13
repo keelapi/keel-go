@@ -9,10 +9,10 @@ import (
 type Decision string
 
 const (
-	DecisionAllow      Decision = "allow"
-	DecisionDeny       Decision = "deny"
-	DecisionChallenge  Decision = "challenge"
-	DecisionThrottled  Decision = "throttled"
+	DecisionAllow     Decision = "allow"
+	DecisionDeny      Decision = "deny"
+	DecisionChallenge Decision = "challenge"
+	DecisionThrottled Decision = "throttled"
 )
 
 // RoutingProvider represents a supported AI provider.
@@ -96,17 +96,17 @@ type PermitInput struct {
 
 // ResourceAttributes describes the attributes of a resource in a permit request.
 type ResourceAttributes struct {
-	Provider               string              `json:"provider"`
-	Model                  string              `json:"model"`
-	Operation              CapabilityOperation `json:"operation"`
-	Modality               string              `json:"modality,omitempty"`
-	ExecutionMode          ExecutionMode       `json:"execution_mode,omitempty"`
-	EstimatedInputTokens   int                 `json:"estimated_input_tokens"`
-	EstimatedOutputTokens  int                 `json:"estimated_output_tokens"`
-	MaxOutputTokensRequested *int              `json:"max_output_tokens_requested,omitempty"`
-	Inputs                 []PermitInput       `json:"inputs,omitempty"`
-	Routing                *RoutingPreferences `json:"routing,omitempty"`
-	CallbackURL            *string             `json:"callback_url,omitempty"`
+	Provider                 string              `json:"provider"`
+	Model                    string              `json:"model"`
+	Operation                CapabilityOperation `json:"operation"`
+	Modality                 string              `json:"modality,omitempty"`
+	ExecutionMode            ExecutionMode       `json:"execution_mode,omitempty"`
+	EstimatedInputTokens     int                 `json:"estimated_input_tokens"`
+	EstimatedOutputTokens    int                 `json:"estimated_output_tokens"`
+	MaxOutputTokensRequested *int                `json:"max_output_tokens_requested,omitempty"`
+	Inputs                   []PermitInput       `json:"inputs,omitempty"`
+	Routing                  *RoutingPreferences `json:"routing,omitempty"`
+	CallbackURL              *string             `json:"callback_url,omitempty"`
 }
 
 // Resource describes the target resource.
@@ -300,11 +300,11 @@ type PermitEvidenceCreateRequest struct {
 
 // PermitEvidenceOut represents a piece of evidence attached to a permit.
 type PermitEvidenceOut struct {
-	EvidenceID string `json:"evidence_id"`
-	PermitID   string `json:"permit_id"`
-	Type       string `json:"type"`
+	EvidenceID string         `json:"evidence_id"`
+	PermitID   string         `json:"permit_id"`
+	Type       string         `json:"type"`
 	Content    map[string]any `json:"content"`
-	CreatedAt  string `json:"created_at"`
+	CreatedAt  string         `json:"created_at"`
 }
 
 // PermitEvidenceListResponse is the response from listing evidence.
@@ -396,21 +396,21 @@ type RoutingInput struct {
 
 // ParametersInput represents parameters for an execution request.
 type ParametersInput struct {
-	MaxTokens   *int               `json:"max_tokens,omitempty"`
-	Temperature *float64           `json:"temperature,omitempty"`
-	TopP        *float64           `json:"top_p,omitempty"`
-	Extra       map[string]any     `json:"extra,omitempty"`
+	MaxTokens   *int           `json:"max_tokens,omitempty"`
+	Temperature *float64       `json:"temperature,omitempty"`
+	TopP        *float64       `json:"top_p,omitempty"`
+	Extra       map[string]any `json:"extra,omitempty"`
 }
 
 // ExecutionCreateRequest is the request body for creating an execution.
 type ExecutionCreateRequest struct {
-	Operation       string                        `json:"operation"`
-	Mode            ExecutionMode                 `json:"mode,omitempty"`
-	Messages        []MessageInput                `json:"messages,omitempty"`
-	Inputs          []InputPart                   `json:"inputs,omitempty"`
-	Routing         *RoutingInput                 `json:"routing,omitempty"`
-	Parameters      *ParametersInput              `json:"parameters,omitempty"`
-	ProviderOptions map[string]map[string]any     `json:"provider_options,omitempty"`
+	Operation       string                    `json:"operation"`
+	Mode            ExecutionMode             `json:"mode,omitempty"`
+	Messages        []MessageInput            `json:"messages,omitempty"`
+	Inputs          []InputPart               `json:"inputs,omitempty"`
+	Routing         *RoutingInput             `json:"routing,omitempty"`
+	Parameters      *ParametersInput          `json:"parameters,omitempty"`
+	ProviderOptions map[string]map[string]any `json:"provider_options,omitempty"`
 }
 
 // ExecutionMessage is an alias for MessageInput for backward compatibility.
@@ -418,17 +418,17 @@ type ExecutionMessage = MessageInput
 
 // ExecutionResponse is the response from a synchronous execution.
 type ExecutionResponse struct {
-	RequestID  string                 `json:"request_id"`
-	PermitID   string                 `json:"permit_id"`
-	Status     string                 `json:"status"`
-	Provider   RoutingProvider        `json:"provider"`
-	Model      string                 `json:"model"`
-	Messages   []MessageInput         `json:"messages,omitempty"`
-	Usage      *ExecutionUsage        `json:"usage,omitempty"`
-	Timing     *ExecutionTiming       `json:"timing,omitempty"`
+	RequestID  string                  `json:"request_id"`
+	PermitID   string                  `json:"permit_id"`
+	Status     string                  `json:"status"`
+	Provider   RoutingProvider         `json:"provider"`
+	Model      string                  `json:"model"`
+	Messages   []MessageInput          `json:"messages,omitempty"`
+	Usage      *ExecutionUsage         `json:"usage,omitempty"`
+	Timing     *ExecutionTiming        `json:"timing,omitempty"`
 	Routing    *ExecutionRoutingResult `json:"routing,omitempty"`
-	Governance *ExecutionGovernance   `json:"governance,omitempty"`
-	Raw        map[string]any         `json:"raw,omitempty"`
+	Governance *ExecutionGovernance    `json:"governance,omitempty"`
+	Raw        map[string]any          `json:"raw,omitempty"`
 }
 
 // ExecutionUsage records token usage for an execution.
@@ -468,14 +468,14 @@ type ExecutionStreamEvent struct {
 
 // ExecuteRequest is the request body for the combined execute endpoint.
 type ExecuteRequest struct {
-	Subject        Subject                       `json:"subject"`
-	Action         Action                        `json:"action"`
-	Resource       Resource                      `json:"resource"`
-	Context        *Context                      `json:"context,omitempty"`
-	Conditions     *PermitConditions             `json:"conditions,omitempty"`
-	Messages       []MessageInput                `json:"messages,omitempty"`
-	Parameters     *ParametersInput              `json:"parameters,omitempty"`
-	CustomMetadata map[string]any                `json:"custom_metadata,omitempty"`
+	Subject        Subject           `json:"subject"`
+	Action         Action            `json:"action"`
+	Resource       Resource          `json:"resource"`
+	Context        *Context          `json:"context,omitempty"`
+	Conditions     *PermitConditions `json:"conditions,omitempty"`
+	Messages       []MessageInput    `json:"messages,omitempty"`
+	Parameters     *ParametersInput  `json:"parameters,omitempty"`
+	CustomMetadata map[string]any    `json:"custom_metadata,omitempty"`
 }
 
 // --- Job types ---

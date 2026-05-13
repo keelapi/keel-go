@@ -49,9 +49,9 @@ func (c *Config) resolve() {
 
 // Client is an OpenAI-compatible client that routes through Keel.
 type Client struct {
-	Chat   ChatNamespace
-	cfg    Config
-	keel   *keel.Client
+	Chat ChatNamespace
+	cfg  Config
+	keel *keel.Client
 }
 
 // ChatNamespace groups chat-related resources.
@@ -145,9 +145,9 @@ type ChatCompletionChunk struct {
 	Created int64  `json:"created"`
 	Model   string `json:"model"`
 	Choices []struct {
-		Index        int    `json:"index"`
+		Index        int                   `json:"index"`
 		Delta        ChatCompletionMessage `json:"delta"`
-		FinishReason *string `json:"finish_reason"`
+		FinishReason *string               `json:"finish_reason"`
 	} `json:"choices"`
 }
 

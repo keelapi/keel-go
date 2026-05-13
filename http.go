@@ -139,6 +139,10 @@ func (t *httpTransport) newRequest(ctx context.Context, method, path string, bod
 	req.Header.Set("Authorization", "Bearer "+t.apiKey)
 	req.Header.Set("Content-Type", "application/json")
 
+	if workflowID, ok := WorkflowFromContext(ctx); ok {
+		req.Header.Set(workflowIDHeader, workflowID)
+	}
+
 	if t.freshness {
 		req.Header.Set("X-Keel-Timestamp", strconv.FormatInt(time.Now().Unix(), 10))
 		nonce := make([]byte, 16)

@@ -14,13 +14,13 @@ import (
 
 // Config configures the Meta-compatible Keel client.
 type Config struct {
-	APIKey      string
-	KeelBaseURL string
-	KeelAPIKey  string
-	KeelProjectID   string
-	KeelSubject     *keel.PermitSubject
-	Timeout     time.Duration
-	MaxRetries  int
+	APIKey        string
+	KeelBaseURL   string
+	KeelAPIKey    string
+	KeelProjectID string
+	KeelSubject   *keel.PermitSubject
+	Timeout       time.Duration
+	MaxRetries    int
 }
 
 func (c *Config) resolve() {

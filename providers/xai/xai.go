@@ -9,19 +9,18 @@ import (
 	"os"
 	"time"
 
-
 	keel "github.com/keelapi/keel-go"
 )
 
 // Config configures the xAI-compatible Keel client.
 type Config struct {
-	APIKey      string
-	KeelBaseURL string
-	KeelAPIKey  string
-	KeelProjectID   string
-	KeelSubject     *keel.PermitSubject
-	Timeout     time.Duration
-	MaxRetries  int
+	APIKey        string
+	KeelBaseURL   string
+	KeelAPIKey    string
+	KeelProjectID string
+	KeelSubject   *keel.PermitSubject
+	Timeout       time.Duration
+	MaxRetries    int
 }
 
 func (c *Config) resolve() {
