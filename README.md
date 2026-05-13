@@ -174,7 +174,7 @@ The SDK's `httpTransport` auto-injects `X-Keel-Workflow-Id` from the context on 
 
 Amend active workflow intent when estimates change, using `IfMatchVersion` for optimistic concurrency. Complete the workflow when the run finishes so Keel can reconcile actual calls. See the [Keel docs](https://docs.keelapi.com) for lifecycle and plan details.
 
-Workflow intent is available on Business plans and above. A fuller runnable sample lives in [examples/workflows](examples/workflows).
+Workflow intent is available on Business plans and above. A fuller runnable sample lives in [examples/workflows/main.go](examples/workflows/main.go).
 
 Workflow APIs mirror the rest of the SDK:
 
