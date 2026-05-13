@@ -6,12 +6,47 @@ import (
 	"fmt"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 )
+
+type workflowIDContextKey struct{}
 
 // WorkflowsClient provides access to the workflow intent API.
 type WorkflowsClient struct {
 	t *httpTransport
+}
+
+// WithWorkflow returns a child context carrying the workflow ID.
+func WithWorkflow(ctx context.Context, workflowID string) context.Context {
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	return context.WithValue(ctx, workflowIDContextKey{}, strings.TrimSpace(workflowID))
+}
+
+// WorkflowFromContext returns the workflow ID carried by ctx, if present.
+func WorkflowFromContext(ctx context.Context) (string, bool) {
+	if ctx == nil {
+		return "", false
+	}
+	workflowID, ok := ctx.Value(workflowIDContextKey{}).(string)
+	if !ok {
+		return "", false
+	}
+	workflowID = strings.TrimSpace(workflowID)
+	if workflowID == "" {
+		return "", false
+	}
+	return workflowID, true
+}
+
+// RunInWorkflow invokes fn with a child context carrying the workflow ID.
+func RunInWorkflow(ctx context.Context, workflowID string, fn func(context.Context) error) error {
+	if fn == nil {
+		return fmt.Errorf("keel: workflow function is nil")
+	}
+	return fn(WithWorkflow(ctx, workflowID))
 }
 
 // Declare declares a workflow intent before the workflow runs.
