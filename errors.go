@@ -7,18 +7,51 @@ import (
 
 // Reason code constants for permit denials and throttles (Shape D).
 const (
-	ReasonBudgetRequestCapExceeded    = "budget.request_cap_exceeded"
-	ReasonBudgetDailyCapExceeded      = "budget.daily_cap_exceeded"
-	ReasonBudgetMonthlyCapExceeded    = "budget.monthly_cap_exceeded"
-	ReasonBudgetMonthlyThresholdExceeded = "budget.monthly_threshold_exceeded"
-	ReasonBudgetDailySpikeDetected    = "budget.daily_spike_detected"
-	ReasonBudgetRateLimitExceeded     = "budget.rate_limit_exceeded"
-	ReasonBudgetRateLimitThrottled    = "budget.rate_limit_throttled"
-	ReasonBudgetPricingUnavailable    = "budget.pricing_unavailable"
-	ReasonPolicyModelNotAllowed       = "policy.model_not_allowed"
-	ReasonPolicyRuleDenied            = "policy.rule_denied"
-	ReasonPolicyReviewRequired        = "policy.review_required"
+	ReasonBudgetRequestCapExceeded            = "budget.request_cap_exceeded"
+	ReasonBudgetDailyCapExceeded              = "budget.daily_cap_exceeded"
+	ReasonBudgetMonthlyCapExceeded            = "budget.monthly_cap_exceeded"
+	ReasonBudgetMonthlyThresholdExceeded      = "budget.monthly_threshold_exceeded"
+	ReasonBudgetDailySpikeDetected            = "budget.daily_spike_detected"
+	ReasonBudgetRateLimitExceeded             = "budget.rate_limit_exceeded"
+	ReasonBudgetRateLimitThrottled            = "budget.rate_limit_throttled"
+	ReasonBudgetPricingUnavailable            = "budget.pricing_unavailable"
+	ReasonPolicyModelNotAllowed               = "policy.model_not_allowed"
+	ReasonPolicyRuleDenied                    = "policy.rule_denied"
+	ReasonPolicyReviewRequired                = "policy.review_required"
+	ReasonWorkflowDeclarationExceedsBudgetCap = "workflow_intent.declaration_exceeds_budget_cap"
+	ReasonWorkflowMaxCallsExceeded            = "workflow_intent.max_calls_exceeded"
+	ReasonWorkflowExpectedCallsExceeded       = "workflow_intent.expected_calls_exceeded"
+	ReasonWorkflowUnknownOrInactive           = "workflow_intent.unknown_or_inactive"
+	ReasonWorkflowIdempotencyConflict         = "workflow_intent.idempotency_conflict"
+	ReasonWorkflowAmendmentVersionConflict    = "workflow_intent.amendment_version_conflict"
 )
+
+type reasonCodeError string
+
+func (e reasonCodeError) Error() string {
+	return string(e)
+}
+
+func (e reasonCodeError) reasonCode() string {
+	return string(e)
+}
+
+type reasonCodeMatcher interface {
+	reasonCode() string
+}
+
+var (
+	ErrWorkflowMaxCallsExceeded            = reasonCodeError(ReasonWorkflowMaxCallsExceeded)
+	ErrWorkflowUnknownOrInactive           = reasonCodeError(ReasonWorkflowUnknownOrInactive)
+	ErrWorkflowDeclarationExceedsBudgetCap = reasonCodeError(ReasonWorkflowDeclarationExceedsBudgetCap)
+	ErrWorkflowIdempotencyConflict         = reasonCodeError(ReasonWorkflowIdempotencyConflict)
+	ErrWorkflowAmendmentVersionConflict    = reasonCodeError(ReasonWorkflowAmendmentVersionConflict)
+)
+
+func matchesReasonCode(reasonCode string, target error) bool {
+	matcher, ok := target.(reasonCodeMatcher)
+	return ok && reasonCode != "" && reasonCode == matcher.reasonCode()
+}
 
 // KeelError represents an error response from the Keel API.
 type KeelError struct {
@@ -35,6 +68,11 @@ func (e *KeelError) Error() string {
 		return fmt.Sprintf("keel: %d %s: %s (field: %s)", e.Status, e.Code, e.Message, e.Field)
 	}
 	return fmt.Sprintf("keel: %d %s: %s", e.Status, e.Code, e.Message)
+}
+
+// Is allows workflow reason-code sentinels to match Keel API errors.
+func (e *KeelError) Is(target error) bool {
+	return matchesReasonCode(e.Code, target)
 }
 
 // IsRetryable returns true if the error status code indicates the request can be retried.
@@ -63,6 +101,11 @@ func (e *ThrottledError) Error() string {
 		msg = "rate limit throttled"
 	}
 	return fmt.Sprintf("keel: 429 throttled: %s (retry after %ds)", msg, e.RetryAfterSeconds)
+}
+
+// Is allows workflow reason-code sentinels to match throttled API errors.
+func (e *ThrottledError) Is(target error) bool {
+	return matchesReasonCode(e.ReasonCode, target)
 }
 
 // IsRetryable returns true. A throttled error is always retryable after the indicated delay.
