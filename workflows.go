@@ -12,6 +12,8 @@ import (
 
 type workflowIDContextKey struct{}
 
+const workflowIDHeader = "X-Keel-Workflow-Id"
+
 // WorkflowsClient provides access to the workflow intent API.
 type WorkflowsClient struct {
 	t *httpTransport
