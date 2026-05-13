@@ -144,6 +144,44 @@ client.Permits.Lineage(ctx, id)              // Get lineage
 client.Permits.Bundle(ctx, id)               // Full audit bundle
 ```
 
+### Workflows
+
+Declare workflow intent before a multi-call run, then carry the workflow ID through `context.Context`. The SDK automatically injects `X-Keel-Workflow-Id` from the context on outbound Keel API requests.
+
+```go
+expectedCalls := 10000
+maxCalls := 12000
+
+workflow, err := client.Workflows.Declare(ctx, keel.WorkflowDeclareRequest{
+    WorkflowID: "invoice-batch-2027-01-05",
+    Intent: keel.WorkflowIntent{
+        ExpectedCalls: &expectedCalls,
+        MaxCalls:      &maxCalls,
+    },
+})
+if err != nil {
+    log.Fatal(err)
+}
+
+workflowCtx := keel.WithWorkflow(ctx, workflow.WorkflowID)
+_, err = client.Permits.Create(workflowCtx, permitReq)
+if err != nil {
+    log.Fatal(err)
+}
+```
+
+`RunInWorkflow` is a convenience wrapper when you want to scope several calls to the same workflow context.
+
+Workflow APIs mirror the rest of the SDK:
+
+```go
+client.Workflows.Declare(ctx, req)
+client.Workflows.Amend(ctx, workflowID, req)
+client.Workflows.Complete(ctx, workflowID)
+client.Workflows.Get(ctx, workflowID)
+client.Workflows.List(ctx, params)
+```
+
 ### Executions
 
 ```go
@@ -225,6 +263,7 @@ source .env && export KEEL_BASE_URL KEEL_API_KEY KEEL_PROJECT_ID
 go run ./examples/quickstart
 go run ./examples/provider-swap
 go run ./examples/end-to-end
+go run ./examples/workflows
 ```
 
 ## Error Handling
