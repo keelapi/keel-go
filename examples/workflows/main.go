@@ -91,7 +91,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("Workflow %s completed with %d calls\n", completed.WorkflowID, completed.AuthoritativeActualCalls)
+	fmt.Printf("Final workflow state: status=%s calls=%d\n", completed.Status, completed.AuthoritativeActualCalls)
 }
 
 func valueOrZero(v *int) int {
