@@ -126,6 +126,66 @@ xaiClient := xai.NewClient(xai.Config{})
 metaClient := meta.NewClient(meta.Config{})
 ```
 
+## Workflows
+
+Declare workflow intent before a multi-call run, execute governed calls inside the workflow context, then complete the workflow for reconciliation.
+
+Declare the workflow, attach its ID to a child context, and pass that context through normal client calls:
+
+```go
+expectedCalls := 10
+maxCalls := 15
+
+_, err := client.Workflows.Declare(ctx, keel.WorkflowDeclareRequest{
+    WorkflowID: "wf-id",
+    Intent: keel.WorkflowIntent{
+        ExpectedCalls: &expectedCalls,
+        MaxCalls:      &maxCalls,
+    },
+})
+if err != nil {
+    log.Fatal(err)
+}
+
+workflowCtx := keel.WithWorkflow(ctx, "wf-id")
+_, err = client.Permits.Create(workflowCtx, permitReq)
+if err != nil {
+    log.Fatal(err)
+}
+```
+
+Use `RunInWorkflow` when several calls should share the same workflow context:
+
+```go
+err := keel.RunInWorkflow(ctx, "wf-id", func(ctx context.Context) error {
+    for _, permitReq := range permitRequests {
+        if _, err := client.Permits.Create(ctx, permitReq); err != nil {
+            return err
+        }
+    }
+    return nil
+})
+if err != nil {
+    log.Fatal(err)
+}
+```
+
+The SDK's `httpTransport` auto-injects `X-Keel-Workflow-Id` from the context on outbound Keel API requests, so callers should not add that header to provider payloads.
+
+Amend active workflow intent when estimates change, using `IfMatchVersion` for optimistic concurrency. Complete the workflow when the run finishes so Keel can reconcile actual calls. See the [Keel docs](https://docs.keelapi.com) for lifecycle and plan details.
+
+Workflow intent is available on Business plans and above. A fuller runnable sample lives in [examples/workflows](examples/workflows).
+
+Workflow APIs mirror the rest of the SDK:
+
+```go
+client.Workflows.Declare(ctx, req)
+client.Workflows.Amend(ctx, workflowID, req)
+client.Workflows.Complete(ctx, workflowID)
+client.Workflows.Get(ctx, workflowID)
+client.Workflows.List(ctx, params)
+```
+
 ## Core API
 
 ### Permits
@@ -142,44 +202,6 @@ client.Permits.AddEvidence(ctx, id, req)     // Add evidence
 client.Permits.ListEvidence(ctx, id)         // List evidence
 client.Permits.Lineage(ctx, id)              // Get lineage
 client.Permits.Bundle(ctx, id)               // Full audit bundle
-```
-
-### Workflows
-
-Declare workflow intent before a multi-call run, then carry the workflow ID through `context.Context`. The SDK automatically injects `X-Keel-Workflow-Id` from the context on outbound Keel API requests.
-
-```go
-expectedCalls := 10000
-maxCalls := 12000
-
-workflow, err := client.Workflows.Declare(ctx, keel.WorkflowDeclareRequest{
-    WorkflowID: "invoice-batch-2027-01-05",
-    Intent: keel.WorkflowIntent{
-        ExpectedCalls: &expectedCalls,
-        MaxCalls:      &maxCalls,
-    },
-})
-if err != nil {
-    log.Fatal(err)
-}
-
-workflowCtx := keel.WithWorkflow(ctx, workflow.WorkflowID)
-_, err = client.Permits.Create(workflowCtx, permitReq)
-if err != nil {
-    log.Fatal(err)
-}
-```
-
-`RunInWorkflow` is a convenience wrapper when you want to scope several calls to the same workflow context.
-
-Workflow APIs mirror the rest of the SDK:
-
-```go
-client.Workflows.Declare(ctx, req)
-client.Workflows.Amend(ctx, workflowID, req)
-client.Workflows.Complete(ctx, workflowID)
-client.Workflows.Get(ctx, workflowID)
-client.Workflows.List(ctx, params)
 ```
 
 ### Executions
