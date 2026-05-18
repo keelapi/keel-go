@@ -4,6 +4,8 @@ The official Go SDK for [Keel](https://keelapi.com) — a permit-first AI govern
 
 Keel sits between your application and AI providers (OpenAI, Anthropic, Google, xAI, Meta).
 
+Keel is built and published by Keel API, Inc.
+
 > **⚠️ Keel is currently in private beta.** You'll need a Keel account and API key to use this SDK.
 > [Sign up for early access →](https://dashboard.keelapi.com/signup)
 
@@ -15,7 +17,41 @@ go get github.com/keelapi/keel-go
 
 **Zero external dependencies.** Only Go standard library.
 
-## Quick Start
+## Quick Start — One-Line Provider Migration
+
+Add Keel governance to existing AI code by swapping the import — no other code changes.
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/keelapi/keel-go/providers/openai"
+)
+
+func main() {
+    // Reads KEEL_BASE_URL, KEEL_API_KEY, KEEL_PROJECT_ID from the environment.
+    client := openai.NewClient(openai.Config{})
+
+    resp, err := client.Chat.Completions.Create(context.Background(), openai.ChatCompletionParams{
+        Model:    "gpt-4o",
+        Messages: []openai.ChatCompletionMessage{{Role: "user", Content: "Hello!"}},
+    })
+    if err != nil {
+        log.Fatal(err) // a denied permit surfaces here as an error
+    }
+    fmt.Printf("%+v\n", resp)
+}
+```
+
+Every call automatically requests a governance permit, executes through Keel — policy and budget enforced, audit recorded — and reports usage. Anthropic, Google, xAI, and Meta wrappers work the same way; see [Drop-in Provider Replacements](#drop-in-provider-replacements).
+
+## Permit-First Mode
+
+Use the Permit API directly when you want Keel to **decide** but not **execute** — your own code makes the AI call (with your own provider keys), and Keel never sees the prompt or the result. Keel evaluates policy and returns a permit; honoring it is up to your code.
 
 ```go
 package main
@@ -258,7 +294,7 @@ Configure retry behavior via `RetryConfig`:
 
 ```go
 client := keel.NewClient(keel.ClientConfig{
-    BaseURL: "https://api.keel.so",
+    BaseURL: "https://api.keelapi.com",
     APIKey:  "your-api-key",
     RetryConfig: &keel.RetryConfig{
         MaxRetries:        2,              // default: 3
