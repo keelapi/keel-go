@@ -49,9 +49,9 @@ func (c *Config) resolve() {
 
 // Client is an OpenAI-compatible client that routes through Keel.
 type Client struct {
-	Chat   ChatNamespace
-	cfg    Config
-	keel   *keel.Client
+	Chat ChatNamespace
+	cfg  Config
+	keel *keel.Client
 }
 
 // ChatNamespace groups chat-related resources.
@@ -105,13 +105,17 @@ type ChatCompletionMessage struct {
 
 // ChatCompletionParams are the parameters for a chat completion request.
 type ChatCompletionParams struct {
-	Model       string                  `json:"model"`
-	Messages    []ChatCompletionMessage `json:"messages"`
-	MaxTokens   *int                    `json:"max_tokens,omitempty"`
-	Temperature *float64                `json:"temperature,omitempty"`
-	TopP        *float64                `json:"top_p,omitempty"`
-	Stream      bool                    `json:"stream,omitempty"`
-	Extra       map[string]any          `json:"extra,omitempty"`
+	Model              string                  `json:"model"`
+	Messages           []ChatCompletionMessage `json:"messages"`
+	MaxTokens          *int                    `json:"max_tokens,omitempty"`
+	Temperature        *float64                `json:"temperature,omitempty"`
+	TopP               *float64                `json:"top_p,omitempty"`
+	Tools              []any                   `json:"tools,omitempty"`
+	ToolChoice         any                     `json:"tool_choice,omitempty"`
+	Stream             bool                    `json:"stream,omitempty"`
+	Extra              map[string]any          `json:"extra,omitempty"`
+	KeelParentPermitID *string                 `json:"-"`
+	KeelSessionID      *string                 `json:"-"`
 }
 
 // ChatCompletionChoice represents a choice in a chat completion response.
@@ -145,21 +149,11 @@ type ChatCompletionChunk struct {
 	Created int64  `json:"created"`
 	Model   string `json:"model"`
 	Choices []struct {
-		Index        int    `json:"index"`
+		Index        int                   `json:"index"`
 		Delta        ChatCompletionMessage `json:"delta"`
-		FinishReason *string `json:"finish_reason"`
+		FinishReason *string               `json:"finish_reason"`
 	} `json:"choices"`
-}
-
-func estimateTokens(messages []ChatCompletionMessage) int {
-	total := 0
-	for _, m := range messages {
-		total += len(m.Content) / 4
-	}
-	if total == 0 {
-		total = 1
-	}
-	return total
+	Usage *ChatCompletionUsage `json:"usage,omitempty"`
 }
 
 func defaultSubject() keel.PermitSubject {
@@ -173,36 +167,13 @@ func (c *CompletionsResource) Create(ctx context.Context, params ChatCompletionP
 		subject = *c.cfg.KeelSubject
 	}
 
-	model := params.Model
-	estimatedTokens := estimateTokens(params.Messages)
-	permit, err := c.keel.Permits.Create(ctx, keel.PermitRequest{
-		ProjectID:      c.cfg.KeelProjectID,
-		IdempotencyKey: fmt.Sprintf("openai-%s-%d", model, time.Now().UnixNano()),
-		Subject:        subject,
-		Action:         keel.Action{Name: string(keel.OpGenerateText)},
-		Resource: keel.Resource{
-			Type: "ai_model",
-			ID:   model,
-			Attributes: keel.ResourceAttributes{
-				Provider:              string(keel.ProviderOpenAI),
-				Model:                 model,
-				Operation:             keel.OpGenerateText,
-				EstimatedInputTokens:  estimatedTokens,
-				EstimatedOutputTokens: estimatedTokens,
-			},
-		},
-	})
-	if err != nil {
-		return nil, fmt.Errorf("openai: permit creation failed: %w", err)
-	}
-
-	if permit.Decision != keel.DecisionAllow {
-		return nil, fmt.Errorf("openai: permit denied: %s", permit.Decision)
-	}
-
 	payload := map[string]any{
 		"model":    params.Model,
 		"messages": params.Messages,
+		"stream":   false,
+	}
+	for key, value := range params.Extra {
+		payload[key] = value
 	}
 	if params.MaxTokens != nil {
 		payload["max_tokens"] = *params.MaxTokens
@@ -213,8 +184,16 @@ func (c *CompletionsResource) Create(ctx context.Context, params ChatCompletionP
 	if params.TopP != nil {
 		payload["top_p"] = *params.TopP
 	}
+	if len(params.Tools) > 0 {
+		payload["tools"] = params.Tools
+	}
+	if params.ToolChoice != nil {
+		payload["tool_choice"] = params.ToolChoice
+	}
 
-	raw, err := c.keel.Proxy.OpenAI(ctx, payload)
+	idempotencyKey := fmt.Sprintf("openai-%s-%d", params.Model, time.Now().UnixNano())
+	managedPayload := keel.BuildManagedProxyPayload(payload, c.cfg.KeelProjectID, &subject, params.KeelParentPermitID, params.KeelSessionID)
+	raw, err := c.keel.Proxy.OpenAIWithHeaders(ctx, managedPayload, keel.ManagedProxyHeaders(idempotencyKey))
 	if err != nil {
 		return nil, fmt.Errorf("openai: proxy request failed: %w", err)
 	}
@@ -224,12 +203,6 @@ func (c *CompletionsResource) Create(ctx context.Context, params ChatCompletionP
 	if err := json.Unmarshal(data, &resp); err != nil {
 		return nil, fmt.Errorf("openai: decode response: %w", err)
 	}
-
-	_, _ = c.keel.Permits.ReportUsage(ctx, permit.PermitID, keel.PermitUsageReportRequest{
-		ActualInputTokens:  &resp.Usage.PromptTokens,
-		ActualOutputTokens: &resp.Usage.CompletionTokens,
-		ActualTotalTokens:  &resp.Usage.TotalTokens,
-	})
 
 	return &resp, nil
 }
@@ -248,40 +221,13 @@ func (c *CompletionsResource) CreateStream(ctx context.Context, params ChatCompl
 			subject = *c.cfg.KeelSubject
 		}
 
-		model := params.Model
-		estimatedTokens := estimateTokens(params.Messages)
-		permit, err := c.keel.Permits.Create(ctx, keel.PermitRequest{
-			ProjectID:      c.cfg.KeelProjectID,
-			IdempotencyKey: fmt.Sprintf("openai-stream-%s-%d", model, time.Now().UnixNano()),
-			Subject:        subject,
-			Action:         keel.Action{Name: string(keel.OpGenerateText)},
-			Resource: keel.Resource{
-				Type: "ai_model",
-				ID:   model,
-				Attributes: keel.ResourceAttributes{
-					Provider:              string(keel.ProviderOpenAI),
-					Model:                 model,
-					Operation:             keel.OpGenerateText,
-					ExecutionMode:         keel.ModeStream,
-					EstimatedInputTokens:  estimatedTokens,
-					EstimatedOutputTokens: estimatedTokens,
-				},
-			},
-		})
-		if err != nil {
-			errc <- fmt.Errorf("openai: permit creation failed: %w", err)
-			return
-		}
-
-		if permit.Decision != keel.DecisionAllow {
-			errc <- fmt.Errorf("openai: permit denied: %s", permit.Decision)
-			return
-		}
-
 		payload := map[string]any{
 			"model":    params.Model,
 			"messages": params.Messages,
 			"stream":   true,
+		}
+		for key, value := range params.Extra {
+			payload[key] = value
 		}
 		if params.MaxTokens != nil {
 			payload["max_tokens"] = *params.MaxTokens
@@ -289,8 +235,19 @@ func (c *CompletionsResource) CreateStream(ctx context.Context, params ChatCompl
 		if params.Temperature != nil {
 			payload["temperature"] = *params.Temperature
 		}
+		if params.TopP != nil {
+			payload["top_p"] = *params.TopP
+		}
+		if len(params.Tools) > 0 {
+			payload["tools"] = params.Tools
+		}
+		if params.ToolChoice != nil {
+			payload["tool_choice"] = params.ToolChoice
+		}
 
-		events, sseErrc := c.keel.Proxy.OpenAIStream(ctx, payload)
+		idempotencyKey := fmt.Sprintf("openai-stream-%s-%d", params.Model, time.Now().UnixNano())
+		managedPayload := keel.BuildManagedProxyPayload(payload, c.cfg.KeelProjectID, &subject, params.KeelParentPermitID, params.KeelSessionID)
+		events, sseErrc := c.keel.Proxy.OpenAIStreamWithHeaders(ctx, managedPayload, keel.ManagedProxyHeaders(idempotencyKey))
 		for sse := range events {
 			var chunk ChatCompletionChunk
 			if json.Unmarshal(sse.Data, &chunk) == nil {
@@ -299,6 +256,7 @@ func (c *CompletionsResource) CreateStream(ctx context.Context, params ChatCompl
 		}
 		if err := <-sseErrc; err != nil {
 			errc <- err
+			return
 		}
 	}()
 

@@ -32,11 +32,14 @@ func (c *ApiKeysClient) List(ctx context.Context, params ApiKeyListParams) (*Api
 	if params.Limit != nil {
 		q.Set("limit", strconv.Itoa(*params.Limit))
 	}
-	if params.Offset != nil {
-		q.Set("offset", strconv.Itoa(*params.Offset))
+	if params.Cursor != nil {
+		q.Set("cursor", *params.Cursor)
 	}
 	if params.Status != nil {
 		q.Set("status", *params.Status)
+	}
+	if params.Scope != nil {
+		q.Set("scope", *params.Scope)
 	}
 
 	path := "/v1/api-keys"
@@ -54,8 +57,22 @@ func (c *ApiKeysClient) List(ctx context.Context, params ApiKeyListParams) (*Api
 	}
 	return &resp, nil
 }
+
 // Revoke revokes an API key.
 func (c *ApiKeysClient) Revoke(ctx context.Context, keyID string) error {
-	_, err := c.t.post(ctx, "/v1/api-keys/"+keyID+"/revoke", nil, nil)
+	_, err := c.RevokeRecord(ctx, keyID)
 	return err
+}
+
+// RevokeRecord revokes an API key and returns the revoked record.
+func (c *ApiKeysClient) RevokeRecord(ctx context.Context, keyID string) (*ApiKeyRecord, error) {
+	body, err := c.t.post(ctx, "/v1/api-keys/"+url.PathEscape(keyID)+"/revoke", nil, nil)
+	if err != nil {
+		return nil, err
+	}
+	var resp ApiKeyRecord
+	if err := json.Unmarshal(body, &resp); err != nil {
+		return nil, fmt.Errorf("keel: decode response: %w", err)
+	}
+	return &resp, nil
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 // RequestsClient provides access to the request timeline API.
@@ -13,7 +14,7 @@ type RequestsClient struct {
 
 // Timeline retrieves the timeline of events for a request.
 func (c *RequestsClient) Timeline(ctx context.Context, requestID string) (*RequestTimelineResponse, error) {
-	body, err := c.t.get(ctx, "/v1/requests/"+requestID+"/timeline", nil)
+	body, err := c.t.get(ctx, "/v1/requests/"+url.PathEscape(requestID)+"/timeline", nil)
 	if err != nil {
 		return nil, err
 	}

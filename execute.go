@@ -15,6 +15,9 @@ type ExecuteClient struct {
 func (c *ExecuteClient) Run(ctx context.Context, req ExecuteRequest) (*ExecutionResponse, error) {
 	body, err := c.t.post(ctx, "/v1/execute", req, nil)
 	if err != nil {
+		if envelope, ok := executionResponseFromError(err); ok {
+			return envelope, nil
+		}
 		return nil, err
 	}
 	var resp ExecutionResponse

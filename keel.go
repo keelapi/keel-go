@@ -35,6 +35,12 @@ type Client struct {
 
 	// Requests provides request timeline inspection.
 	Requests *RequestsClient
+
+	// Compliance manages signed compliance export jobs and verifier key manifests.
+	Compliance *ComplianceClient
+
+	// Integrity exposes public integrity verification keys.
+	Integrity *IntegrityClient
 }
 
 // NewClient creates a new Keel client with the given configuration.
@@ -92,6 +98,8 @@ func NewClient(config ClientConfig) *Client {
 	c.Jobs = &JobsClient{t: t}
 	c.ApiKeys = &ApiKeysClient{t: t}
 	c.Requests = &RequestsClient{t: t}
+	c.Compliance = &ComplianceClient{t: t}
+	c.Integrity = &IntegrityClient{t: t}
 
 	return c
 }

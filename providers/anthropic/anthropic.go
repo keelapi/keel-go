@@ -13,13 +13,13 @@ import (
 
 // Config configures the Anthropic-compatible Keel client.
 type Config struct {
-	APIKey      string
-	KeelBaseURL string
-	KeelAPIKey  string
-	KeelProjectID   string
-	KeelSubject     *keel.PermitSubject
-	Timeout     time.Duration
-	MaxRetries  int
+	APIKey        string
+	KeelBaseURL   string
+	KeelAPIKey    string
+	KeelProjectID string
+	KeelSubject   *keel.PermitSubject
+	Timeout       time.Duration
+	MaxRetries    int
 }
 
 func (c *Config) resolve() {
@@ -81,11 +81,13 @@ func NewClient(cfg Config) *Client {
 
 // MessageCreateParams are the parameters for creating a message.
 type MessageCreateParams struct {
-	Model     string           `json:"model"`
-	MaxTokens int              `json:"max_tokens"`
-	Messages  []MessageParam   `json:"messages"`
-	System    *string          `json:"system,omitempty"`
-	Extra     map[string]any   `json:"extra,omitempty"`
+	Model              string         `json:"model"`
+	MaxTokens          int            `json:"max_tokens"`
+	Messages           []MessageParam `json:"messages"`
+	System             *string        `json:"system,omitempty"`
+	Extra              map[string]any `json:"extra,omitempty"`
+	KeelParentPermitID *string        `json:"-"`
+	KeelSessionID      *string        `json:"-"`
 }
 
 // MessageParam represents a message in the conversation.
@@ -126,17 +128,6 @@ type MessageStreamEvent struct {
 	Delta *ContentBlock   `json:"delta,omitempty"`
 }
 
-func estimateTokens(messages []MessageParam) int {
-	total := 0
-	for _, m := range messages {
-		total += len(m.Content) / 4
-	}
-	if total == 0 {
-		total = 1
-	}
-	return total
-}
-
 func defaultSubject() keel.PermitSubject {
 	return keel.PermitSubject{Type: "service", ID: "default"}
 }
@@ -148,43 +139,22 @@ func (m *MessagesResource) Create(ctx context.Context, params MessageCreateParam
 		subject = *m.cfg.KeelSubject
 	}
 
-	model := params.Model
-	tokens := estimateTokens(params.Messages)
-	permit, err := m.keel.Permits.Create(ctx, keel.PermitRequest{
-		ProjectID:      m.cfg.KeelProjectID,
-		IdempotencyKey: fmt.Sprintf("anthropic-%s-%d", model, time.Now().UnixNano()),
-		Subject:        subject,
-		Action:         keel.Action{Name: string(keel.OpGenerateText)},
-		Resource: keel.Resource{
-			Type: "ai_model",
-			ID:   model,
-			Attributes: keel.ResourceAttributes{
-				Provider:              string(keel.ProviderAnthropic),
-				Model:                 model,
-				Operation:             keel.OpGenerateText,
-				EstimatedInputTokens:  tokens,
-				EstimatedOutputTokens: tokens,
-			},
-		},
-	})
-	if err != nil {
-		return nil, fmt.Errorf("anthropic: permit creation failed: %w", err)
-	}
-
-	if permit.Decision != keel.DecisionAllow {
-		return nil, fmt.Errorf("anthropic: permit denied: %s", permit.Decision)
-	}
-
 	payload := map[string]any{
 		"model":      params.Model,
 		"max_tokens": params.MaxTokens,
 		"messages":   params.Messages,
+		"stream":     false,
+	}
+	for key, value := range params.Extra {
+		payload[key] = value
 	}
 	if params.System != nil {
 		payload["system"] = *params.System
 	}
 
-	raw, err := m.keel.Proxy.Anthropic(ctx, payload)
+	idempotencyKey := fmt.Sprintf("anthropic-%s-%d", params.Model, time.Now().UnixNano())
+	managedPayload := keel.BuildManagedProxyPayload(payload, m.cfg.KeelProjectID, &subject, params.KeelParentPermitID, params.KeelSessionID)
+	raw, err := m.keel.Proxy.AnthropicWithHeaders(ctx, managedPayload, keel.ManagedProxyHeaders(idempotencyKey))
 	if err != nil {
 		return nil, fmt.Errorf("anthropic: proxy request failed: %w", err)
 	}
@@ -194,15 +164,6 @@ func (m *MessagesResource) Create(ctx context.Context, params MessageCreateParam
 	if err := json.Unmarshal(data, &resp); err != nil {
 		return nil, fmt.Errorf("anthropic: decode response: %w", err)
 	}
-
-	inputTokens := resp.Usage.InputTokens
-	outputTokens := resp.Usage.OutputTokens
-	totalTokens := inputTokens + outputTokens
-	_, _ = m.keel.Permits.ReportUsage(ctx, permit.PermitID, keel.PermitUsageReportRequest{
-		ActualInputTokens:  &inputTokens,
-		ActualOutputTokens: &outputTokens,
-		ActualTotalTokens:  &totalTokens,
-	})
 
 	return &resp, nil
 }
@@ -221,47 +182,22 @@ func (m *MessagesResource) CreateStream(ctx context.Context, params MessageCreat
 			subject = *m.cfg.KeelSubject
 		}
 
-		model := params.Model
-		tokens := estimateTokens(params.Messages)
-		permit, err := m.keel.Permits.Create(ctx, keel.PermitRequest{
-			ProjectID:      m.cfg.KeelProjectID,
-			IdempotencyKey: fmt.Sprintf("anthropic-stream-%s-%d", model, time.Now().UnixNano()),
-			Subject:        subject,
-			Action:         keel.Action{Name: string(keel.OpGenerateText)},
-			Resource: keel.Resource{
-				Type: "ai_model",
-				ID:   model,
-				Attributes: keel.ResourceAttributes{
-					Provider:              string(keel.ProviderAnthropic),
-					Model:                 model,
-					Operation:             keel.OpGenerateText,
-					ExecutionMode:         keel.ModeStream,
-					EstimatedInputTokens:  tokens,
-					EstimatedOutputTokens: tokens,
-				},
-			},
-		})
-		if err != nil {
-			errc <- fmt.Errorf("anthropic: permit creation failed: %w", err)
-			return
-		}
-
-		if permit.Decision != keel.DecisionAllow {
-			errc <- fmt.Errorf("anthropic: permit denied: %s", permit.Decision)
-			return
-		}
-
 		payload := map[string]any{
 			"model":      params.Model,
 			"max_tokens": params.MaxTokens,
 			"messages":   params.Messages,
 			"stream":     true,
 		}
+		for key, value := range params.Extra {
+			payload[key] = value
+		}
 		if params.System != nil {
 			payload["system"] = *params.System
 		}
 
-		sseEvents, sseErrc := m.keel.Proxy.AnthropicStream(ctx, payload)
+		idempotencyKey := fmt.Sprintf("anthropic-stream-%s-%d", params.Model, time.Now().UnixNano())
+		managedPayload := keel.BuildManagedProxyPayload(payload, m.cfg.KeelProjectID, &subject, params.KeelParentPermitID, params.KeelSessionID)
+		sseEvents, sseErrc := m.keel.Proxy.AnthropicStreamWithHeaders(ctx, managedPayload, keel.ManagedProxyHeaders(idempotencyKey))
 		for sse := range sseEvents {
 			var evt MessageStreamEvent
 			if json.Unmarshal(sse.Data, &evt) == nil {

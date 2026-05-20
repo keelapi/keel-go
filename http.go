@@ -194,6 +194,11 @@ func parseThrottledResponse(body []byte, retryAfter time.Duration) error {
 func parseErrorResponse(status int, body []byte, headers http.Header) error {
 	ke := &KeelError{Status: status}
 
+	var payload any
+	if json.Unmarshal(body, &payload) == nil {
+		ke.Details = payload
+	}
+
 	var errResp struct {
 		Error struct {
 			Code    string `json:"code"`

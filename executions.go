@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 // ExecutionsClient provides access to the executions API.
@@ -16,6 +17,9 @@ func (c *ExecutionsClient) Create(ctx context.Context, req ExecutionCreateReques
 	req.Mode = ModeSync
 	body, err := c.t.post(ctx, "/v1/executions", req, nil)
 	if err != nil {
+		if envelope, ok := executionResponseFromError(err); ok {
+			return envelope, nil
+		}
 		return nil, err
 	}
 	var resp ExecutionResponse
@@ -37,6 +41,17 @@ func (c *ExecutionsClient) Stream(ctx context.Context, req ExecutionCreateReques
 
 		rc, err := c.t.postStream(ctx, "/v1/executions", req, nil)
 		if err != nil {
+			if envelope, ok := executionResponseFromError(err); ok {
+				syntheticEvents, synthErr := executionEnvelopeStreamEvents(envelope)
+				if synthErr != nil {
+					errc <- synthErr
+					return
+				}
+				for _, event := range syntheticEvents {
+					events <- event
+				}
+				return
+			}
 			errc <- err
 			return
 		}
@@ -58,7 +73,7 @@ func (c *ExecutionsClient) Stream(ctx context.Context, req ExecutionCreateReques
 
 // Get retrieves the timeline for an execution.
 func (c *ExecutionsClient) Get(ctx context.Context, requestID string) (*ExecutionTimelineResponse, error) {
-	body, err := c.t.get(ctx, "/v1/executions/"+requestID, nil)
+	body, err := c.t.get(ctx, "/v1/executions/"+url.PathEscape(requestID), nil)
 	if err != nil {
 		return nil, err
 	}

@@ -42,26 +42,20 @@ func main() {
 	fmt.Printf("Dry run: %s\n", dryRun.Decision)
 
 	// 2. Use the combined execute endpoint (permit + execution in one call)
+	provider := keel.ProviderOpenAI
 	result, err := client.Execute.Run(ctx, keel.ExecuteRequest{
-		Subject: keel.Subject{Type: "user", ID: "user-123"},
-		Action:  keel.Action{Name: string(keel.OpGenerateText)},
-		Resource: keel.Resource{
-			Type: "ai_model",
-			ID:   "gpt-4",
-			Attributes: keel.ResourceAttributes{
-				Provider:              "openai",
-				Model:                 "gpt-4",
-				Operation:             keel.OpGenerateText,
-				EstimatedInputTokens:  100,
-				EstimatedOutputTokens: 500,
+		Provider: &provider,
+		Model:    "gpt-4",
+		Input: map[string]any{
+			"messages": []map[string]any{
+				{"role": "user", "content": "Explain AI governance"},
 			},
 		},
-		Messages: []keel.MessageInput{{Role: "user", Content: "Explain AI governance"}},
 	})
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("Execution: %s (provider: %s)\n", result.RequestID, result.Provider)
+	fmt.Printf("Execution: %s (provider: %s)\n", result.ID, result.Provider)
 
 	// 3. Get the timeline for the request
 	timeline, err := client.Requests.Timeline(ctx, result.RequestID)
@@ -72,10 +66,5 @@ func main() {
 		fmt.Printf("  [%s] %s\n", event.Timestamp, event.Phase)
 	}
 
-	// 4. Get the full audit bundle
-	bundle, err := client.Permits.Bundle(ctx, result.PermitID)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("Bundle: permit=%s, events=%d\n", bundle.Permit.PermitID, len(bundle.Timeline))
+	fmt.Printf("Timeline events: %d\n", len(timeline.Events))
 }

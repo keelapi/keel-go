@@ -7,17 +7,17 @@ import (
 
 // Reason code constants for permit denials and throttles (Shape D).
 const (
-	ReasonBudgetRequestCapExceeded    = "budget.request_cap_exceeded"
-	ReasonBudgetDailyCapExceeded      = "budget.daily_cap_exceeded"
-	ReasonBudgetMonthlyCapExceeded    = "budget.monthly_cap_exceeded"
+	ReasonBudgetRequestCapExceeded       = "budget.request_cap_exceeded"
+	ReasonBudgetDailyCapExceeded         = "budget.daily_cap_exceeded"
+	ReasonBudgetMonthlyCapExceeded       = "budget.monthly_cap_exceeded"
 	ReasonBudgetMonthlyThresholdExceeded = "budget.monthly_threshold_exceeded"
-	ReasonBudgetDailySpikeDetected    = "budget.daily_spike_detected"
-	ReasonBudgetRateLimitExceeded     = "budget.rate_limit_exceeded"
-	ReasonBudgetRateLimitThrottled    = "budget.rate_limit_throttled"
-	ReasonBudgetPricingUnavailable    = "budget.pricing_unavailable"
-	ReasonPolicyModelNotAllowed       = "policy.model_not_allowed"
-	ReasonPolicyRuleDenied            = "policy.rule_denied"
-	ReasonPolicyReviewRequired        = "policy.review_required"
+	ReasonBudgetDailySpikeDetected       = "budget.daily_spike_detected"
+	ReasonBudgetRateLimitExceeded        = "budget.rate_limit_exceeded"
+	ReasonBudgetRateLimitThrottled       = "budget.rate_limit_throttled"
+	ReasonBudgetPricingUnavailable       = "budget.pricing_unavailable"
+	ReasonPolicyModelNotAllowed          = "policy.model_not_allowed"
+	ReasonPolicyRuleDenied               = "policy.rule_denied"
+	ReasonPolicyReviewRequired           = "policy.review_required"
 )
 
 // KeelError represents an error response from the Keel API.
@@ -26,6 +26,7 @@ type KeelError struct {
 	Code       string        `json:"code"`
 	Message    string        `json:"message"`
 	Field      string        `json:"field,omitempty"`
+	Details    any           `json:"details,omitempty"`
 	RetryAfter time.Duration `json:"-"`
 }
 

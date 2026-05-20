@@ -171,8 +171,11 @@ client.Permits.Create(ctx, req)        // Create a permit
 client.Permits.DryRun(ctx, req)        // Evaluate without creating
 client.Permits.List(ctx, params)       // List permits
 client.Permits.Get(ctx, permitID)      // Get a permit
-client.Permits.Export(ctx, from, to, format) // Export permits
+client.Permits.Export(ctx, from, to, "json")  // Legacy raw export wrapper
+client.Permits.ExportBundle(ctx, from, to)    // JSON audit export bundle
+client.Permits.ExportCSV(ctx, from, to)       // CSV audit export text
 client.Permits.ReportUsage(ctx, id, req)     // Report usage
+client.Permits.VerifyUsage(ctx, id, req)     // Verify usage
 client.Permits.Attest(ctx, id, req)          // Attest a permit
 client.Permits.AddEvidence(ctx, id, req)     // Add evidence
 client.Permits.ListEvidence(ctx, id)         // List evidence
@@ -205,7 +208,10 @@ client.Proxy.Meta(ctx, payload)
 
 // Streaming variants
 client.Proxy.OpenAIStream(ctx, payload)
-// ... etc.
+client.Proxy.AnthropicStream(ctx, payload)
+client.Proxy.GoogleStream(ctx, payload)
+client.Proxy.XAIStream(ctx, payload)
+client.Proxy.MetaStream(ctx, payload)
 ```
 
 ### Jobs, API Keys, Requests
@@ -217,8 +223,21 @@ client.Jobs.Get(ctx, jobID)
 client.ApiKeys.Create(ctx, req)
 client.ApiKeys.List(ctx, params)
 client.ApiKeys.Revoke(ctx, keyID)
+revoked, err := client.ApiKeys.RevokeRecord(ctx, keyID)
 
 client.Requests.Timeline(ctx, requestID)
+```
+
+### Compliance And Integrity
+
+```go
+client.Compliance.CreateExport(ctx, req, true) // Signed export job with chain entries
+client.Compliance.ListExports(ctx)
+client.Compliance.GetExport(ctx, exportID)
+client.Compliance.Keys(ctx)                    // Public verifier key manifest
+
+client.Integrity.CheckpointPublicKey(ctx)
+client.Integrity.PermitBindingPublicKeys(ctx)
 ```
 
 ## Configuration

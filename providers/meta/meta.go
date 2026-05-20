@@ -14,13 +14,13 @@ import (
 
 // Config configures the Meta-compatible Keel client.
 type Config struct {
-	APIKey      string
-	KeelBaseURL string
-	KeelAPIKey  string
-	KeelProjectID   string
-	KeelSubject     *keel.PermitSubject
-	Timeout     time.Duration
-	MaxRetries  int
+	APIKey        string
+	KeelBaseURL   string
+	KeelAPIKey    string
+	KeelProjectID string
+	KeelSubject   *keel.PermitSubject
+	Timeout       time.Duration
+	MaxRetries    int
 }
 
 func (c *Config) resolve() {
@@ -61,12 +61,15 @@ type ChatCompletionMessage struct {
 
 // ChatCompletionParams are the parameters for a chat completion request.
 type ChatCompletionParams struct {
-	Model       string                  `json:"model"`
-	Messages    []ChatCompletionMessage `json:"messages"`
-	MaxTokens   *int                    `json:"max_tokens,omitempty"`
-	Temperature *float64                `json:"temperature,omitempty"`
-	TopP        *float64                `json:"top_p,omitempty"`
-	Stream      bool                    `json:"stream,omitempty"`
+	Model              string                  `json:"model"`
+	Messages           []ChatCompletionMessage `json:"messages"`
+	MaxTokens          *int                    `json:"max_tokens,omitempty"`
+	Temperature        *float64                `json:"temperature,omitempty"`
+	TopP               *float64                `json:"top_p,omitempty"`
+	Stream             bool                    `json:"stream,omitempty"`
+	Extra              map[string]any          `json:"extra,omitempty"`
+	KeelParentPermitID *string                 `json:"-"`
+	KeelSessionID      *string                 `json:"-"`
 }
 
 // ChatCompletionChoice represents a choice in a chat completion response.
@@ -138,17 +141,6 @@ func NewClient(cfg Config) *Client {
 	}
 }
 
-func estimateTokens(messages []ChatCompletionMessage) int {
-	total := 0
-	for _, m := range messages {
-		total += len(m.Content) / 4
-	}
-	if total == 0 {
-		total = 1
-	}
-	return total
-}
-
 func defaultSubject() keel.PermitSubject {
 	return keel.PermitSubject{Type: "service", ID: "default"}
 }
@@ -160,35 +152,13 @@ func (c *CompletionsResource) Create(ctx context.Context, params ChatCompletionP
 		subject = *c.cfg.KeelSubject
 	}
 
-	model := params.Model
-	tokens := estimateTokens(params.Messages)
-	permit, err := c.keel.Permits.Create(ctx, keel.PermitRequest{
-		ProjectID:      c.cfg.KeelProjectID,
-		IdempotencyKey: fmt.Sprintf("meta-%s-%d", model, time.Now().UnixNano()),
-		Subject:        subject,
-		Action:         keel.Action{Name: string(keel.OpGenerateText)},
-		Resource: keel.Resource{
-			Type: "ai_model",
-			ID:   model,
-			Attributes: keel.ResourceAttributes{
-				Provider:              string(keel.ProviderMeta),
-				Model:                 model,
-				Operation:             keel.OpGenerateText,
-				EstimatedInputTokens:  tokens,
-				EstimatedOutputTokens: tokens,
-			},
-		},
-	})
-	if err != nil {
-		return nil, fmt.Errorf("meta: permit creation failed: %w", err)
-	}
-	if permit.Decision != keel.DecisionAllow {
-		return nil, fmt.Errorf("meta: permit denied: %s", permit.Decision)
-	}
-
 	payload := map[string]any{
 		"model":    params.Model,
 		"messages": params.Messages,
+		"stream":   false,
+	}
+	for key, value := range params.Extra {
+		payload[key] = value
 	}
 	if params.MaxTokens != nil {
 		payload["max_tokens"] = *params.MaxTokens
@@ -196,8 +166,13 @@ func (c *CompletionsResource) Create(ctx context.Context, params ChatCompletionP
 	if params.Temperature != nil {
 		payload["temperature"] = *params.Temperature
 	}
+	if params.TopP != nil {
+		payload["top_p"] = *params.TopP
+	}
 
-	raw, err := c.keel.Proxy.Meta(ctx, payload)
+	idempotencyKey := fmt.Sprintf("meta-%s-%d", params.Model, time.Now().UnixNano())
+	managedPayload := keel.BuildManagedProxyPayload(payload, c.cfg.KeelProjectID, &subject, params.KeelParentPermitID, params.KeelSessionID)
+	raw, err := c.keel.Proxy.MetaWithHeaders(ctx, managedPayload, keel.ManagedProxyHeaders(idempotencyKey))
 	if err != nil {
 		return nil, fmt.Errorf("meta: proxy request failed: %w", err)
 	}
@@ -207,12 +182,6 @@ func (c *CompletionsResource) Create(ctx context.Context, params ChatCompletionP
 	if err := json.Unmarshal(data, &resp); err != nil {
 		return nil, fmt.Errorf("meta: decode response: %w", err)
 	}
-
-	_, _ = c.keel.Permits.ReportUsage(ctx, permit.PermitID, keel.PermitUsageReportRequest{
-		ActualInputTokens:  &resp.Usage.PromptTokens,
-		ActualOutputTokens: &resp.Usage.CompletionTokens,
-		ActualTotalTokens:  &resp.Usage.TotalTokens,
-	})
 
 	return &resp, nil
 }
@@ -231,42 +200,27 @@ func (c *CompletionsResource) CreateStream(ctx context.Context, params ChatCompl
 			subject = *c.cfg.KeelSubject
 		}
 
-		model := params.Model
-		tokens := estimateTokens(params.Messages)
-		permit, err := c.keel.Permits.Create(ctx, keel.PermitRequest{
-			ProjectID:      c.cfg.KeelProjectID,
-			IdempotencyKey: fmt.Sprintf("meta-stream-%s-%d", model, time.Now().UnixNano()),
-			Subject:        subject,
-			Action:         keel.Action{Name: string(keel.OpGenerateText)},
-			Resource: keel.Resource{
-				Type: "ai_model",
-				ID:   model,
-				Attributes: keel.ResourceAttributes{
-					Provider:              string(keel.ProviderMeta),
-					Model:                 model,
-					Operation:             keel.OpGenerateText,
-					ExecutionMode:         keel.ModeStream,
-					EstimatedInputTokens:  tokens,
-					EstimatedOutputTokens: tokens,
-				},
-			},
-		})
-		if err != nil {
-			errc <- fmt.Errorf("meta: permit creation failed: %w", err)
-			return
-		}
-		if permit.Decision != keel.DecisionAllow {
-			errc <- fmt.Errorf("meta: permit denied: %s", permit.Decision)
-			return
-		}
-
 		payload := map[string]any{
 			"model":    params.Model,
 			"messages": params.Messages,
 			"stream":   true,
 		}
+		for key, value := range params.Extra {
+			payload[key] = value
+		}
+		if params.MaxTokens != nil {
+			payload["max_tokens"] = *params.MaxTokens
+		}
+		if params.Temperature != nil {
+			payload["temperature"] = *params.Temperature
+		}
+		if params.TopP != nil {
+			payload["top_p"] = *params.TopP
+		}
 
-		events, sseErrc := c.keel.Proxy.MetaStream(ctx, payload)
+		idempotencyKey := fmt.Sprintf("meta-stream-%s-%d", params.Model, time.Now().UnixNano())
+		managedPayload := keel.BuildManagedProxyPayload(payload, c.cfg.KeelProjectID, &subject, params.KeelParentPermitID, params.KeelSessionID)
+		events, sseErrc := c.keel.Proxy.MetaStreamWithHeaders(ctx, managedPayload, keel.ManagedProxyHeaders(idempotencyKey))
 		for sse := range events {
 			var chunk ChatCompletionChunk
 			if json.Unmarshal(sse.Data, &chunk) == nil {

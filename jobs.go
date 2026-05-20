@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 // JobsClient provides access to the batch jobs API.
@@ -26,7 +27,7 @@ func (c *JobsClient) Create(ctx context.Context, req JobSubmitRequest) (*JobCrea
 
 // Get retrieves the status of a batch job.
 func (c *JobsClient) Get(ctx context.Context, jobID string) (*JobStatusResponse, error) {
-	body, err := c.t.get(ctx, "/v1/jobs/"+jobID, nil)
+	body, err := c.t.get(ctx, "/v1/jobs/"+url.PathEscape(jobID), nil)
 	if err != nil {
 		return nil, err
 	}
