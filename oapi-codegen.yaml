@@ -1,0 +1,6 @@
+package: keelclient
+generate:
+  client: true
+  models: true
+output-options:
+  client-type-name: KeelHTTPClient

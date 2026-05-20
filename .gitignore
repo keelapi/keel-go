@@ -23,3 +23,6 @@ Thumbs.db
 
 # Environment
 .env
+
+# Local generation scratch
+.tmp/
