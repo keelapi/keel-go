@@ -17,9 +17,9 @@ go get github.com/keelapi/keel-go
 
 **Zero external dependencies.** Only Go standard library.
 
-## Quick Start — One-Line Provider Migration
+## Quick Start
 
-Add Keel governance to existing AI code by swapping the import — no other code changes.
+Use the generated/reference client against the Keel API.
 
 ```go
 package main
@@ -28,26 +28,40 @@ import (
     "context"
     "fmt"
     "log"
+    "os"
 
-    "github.com/keelapi/keel-go/providers/openai"
+    keel "github.com/keelapi/keel-go"
 )
 
 func main() {
-    // Reads KEEL_BASE_URL, KEEL_API_KEY, KEEL_PROJECT_ID from the environment.
-    client := openai.NewClient(openai.Config{})
+    client := keel.NewClient(keel.ClientConfig{
+        BaseURL: os.Getenv("KEEL_BASE_URL"),
+        APIKey:  os.Getenv("KEEL_API_KEY"),
+    })
 
-    resp, err := client.Chat.Completions.Create(context.Background(), openai.ChatCompletionParams{
-        Model:    "gpt-4o",
-        Messages: []openai.ChatCompletionMessage{{Role: "user", Content: "Hello!"}},
+    permit, err := client.Permits.Create(context.Background(), keel.PermitRequest{
+        ProjectID:      os.Getenv("KEEL_PROJECT_ID"),
+        IdempotencyKey: "quickstart-1",
+        Subject:        keel.Subject{Type: "user", ID: "user-123"},
+        Action:         keel.Action{Name: "generate.text"},
+        Resource: keel.Resource{
+            Type: "ai_model",
+            ID:   "gpt-4",
+            Attributes: keel.ResourceAttributes{
+                Provider:              "openai",
+                Model:                 "gpt-4",
+                Operation:             keel.OpGenerateText,
+                EstimatedInputTokens:  100,
+                EstimatedOutputTokens: 200,
+            },
+        },
     })
     if err != nil {
-        log.Fatal(err) // a denied permit surfaces here as an error
+        log.Fatal(err)
     }
-    fmt.Printf("%+v\n", resp)
+    fmt.Printf("Permit: %s → %s\n", permit.PermitID, permit.Decision)
 }
 ```
-
-Every call automatically requests a governance permit, executes through Keel — policy and budget enforced, audit recorded — and reports usage. Anthropic, Google, xAI, and Meta wrappers work the same way; see [Drop-in Provider Replacements](#drop-in-provider-replacements).
 
 ## Permit-First Mode
 
@@ -109,58 +123,6 @@ Every request processed by Keel follows a consistent high-level flow:
 - **Record:** usage, cost, and governance events are captured
 
 Requests are only executed if explicitly permitted.
-
-## Drop-in Provider Replacements
-
-Swap your existing AI SDK imports with Keel-governed equivalents:
-
-### OpenAI
-
-```go
-import "github.com/keelapi/keel-go/providers/openai"
-
-client := openai.NewClient(openai.Config{})
-resp, err := client.Chat.Completions.Create(ctx, openai.ChatCompletionParams{
-    Model:    "gpt-4",
-    Messages: []openai.ChatCompletionMessage{{Role: "user", Content: "Hello"}},
-})
-```
-
-### Anthropic
-
-```go
-import "github.com/keelapi/keel-go/providers/anthropic"
-
-client := anthropic.NewClient(anthropic.Config{})
-msg, err := client.Messages.Create(ctx, anthropic.MessageCreateParams{
-    Model:     "claude-sonnet-4-20250514",
-    MaxTokens: 1024,
-    Messages:  []anthropic.MessageParam{{Role: "user", Content: "Hello"}},
-})
-```
-
-### Google Gemini
-
-```go
-import "github.com/keelapi/keel-go/providers/google"
-
-client := google.NewClient(google.Config{})
-model := client.GenerativeModel("gemini-pro")
-resp, err := model.GenerateContent(ctx, google.GenerateContentRequest{
-    Contents: []google.Content{{Parts: []google.Part{{Text: "Hello"}}}},
-})
-```
-
-### xAI / Meta
-
-```go
-import "github.com/keelapi/keel-go/providers/xai"
-import "github.com/keelapi/keel-go/providers/meta"
-
-// Both use the OpenAI-compatible interface
-xaiClient := xai.NewClient(xai.Config{})
-metaClient := meta.NewClient(meta.Config{})
-```
 
 ## Core API
 
@@ -262,7 +224,7 @@ client := keel.NewClient(keel.ClientConfig{
 |---|---|
 | `KEEL_BASE_URL` | Keel API base URL |
 | `KEEL_API_KEY` | Bearer token |
-| `KEEL_PROJECT_ID` | Project ID (used by provider wrappers) |
+| `KEEL_PROJECT_ID` | Project ID |
 
 ## Running the Examples
 
@@ -278,7 +240,6 @@ cp examples/.env.example .env
 ```bash
 source .env && export KEEL_BASE_URL KEEL_API_KEY KEEL_PROJECT_ID
 go run ./examples/quickstart
-go run ./examples/provider-swap
 go run ./examples/end-to-end
 ```
 
