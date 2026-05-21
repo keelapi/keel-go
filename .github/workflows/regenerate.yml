@@ -1,0 +1,50 @@
+name: Regenerate OpenAPI client
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types:
+      - keel-api-openapi-updated
+  schedule:
+    - cron: "17 9 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out keel-go
+        uses: actions/checkout@v4
+
+      - name: Check out keel-api
+        uses: actions/checkout@v4
+        with:
+          repository: keelapi/keel-api
+          path: keel-api
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Regenerate client
+        run: OPENAPI_SPEC=keel-api/docs/public-artifacts/openapi.json make generate
+
+      - name: Open regeneration PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: codex/regenerate-openapi-client
+          delete-branch: true
+          title: Regenerate OpenAPI client
+          commit-message: |
+            Regenerate OpenAPI client
+
+            Co-Authored-By: Claude <noreply@anthropic.com>
+            Co-Authored-By: Codex <noreply@openai.com>
+          body: |
+            Regenerates `pkg/keelclient/client.gen.go` from the canonical Keel OpenAPI specification.
