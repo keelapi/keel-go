@@ -1,5 +1,17 @@
 # keel-go
 
+## Surface position
+
+> The OpenAPI specification is the canonical integration contract for all Keel surfaces.
+>
+> **First-class runtime SDKs:** Python and TypeScript. Release-gated and kept in semantic lockstep with the runtime.
+>
+> **Infrastructure surfaces:** Terraform is the official policy-as-code surface. MCP governance is exposed through `/v1/mcp/*`. Keel should not be described as a generic MCP server or submitted to MCP registries.
+>
+> **Generated/reference client:** Go is published as an official generated/reference client for infrastructure teams. It is not a first-class runtime SDK.
+>
+> **Other languages:** Clients can be generated from the OpenAPI specification. They are not maintained as official Keel SDKs.
+
 The official generated/reference client for [Keel](https://keelapi.com).
 
 Keel is built and published by Keel API, Inc.
