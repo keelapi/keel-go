@@ -2332,9 +2332,12 @@ func (e PermitLogOutUsageVerificationStatus0) Valid() bool {
 
 // Defines values for PermitResponseDecision.
 const (
-	PermitResponseDecisionAllow     PermitResponseDecision = "allow"
+	PermitResponseDecisionAllow PermitResponseDecision = "allow"
+	// PermitResponseDecisionChallenge is retained for protocol-level compatibility.
 	PermitResponseDecisionChallenge PermitResponseDecision = "challenge"
 	PermitResponseDecisionDeny      PermitResponseDecision = "deny"
+	PermitResponseDecisionReview    PermitResponseDecision = "review"
+	PermitResponseDecisionThrottle  PermitResponseDecision = "throttle"
 )
 
 // Valid indicates whether the value is a known member of the PermitResponseDecision enum.
@@ -2346,6 +2349,10 @@ func (e PermitResponseDecision) Valid() bool {
 		return true
 	case PermitResponseDecisionDeny:
 		return true
+	case PermitResponseDecisionReview:
+		return true
+	case PermitResponseDecisionThrottle:
+		return true
 	default:
 		return false
 	}
@@ -2353,9 +2360,11 @@ func (e PermitResponseDecision) Valid() bool {
 
 // Defines values for PermitResponseDisplayDecision.
 const (
-	PermitResponseDisplayDecisionAllow     PermitResponseDisplayDecision = "allow"
+	PermitResponseDisplayDecisionAllow PermitResponseDisplayDecision = "allow"
+	// PermitResponseDisplayDecisionChallenge is retained for legacy compatibility.
 	PermitResponseDisplayDecisionChallenge PermitResponseDisplayDecision = "challenge"
 	PermitResponseDisplayDecisionDeny      PermitResponseDisplayDecision = "deny"
+	PermitResponseDisplayDecisionReview    PermitResponseDisplayDecision = "review"
 	PermitResponseDisplayDecisionThrottle  PermitResponseDisplayDecision = "throttle"
 )
 
@@ -2367,6 +2376,8 @@ func (e PermitResponseDisplayDecision) Valid() bool {
 	case PermitResponseDisplayDecisionChallenge:
 		return true
 	case PermitResponseDisplayDecisionDeny:
+		return true
+	case PermitResponseDisplayDecisionReview:
 		return true
 	case PermitResponseDisplayDecisionThrottle:
 		return true
@@ -16464,6 +16475,7 @@ type PermitRequest struct {
 	Conditions               *PermitRequest_Conditions               `json:"conditions,omitempty"`
 	Context                  *PermitRequest_Context                  `json:"context,omitempty"`
 	CustomMetadata           *PermitRequest_CustomMetadata           `json:"custom_metadata,omitempty"`
+	ExpiresAt                *time.Time                              `json:"expires_at,omitempty"`
 	IdempotencyKey           string                                  `json:"idempotency_key"`
 	Identity                 *PermitRequest_Identity                 `json:"identity,omitempty"`
 	ParentPermitId           *PermitRequest_ParentPermitId           `json:"parent_permit_id,omitempty"`
@@ -16589,6 +16601,8 @@ type PermitResponse struct {
 	DisplayDecision  PermitResponseDisplayDecision    `json:"display_decision"`
 	DisplayReason    string                           `json:"display_reason"`
 	EstimatedCostUsd *PermitResponse_EstimatedCostUsd `json:"estimated_cost_usd,omitempty"`
+	ExpiresAt        *time.Time                       `json:"expires_at,omitempty"`
+	IssuedAt         time.Time                        `json:"issued_at"`
 	Metadata         PermitMetadata                   `json:"metadata"`
 	ParentPermitId   *PermitResponse_ParentPermitId   `json:"parent_permit_id,omitempty"`
 	PermitId         openapi_types.UUID               `json:"permit_id"`
@@ -104453,6 +104467,9 @@ type ClientInterface interface {
 	// GetPermitLineageV1PermitsPermitIdLineageGet request
 	GetPermitLineageV1PermitsPermitIdLineageGet(ctx context.Context, permitId string, params *GetPermitLineageV1PermitsPermitIdLineageGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetPermitLifecycleV1PermitsPermitIdTimelineGet request
+	GetPermitLifecycleV1PermitsPermitIdTimelineGet(ctx context.Context, permitId string, params *GetPermitLifecycleV1PermitsPermitIdTimelineGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ReportPermitUsageByIdV1PermitsPermitIdUsagePostWithBody request with any body
 	ReportPermitUsageByIdV1PermitsPermitIdUsagePostWithBody(ctx context.Context, permitId string, params *ReportPermitUsageByIdV1PermitsPermitIdUsagePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -125327,6 +125344,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetPermitLineageV1PermitsPermitIdLineageGetWithResponse request
 	GetPermitLineageV1PermitsPermitIdLineageGetWithResponse(ctx context.Context, permitId string, params *GetPermitLineageV1PermitsPermitIdLineageGetParams, reqEditors ...RequestEditorFn) (*GetPermitLineageV1PermitsPermitIdLineageGetResponse, error)
+
+	// GetPermitLifecycleV1PermitsPermitIdTimelineGetWithResponse request
+	GetPermitLifecycleV1PermitsPermitIdTimelineGetWithResponse(ctx context.Context, permitId string, params *GetPermitLifecycleV1PermitsPermitIdTimelineGetParams, reqEditors ...RequestEditorFn) (*GetPermitLifecycleV1PermitsPermitIdTimelineGetResponse, error)
 
 	// ReportPermitUsageByIdV1PermitsPermitIdUsagePostWithBodyWithResponse request with any body
 	ReportPermitUsageByIdV1PermitsPermitIdUsagePostWithBodyWithResponse(ctx context.Context, permitId string, params *ReportPermitUsageByIdV1PermitsPermitIdUsagePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ReportPermitUsageByIdV1PermitsPermitIdUsagePostResponse, error)

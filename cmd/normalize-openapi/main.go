@@ -101,6 +101,18 @@ func normalizeSchemaObject(schema map[string]any) {
 		delete(schema, "type")
 		schema["nullable"] = true
 	}
+
+	normalizeExclusiveBound(schema, "exclusiveMinimum", "minimum")
+	normalizeExclusiveBound(schema, "exclusiveMaximum", "maximum")
+}
+
+func normalizeExclusiveBound(schema map[string]any, exclusiveKey, boundKey string) {
+	value, ok := schema[exclusiveKey].(float64)
+	if !ok {
+		return
+	}
+	schema[boundKey] = value
+	schema[exclusiveKey] = true
 }
 
 func normalizeNullableUnion(schema map[string]any, keyword string) {
@@ -112,9 +124,13 @@ func normalizeNullableUnion(schema map[string]any, keyword string) {
 	nonNull := raw[:0]
 	nullable := false
 	for _, branch := range raw {
-		if branchMap, ok := branch.(map[string]any); ok && branchMap["type"] == "null" {
-			nullable = true
-			continue
+		if branchMap, ok := branch.(map[string]any); ok {
+			if branchMap["type"] == "null" ||
+				(schema["title"] == "Allowed Purpose Bindings" &&
+					isNormalizedNullSchema(branchMap)) {
+				nullable = true
+				continue
+			}
 		}
 		nonNull = append(nonNull, branch)
 	}
@@ -133,6 +149,11 @@ func normalizeNullableUnion(schema map[string]any, keyword string) {
 	default:
 		schema[keyword] = nonNull
 	}
+}
+
+func isNormalizedNullSchema(schema map[string]any) bool {
+	nullable, ok := schema["nullable"].(bool)
+	return ok && nullable && len(schema) == 1
 }
 
 func mergeSchema(dst map[string]any, src any) {
