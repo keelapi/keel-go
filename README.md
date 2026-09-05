@@ -16,8 +16,8 @@ The official generated/reference client for [Keel](https://keelapi.com).
 
 Keel is built and published by Keel API, Inc.
 
-> **Note:** Keel is currently in private beta. You'll need a Keel account and API key to use this client.
-> [Sign up for early access](https://dashboard.keelapi.com/signup)
+> **Keel is live with self-serve access.** Create an account and project API key in the dashboard. Production deployment assistance is available from Keel.
+> [Get started](https://dashboard.keelapi.com/signup)
 
 ## Installation
 
@@ -51,7 +51,7 @@ import (
 )
 
 func main() {
-    client, err := keelclient.NewKeelHTTPClient(
+    client, err := keelclient.NewClient(
         os.Getenv("KEEL_BASE_URL"),
         keelclient.WithRequestEditorFn(func(ctx context.Context, req *http.Request) error {
             req.Header.Set("Authorization", "Bearer "+os.Getenv("KEEL_API_KEY"))
@@ -62,28 +62,13 @@ func main() {
         log.Fatal(err)
     }
 
-    resp, err := client.CreatePermitV1PermitsPost(
+    resp, err := client.ExecuteV1ExecutePost(
         context.Background(),
-        nil,
-        map[string]interface{}{
-            "project_id":      os.Getenv("KEEL_PROJECT_ID"),
-            "idempotency_key": "example-1",
-            "subject": map[string]interface{}{
-                "type": "user",
-                "id":   "user-123",
-            },
-            "action": map[string]interface{}{
-                "name": "generate.text",
-            },
-            "resource": map[string]interface{}{
-                "type": "ai_model",
-                "id":   "gpt-4",
-                "attributes": map[string]interface{}{
-                    "provider":                "openai",
-                    "model":                   "gpt-4",
-                    "operation":               "generate.text",
-                    "estimated_input_tokens":  100,
-                    "estimated_output_tokens": 200,
+        keelclient.UnifiedExecuteRequest{
+            Model: "gpt-4o-mini",
+            Input: map[string]interface{}{
+                "messages": []map[string]string{
+                    {"role": "user", "content": "Reply with exactly: keel works"},
                 },
             },
         },
