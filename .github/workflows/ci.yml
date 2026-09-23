@@ -28,3 +28,7 @@ jobs:
           fi
       - name: Vet
         run: go vet ./...
+      - name: README example
+        run: make check-readme
+      - name: Generated client matches api/openapi.json
+        run: make check-generated
