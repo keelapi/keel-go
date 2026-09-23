@@ -2,7 +2,7 @@
 
 keel-go follows Go module versioning. While the major version is 0, a minor release (v0.x.0) can contain breaking changes.
 
-## v0.4.0 (unreleased)
+## v0.4.0 (2026-09-23)
 
 Regenerates the client from Keel's current OpenAPI document and fixes the generator pipeline. **This release breaks code written against v0.3.x**; see [Migrating from v0.3.x](#migrating-from-v03x).
 
