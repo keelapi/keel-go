@@ -86,23 +86,25 @@ The generated client returns standard `*http.Response` values. Callers own statu
 
 ## Regeneration
 
-The canonical OpenAPI source lives in `../keel-api/docs/public-artifacts/openapi.json`.
-
-Regenerate the client with:
+The client is generated from `api/openapi.json`, a structural copy of Keel's OpenAPI document (`docs/public-artifacts/openapi.json` in the keel-api repository). The vendored copy omits descriptions, summaries, examples, tags, contact details, terms and the API license metadata; it retains paths, parameters, responses and schemas required to generate the client. The API's commercial license remains distinct from this repository's MIT license. `make generate` regenerates the client from the structural copy, and `make check-generated`, which CI runs, fails if the committed client does not match it. With a keel-api checkout next to this repository, update the copy and regenerate with:
 
 ```bash
-make generate
+make regenerate
 ```
 
-To point at a different local spec path:
+`make regenerate` redacts the spec committed at the checkout's `HEAD` into `api/openapi.json`, regenerates from it, and records both the original source SHA-256 and the redacted spec SHA-256 in `pkg/keelclient/SPEC_SOURCE`; the recorded commit changes only when the source spec does. Use `KEEL_API_DIR=/path/to/keel-api make regenerate` for a checkout elsewhere. To try another spec file without recording a source:
 
 ```bash
 OPENAPI_SPEC=/path/to/openapi.json make generate
 ```
 
-Generation writes `pkg/keelclient/client.gen.go`. The Makefile runs a local normalizer that adapts the OpenAPI 3.1 document for the current `oapi-codegen` parser without modifying the source specification.
+The `Regenerate OpenAPI client` workflow runs `make regenerate` weekly against keel-api's default branch, checks that the vendored spec remains redacted, runs the build, vet, race tests, gofmt and README checks on the result, and opens a pull request when the generated output changes. It needs the two repository secrets described in `.github/workflows/regenerate.yml`: without the keel-api read token it skips with a notice, and without the pull request token it regenerates and verifies but opens no pull request. The generated code still exposes the API's structural operations and schemas; the redaction only removes the extra prose and metadata from the vendored document.
+
+Generation writes `pkg/keelclient/client.gen.go`. The Makefile first runs a local normalizer (`cmd/normalize-openapi`) that adapts the OpenAPI 3.1 document for oapi-codegen's OpenAPI 3.0 parser without modifying the source specification.
 
 ## Generated Surface
+
+`pkg/keelclient/client.gen.go` is generated and is the package's entire API; the only hand-written Go file in the package is a test. `pkg/keelclient/SPEC_SOURCE` records what the client was generated from: the keel-api commit, the SHA-256 of the source and redacted OpenAPI documents, the oapi-codegen version, and the generator settings.
 
 This repository does not maintain provider-specific wrappers, permit-chain helpers, streaming helpers, custom retry/backoff, or custom error types. Any language-specific surface beyond generated OpenAPI bindings is out of scope for this Tier 4 client.
 

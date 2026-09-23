@@ -2,49 +2,131 @@ name: Regenerate OpenAPI client
 
 on:
   workflow_dispatch:
+  # Lets keel-api start a run when its published spec changes. The weekly
+  # schedule catches changes when no event is sent.
   repository_dispatch:
     types:
       - keel-api-openapi-updated
   schedule:
     - cron: "17 9 * * 1"
 
+# keelapi/keel-api is private, so the default GITHUB_TOKEN cannot read the
+# spec, and pull requests opened with GITHUB_TOKEN do not trigger CI. The
+# workflow uses two repository secrets (fine-grained tokens or GitHub App
+# installation tokens):
+#   KEEL_API_READ_TOKEN  Contents: read-only on keelapi/keel-api
+#   KEEL_GO_PR_TOKEN     Contents and Pull requests: read and write on keelapi/keel-go
+# Without KEEL_API_READ_TOKEN the run is skipped with a notice. Without
+# KEEL_GO_PR_TOKEN the client is regenerated and verified, but no pull
+# request is opened.
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 jobs:
   regenerate:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check for tokens
+        id: tokens
+        env:
+          KEEL_API_READ_TOKEN: ${{ secrets.KEEL_API_READ_TOKEN }}
+          KEEL_GO_PR_TOKEN: ${{ secrets.KEEL_GO_PR_TOKEN }}
+        run: |
+          if [ -n "$KEEL_API_READ_TOKEN" ]; then
+            echo "read=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice title=Regeneration skipped::The KEEL_API_READ_TOKEN secret is not set, so this workflow cannot read the OpenAPI spec in the private keelapi/keel-api repository."
+            echo "read=false" >> "$GITHUB_OUTPUT"
+          fi
+          if [ -n "$KEEL_GO_PR_TOKEN" ]; then
+            echo "pr=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "pr=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Check out keel-go
+        if: steps.tokens.outputs.read == 'true'
         uses: actions/checkout@v4
 
-      - name: Check out keel-api
+      - name: Check out the keel-api OpenAPI spec
+        if: steps.tokens.outputs.read == 'true'
         uses: actions/checkout@v4
         with:
           repository: keelapi/keel-api
-          path: keel-api
+          token: ${{ secrets.KEEL_API_READ_TOKEN }}
+          path: .tmp/keel-api
+          sparse-checkout: docs/public-artifacts/openapi.json
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
 
       - name: Set up Go
+        if: steps.tokens.outputs.read == 'true'
         uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
           cache: true
 
       - name: Regenerate client
-        run: OPENAPI_SPEC=keel-api/docs/public-artifacts/openapi.json make generate
+        if: steps.tokens.outputs.read == 'true'
+        run: make regenerate KEEL_API_DIR=.tmp/keel-api
+
+      - name: Verify regenerated client
+        if: steps.tokens.outputs.read == 'true'
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts -p test_redact_openapi.py
+          python3 scripts/check_redacted_spec.py api/openapi.json
+          go build ./...
+          go vet ./...
+          go test ./... -race -count=1
+          make check-readme
+          if [ -n "$(gofmt -l .)" ]; then
+            echo "::error::gofmt found unformatted files:"
+            gofmt -l .
+            exit 1
+          fi
+
+      - name: Read spec source
+        id: source
+        if: steps.tokens.outputs.read == 'true'
+        run: |
+          echo "commit=$(sed -n 's/^keel_api_commit: //p' pkg/keelclient/SPEC_SOURCE)" >> "$GITHUB_OUTPUT"
+          echo "sha256=$(sed -n 's/^spec_sha256: //p' pkg/keelclient/SPEC_SOURCE)" >> "$GITHUB_OUTPUT"
 
       - name: Open regeneration PR
+        if: steps.tokens.outputs.read == 'true' && steps.tokens.outputs.pr == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
+          token: ${{ secrets.KEEL_GO_PR_TOKEN }}
+          add-paths: |
+            api/openapi.json
+            pkg/keelclient/client.gen.go
+            pkg/keelclient/SPEC_SOURCE
           branch: codex/regenerate-openapi-client
           delete-branch: true
           title: Regenerate OpenAPI client
           commit-message: |
             Regenerate OpenAPI client
 
+            Generated from keelapi/keel-api@${{ steps.source.outputs.commit }}
+            docs/public-artifacts/openapi.json (sha256 ${{ steps.source.outputs.sha256 }}).
+
             Co-Authored-By: Claude <noreply@anthropic.com>
             Co-Authored-By: Codex <noreply@openai.com>
           body: |
-            Regenerates `pkg/keelclient/client.gen.go` from the canonical Keel OpenAPI specification.
+            Updates `api/openapi.json` to the prose-redacted structural contract derived from `docs/public-artifacts/openapi.json` at keelapi/keel-api@${{ steps.source.outputs.commit }} and regenerates `pkg/keelclient/client.gen.go` from it. The vendored spec SHA-256 is `${{ steps.source.outputs.sha256 }}`; `SPEC_SOURCE` also records the original source digest.
+
+            Before opening this PR, the workflow ran `go build`, `go vet`, `go test -race`, the gofmt check and `make check-readme` on the regenerated client. Review the diff for breaking changes and add a CHANGELOG entry before merging.
+
+      - name: Report without a pull request
+        if: steps.tokens.outputs.read == 'true' && steps.tokens.outputs.pr != 'true'
+        run: |
+          echo "::notice title=No pull request opened::The KEEL_GO_PR_TOKEN secret is not set. The regenerated client passed verification; the job summary lists the changes."
+          {
+            echo "## Regenerated client (no pull request opened)"
+            echo
+            echo '```'
+            git status --short -- api pkg/keelclient
+            git diff --stat -- api pkg/keelclient
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

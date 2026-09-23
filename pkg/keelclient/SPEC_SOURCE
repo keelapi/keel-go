@@ -1,0 +1,11 @@
+# Source of client.gen.go. Written by make regenerate; do not edit.
+keel_api_repository: keelapi/keel-api
+keel_api_commit: bb391aecd0896185c069a35904cecfa0d7d6aed9
+spec_path: docs/public-artifacts/openapi.json
+source_sha256: 84aeabc1c5013023dac5188ad411ad64f97145d50eec7815c723aeb5f0d92ad7
+spec_sha256: e78d755f169756b8055dc75e027c9360a6bec09c7d34e5dc63db4b99612021f0
+redactor: scripts/redact_openapi.py
+generator: github.com/oapi-codegen/oapi-codegen/v2 v2.7.0
+generator_config: oapi-codegen.yaml
+generator_flags: client models skip-prune always-prefix-enum-values
+normalizer: cmd/normalize-openapi
