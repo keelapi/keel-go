@@ -124,13 +124,9 @@ func normalizeNullableUnion(schema map[string]any, keyword string) {
 	nonNull := raw[:0]
 	nullable := false
 	for _, branch := range raw {
-		if branchMap, ok := branch.(map[string]any); ok {
-			if branchMap["type"] == "null" ||
-				(schema["title"] == "Allowed Purpose Bindings" &&
-					isNormalizedNullSchema(branchMap)) {
-				nullable = true
-				continue
-			}
+		if branchMap, ok := branch.(map[string]any); ok && isNullSchema(branchMap) {
+			nullable = true
+			continue
 		}
 		nonNull = append(nonNull, branch)
 	}
@@ -151,7 +147,14 @@ func normalizeNullableUnion(schema map[string]any, keyword string) {
 	}
 }
 
-func isNormalizedNullSchema(schema map[string]any) bool {
+// isNullSchema reports whether a union branch accepts only null. normalize
+// rewrites children before their parent, so by the time a parent's anyOf or
+// oneOf is inspected, a {"type": "null"} branch has already become
+// {"nullable": true}. Both spellings are recognized.
+func isNullSchema(schema map[string]any) bool {
+	if schema["type"] == "null" {
+		return true
+	}
 	nullable, ok := schema["nullable"].(bool)
 	return ok && nullable && len(schema) == 1
 }

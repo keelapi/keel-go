@@ -4,3 +4,10 @@ generate:
   models: true
 output-options:
   client-type-name: KeelHTTPClient
+  # Keep every component schema the spec publishes, including the evidence
+  # schemas that no operation references directly.
+  skip-prune: true
+compatibility:
+  # Name every enum constant <TypeName><Value>, so that adding an enum
+  # elsewhere in the spec cannot rename existing constants.
+  always-prefix-enum-values: true
