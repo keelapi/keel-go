@@ -1,9 +1,9 @@
 # Source of client.gen.go. Written by make regenerate; do not edit.
 keel_api_repository: keelapi/keel-api
-keel_api_commit: bb391aecd0896185c069a35904cecfa0d7d6aed9
+keel_api_commit: b25ae0ca2780a3ec194701ddf7ac0fc93116bc6f
 spec_path: docs/public-artifacts/openapi.json
-source_sha256: 84aeabc1c5013023dac5188ad411ad64f97145d50eec7815c723aeb5f0d92ad7
-spec_sha256: e78d755f169756b8055dc75e027c9360a6bec09c7d34e5dc63db4b99612021f0
+source_sha256: 4b97d573d42b9e3b20701da1b0775b9fbfdf52ed0fdb4765e905c3ca5b10b8e8
+spec_sha256: d2dfd9b56a0d3eb46aafbfd2a0dbd157b4e4ca18ef537708ad0ed7af89db5dc5
 redactor: scripts/redact_openapi.py
 generator: github.com/oapi-codegen/oapi-codegen/v2 v2.7.0
 generator_config: oapi-codegen.yaml
