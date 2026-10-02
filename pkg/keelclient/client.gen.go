@@ -3056,6 +3056,21 @@ func (e DashboardConnectorActivityItemType) Valid() bool {
 	}
 }
 
+// Defines values for DashboardConnectorDeleteResponseStatus.
+const (
+	DashboardConnectorDeleteResponseStatusDeleted DashboardConnectorDeleteResponseStatus = "deleted"
+)
+
+// Valid indicates whether the value is a known member of the DashboardConnectorDeleteResponseStatus enum.
+func (e DashboardConnectorDeleteResponseStatus) Valid() bool {
+	switch e {
+	case DashboardConnectorDeleteResponseStatusDeleted:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for DashboardConnectorTestResponseStatus.
 const (
 	DashboardConnectorTestResponseStatusDegraded DashboardConnectorTestResponseStatus = "degraded"
@@ -12604,17 +12619,21 @@ func (e GetDashboardProjectPermitByIdV1DashboardProjectsProjectIdPermitsPermitId
 
 // Defines values for GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile.
 const (
-	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitCosignV1 GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "permit-cosign.v1"
-	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitExactV1  GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "permit-exact.v1"
-	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitExactV2  GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "permit-exact.v2"
-	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitExactV3  GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "permit-exact.v3"
-	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfileWorkChainV1    GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "work-chain.v1"
-	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfileWorkChainV2    GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "work-chain.v2"
+	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfileMcpReviewJourneyV1 GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "mcp-review-journey.v1"
+	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitCosignV1     GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "permit-cosign.v1"
+	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitExactV1      GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "permit-exact.v1"
+	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitExactV2      GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "permit-exact.v2"
+	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitExactV3      GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "permit-exact.v3"
+	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitExactV4      GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "permit-exact.v4"
+	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfileWorkChainV1        GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "work-chain.v1"
+	GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfileWorkChainV2        GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile = "work-chain.v2"
 )
 
 // Valid indicates whether the value is a known member of the GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile enum.
 func (e GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfile) Valid() bool {
 	switch e {
+	case GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfileMcpReviewJourneyV1:
+		return true
 	case GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitCosignV1:
 		return true
 	case GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitExactV1:
@@ -12622,6 +12641,8 @@ func (e GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsP
 	case GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitExactV2:
 		return true
 	case GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitExactV3:
+		return true
+	case GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfilePermitExactV4:
 		return true
 	case GetDashboardProjectPermitAuditBundleV1DashboardProjectsProjectIdPermitsPermitIdBundleGetParamsProfileWorkChainV1:
 		return true
@@ -12955,17 +12976,21 @@ func (e GetPermitByIdV1PermitsPermitIdGetParamsView) Valid() bool {
 
 // Defines values for GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile.
 const (
-	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitCosignV1 GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "permit-cosign.v1"
-	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitExactV1  GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "permit-exact.v1"
-	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitExactV2  GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "permit-exact.v2"
-	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitExactV3  GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "permit-exact.v3"
-	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfileWorkChainV1    GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "work-chain.v1"
-	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfileWorkChainV2    GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "work-chain.v2"
+	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfileMcpReviewJourneyV1 GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "mcp-review-journey.v1"
+	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitCosignV1     GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "permit-cosign.v1"
+	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitExactV1      GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "permit-exact.v1"
+	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitExactV2      GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "permit-exact.v2"
+	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitExactV3      GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "permit-exact.v3"
+	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitExactV4      GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "permit-exact.v4"
+	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfileWorkChainV1        GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "work-chain.v1"
+	GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfileWorkChainV2        GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile = "work-chain.v2"
 )
 
 // Valid indicates whether the value is a known member of the GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile enum.
 func (e GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile) Valid() bool {
 	switch e {
+	case GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfileMcpReviewJourneyV1:
+		return true
 	case GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitCosignV1:
 		return true
 	case GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitExactV1:
@@ -12973,6 +12998,8 @@ func (e GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfile) Valid() boo
 	case GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitExactV2:
 		return true
 	case GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitExactV3:
+		return true
+	case GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfilePermitExactV4:
 		return true
 	case GetPermitAuditBundleV1PermitsPermitIdBundleGetParamsProfileWorkChainV1:
 		return true
@@ -15925,13 +15952,23 @@ type DashboardConnectorCreateRequest struct {
 	Secret          interface{}             `json:"secret"`
 }
 
+// DashboardConnectorDeleteResponse defines model for DashboardConnectorDeleteResponse.
+type DashboardConnectorDeleteResponse struct {
+	ConnectorId openapi_types.UUID                     `json:"connector_id"`
+	Status      DashboardConnectorDeleteResponseStatus `json:"status"`
+}
+
+// DashboardConnectorDeleteResponseStatus defines model for DashboardConnectorDeleteResponse.Status.
+type DashboardConnectorDeleteResponseStatus string
+
 // DashboardConnectorPatchRequest defines model for DashboardConnectorPatchRequest.
 type DashboardConnectorPatchRequest struct {
-	DisplayName     *string                 `json:"display_name,omitempty"`
-	EndpointBaseUrl *string                 `json:"endpoint_base_url,omitempty"`
-	ForceDemote     *bool                   `json:"force_demote,omitempty"`
-	IsDefault       *bool                   `json:"is_default,omitempty"`
-	Metadata        *map[string]interface{} `json:"metadata,omitempty"`
+	AnthropicWorkspaceId *string                 `json:"anthropic_workspace_id,omitempty"`
+	DisplayName          *string                 `json:"display_name,omitempty"`
+	EndpointBaseUrl      *string                 `json:"endpoint_base_url,omitempty"`
+	ForceDemote          *bool                   `json:"force_demote,omitempty"`
+	IsDefault            *bool                   `json:"is_default,omitempty"`
+	Metadata             *map[string]interface{} `json:"metadata,omitempty"`
 }
 
 // DashboardConnectorRotateRequest defines model for DashboardConnectorRotateRequest.
@@ -16454,26 +16491,28 @@ type DashboardPermitAttestationRequestAttestationType string
 
 // DashboardProjectConnectorRecord defines model for DashboardProjectConnectorRecord.
 type DashboardProjectConnectorRecord struct {
-	ConnectorId      openapi_types.UUID                           `json:"connector_id"`
-	ConnectorType    string                                       `json:"connector_type"`
-	CreatedAt        time.Time                                    `json:"created_at"`
-	CredentialType   string                                       `json:"credential_type"`
-	DisplayName      string                                       `json:"display_name"`
-	Enabled          *bool                                        `json:"enabled,omitempty"`
-	EndpointBaseUrl  *string                                      `json:"endpoint_base_url,omitempty"`
-	HealthSource     *DashboardProjectConnectorRecordHealthSource `json:"health_source,omitempty"`
-	HealthStatus     *DashboardProjectConnectorRecordHealthStatus `json:"health_status,omitempty"`
-	HostedBy         *string                                      `json:"hosted_by,omitempty"`
-	IsDefault        *bool                                        `json:"is_default,omitempty"`
-	KeyPrefix        *string                                      `json:"key_prefix,omitempty"`
-	KeyRotatedAt     *time.Time                                   `json:"key_rotated_at,omitempty"`
-	LastValidatedAt  *time.Time                                   `json:"last_validated_at,omitempty"`
-	Metadata         *map[string]interface{}                      `json:"metadata,omitempty"`
-	Provider         string                                       `json:"provider"`
-	Region           *string                                      `json:"region,omitempty"`
-	RotatedAt        *time.Time                                   `json:"rotated_at,omitempty"`
-	UpdatedAt        time.Time                                    `json:"updated_at"`
-	ValidationStatus string                                       `json:"validation_status"`
+	ConnectorId                openapi_types.UUID                           `json:"connector_id"`
+	ConnectorType              string                                       `json:"connector_type"`
+	CreatedAt                  time.Time                                    `json:"created_at"`
+	CredentialType             string                                       `json:"credential_type"`
+	DisplayName                string                                       `json:"display_name"`
+	Enabled                    *bool                                        `json:"enabled,omitempty"`
+	EndpointBaseUrl            *string                                      `json:"endpoint_base_url,omitempty"`
+	HealthSource               *DashboardProjectConnectorRecordHealthSource `json:"health_source,omitempty"`
+	HealthStatus               *DashboardProjectConnectorRecordHealthStatus `json:"health_status,omitempty"`
+	HostedBy                   *string                                      `json:"hosted_by,omitempty"`
+	IsDefault                  *bool                                        `json:"is_default,omitempty"`
+	KeyPrefix                  *string                                      `json:"key_prefix,omitempty"`
+	KeyRotatedAt               *time.Time                                   `json:"key_rotated_at,omitempty"`
+	LastValidatedAt            *time.Time                                   `json:"last_validated_at,omitempty"`
+	LastValidationErrorCode    *string                                      `json:"last_validation_error_code,omitempty"`
+	LastValidationErrorMessage *string                                      `json:"last_validation_error_message,omitempty"`
+	Metadata                   *map[string]interface{}                      `json:"metadata,omitempty"`
+	Provider                   string                                       `json:"provider"`
+	Region                     *string                                      `json:"region,omitempty"`
+	RotatedAt                  *time.Time                                   `json:"rotated_at,omitempty"`
+	UpdatedAt                  time.Time                                    `json:"updated_at"`
+	ValidationStatus           string                                       `json:"validation_status"`
 }
 
 // DashboardProjectConnectorRecordHealthSource defines model for DashboardProjectConnectorRecord.HealthSource.
@@ -24510,6 +24549,11 @@ type CreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPost20
 	union json.RawMessage
 }
 
+// DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody defines parameters for DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete.
+type DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody struct {
+	union json.RawMessage
+}
+
 // PatchDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdPatch200JSONResponseBody defines parameters for PatchDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdPatch.
 type PatchDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdPatch200JSONResponseBody struct {
 	union json.RawMessage
@@ -25398,6 +25442,16 @@ type V1ProvidersHealthV1ProvidersHealthGetParams struct {
 	XAPIKey *string `json:"X-API-Key,omitempty"`
 }
 
+// ProxyAnthropicV1ProxyAnthropicPostParams defines parameters for ProxyAnthropicV1ProxyAnthropicPost.
+type ProxyAnthropicV1ProxyAnthropicPostParams struct {
+	XAPIKey *string `json:"X-API-Key,omitempty"`
+}
+
+// ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostParams defines parameters for ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPost.
+type ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostParams struct {
+	XAPIKey *string `json:"X-API-Key,omitempty"`
+}
+
 // GetRequestTimelineV1RequestsRequestIdTimelineGetParams defines parameters for GetRequestTimelineV1RequestsRequestIdTimelineGet.
 type GetRequestTimelineV1RequestsRequestIdTimelineGetParams struct {
 	XAPIKey *string `json:"X-API-Key,omitempty"`
@@ -26141,6 +26195,9 @@ type PutProjectVoiceComplianceConfigV1ProjectsProjectIdVoiceCompliancePutJSONReq
 
 // ProxyAnthropicV1ProxyAnthropicPostJSONRequestBody defines body for ProxyAnthropicV1ProxyAnthropicPost for application/json ContentType.
 type ProxyAnthropicV1ProxyAnthropicPostJSONRequestBody = AnthropicMessagesProxyRequest
+
+// ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostJSONRequestBody defines body for ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPost for application/json ContentType.
+type ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostJSONRequestBody = AnthropicMessagesProxyRequest
 
 // ProxyGoogleV1ProxyGooglePostJSONRequestBody defines body for ProxyGoogleV1ProxyGooglePost for application/json ContentType.
 type ProxyGoogleV1ProxyGooglePostJSONRequestBody = GoogleGenerateContentProxyRequest
@@ -30086,6 +30143,68 @@ func (t *CreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPo
 	return err
 }
 
+// AsDashboardConnectorDeleteResponse returns the union data inside the DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody as a DashboardConnectorDeleteResponse
+func (t DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody) AsDashboardConnectorDeleteResponse() (DashboardConnectorDeleteResponse, error) {
+	var body DashboardConnectorDeleteResponse
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDashboardConnectorDeleteResponse overwrites any union data inside the DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody as the provided DashboardConnectorDeleteResponse
+func (t *DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody) FromDashboardConnectorDeleteResponse(v DashboardConnectorDeleteResponse) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDashboardConnectorDeleteResponse performs a merge with any union data inside the DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody, using the provided DashboardConnectorDeleteResponse
+func (t *DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody) MergeDashboardConnectorDeleteResponse(v DashboardConnectorDeleteResponse) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPendingDashboardProjectPolicyResponse returns the union data inside the DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody as a PendingDashboardProjectPolicyResponse
+func (t DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody) AsPendingDashboardProjectPolicyResponse() (PendingDashboardProjectPolicyResponse, error) {
+	var body PendingDashboardProjectPolicyResponse
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPendingDashboardProjectPolicyResponse overwrites any union data inside the DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody as the provided PendingDashboardProjectPolicyResponse
+func (t *DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody) FromPendingDashboardProjectPolicyResponse(v PendingDashboardProjectPolicyResponse) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePendingDashboardProjectPolicyResponse performs a merge with any union data inside the DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody, using the provided PendingDashboardProjectPolicyResponse
+func (t *DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody) MergePendingDashboardProjectPolicyResponse(v PendingDashboardProjectPolicyResponse) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsDashboardProjectConnectorRecord returns the union data inside the PatchDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdPatch200JSONResponseBody as a DashboardProjectConnectorRecord
 func (t PatchDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdPatch200JSONResponseBody) AsDashboardProjectConnectorRecord() (DashboardProjectConnectorRecord, error) {
 	var body DashboardProjectConnectorRecord
@@ -33922,6 +34041,9 @@ type ClientInterface interface {
 
 	CreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPost(ctx context.Context, projectId string, body CreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete request
+	DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete(ctx context.Context, projectId string, connectorId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdGet request
 	GetDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdGet(ctx context.Context, projectId string, connectorId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -34770,9 +34892,14 @@ type ClientInterface interface {
 	V1ProvidersHealthPublicV1ProvidersHealthPublicGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ProxyAnthropicV1ProxyAnthropicPostWithBody request with any body
-	ProxyAnthropicV1ProxyAnthropicPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	ProxyAnthropicV1ProxyAnthropicPostWithBody(ctx context.Context, params *ProxyAnthropicV1ProxyAnthropicPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	ProxyAnthropicV1ProxyAnthropicPost(ctx context.Context, body ProxyAnthropicV1ProxyAnthropicPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	ProxyAnthropicV1ProxyAnthropicPost(ctx context.Context, params *ProxyAnthropicV1ProxyAnthropicPostParams, body ProxyAnthropicV1ProxyAnthropicPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostWithBody request with any body
+	ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostWithBody(ctx context.Context, params *ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPost(ctx context.Context, params *ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostParams, body ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ProxyGoogleV1ProxyGooglePostWithBody request with any body
 	ProxyGoogleV1ProxyGooglePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -37977,6 +38104,18 @@ func (c *KeelHTTPClient) CreateDashboardProjectConnectorV1DashboardProjectsProje
 
 func (c *KeelHTTPClient) CreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPost(ctx context.Context, projectId string, body CreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewCreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPostRequest(c.Server, projectId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *KeelHTTPClient) DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete(ctx context.Context, projectId string, connectorId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteRequest(c.Server, projectId, connectorId)
 	if err != nil {
 		return nil, err
 	}
@@ -41707,8 +41846,8 @@ func (c *KeelHTTPClient) V1ProvidersHealthPublicV1ProvidersHealthPublicGet(ctx c
 	return c.Client.Do(req)
 }
 
-func (c *KeelHTTPClient) ProxyAnthropicV1ProxyAnthropicPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewProxyAnthropicV1ProxyAnthropicPostRequestWithBody(c.Server, contentType, body)
+func (c *KeelHTTPClient) ProxyAnthropicV1ProxyAnthropicPostWithBody(ctx context.Context, params *ProxyAnthropicV1ProxyAnthropicPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewProxyAnthropicV1ProxyAnthropicPostRequestWithBody(c.Server, params, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -41719,8 +41858,32 @@ func (c *KeelHTTPClient) ProxyAnthropicV1ProxyAnthropicPostWithBody(ctx context.
 	return c.Client.Do(req)
 }
 
-func (c *KeelHTTPClient) ProxyAnthropicV1ProxyAnthropicPost(ctx context.Context, body ProxyAnthropicV1ProxyAnthropicPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewProxyAnthropicV1ProxyAnthropicPostRequest(c.Server, body)
+func (c *KeelHTTPClient) ProxyAnthropicV1ProxyAnthropicPost(ctx context.Context, params *ProxyAnthropicV1ProxyAnthropicPostParams, body ProxyAnthropicV1ProxyAnthropicPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewProxyAnthropicV1ProxyAnthropicPostRequest(c.Server, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *KeelHTTPClient) ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostWithBody(ctx context.Context, params *ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostRequestWithBody(c.Server, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *KeelHTTPClient) ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPost(ctx context.Context, params *ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostParams, body ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostRequest(c.Server, params, body)
 	if err != nil {
 		return nil, err
 	}
@@ -51341,6 +51504,47 @@ func NewCreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPos
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteRequest generates requests for DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete
+func NewDeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteRequest(server string, projectId string, connectorId openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "project_id", projectId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "connector_id", connectorId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/dashboard/projects/%s/connectors/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -63506,18 +63710,18 @@ func NewV1ProvidersHealthPublicV1ProvidersHealthPublicGetRequest(server string) 
 }
 
 // NewProxyAnthropicV1ProxyAnthropicPostRequest calls the generic ProxyAnthropicV1ProxyAnthropicPost builder with application/json body
-func NewProxyAnthropicV1ProxyAnthropicPostRequest(server string, body ProxyAnthropicV1ProxyAnthropicPostJSONRequestBody) (*http.Request, error) {
+func NewProxyAnthropicV1ProxyAnthropicPostRequest(server string, params *ProxyAnthropicV1ProxyAnthropicPostParams, body ProxyAnthropicV1ProxyAnthropicPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewProxyAnthropicV1ProxyAnthropicPostRequestWithBody(server, "application/json", bodyReader)
+	return NewProxyAnthropicV1ProxyAnthropicPostRequestWithBody(server, params, "application/json", bodyReader)
 }
 
 // NewProxyAnthropicV1ProxyAnthropicPostRequestWithBody generates requests for ProxyAnthropicV1ProxyAnthropicPost with any type of body
-func NewProxyAnthropicV1ProxyAnthropicPostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+func NewProxyAnthropicV1ProxyAnthropicPostRequestWithBody(server string, params *ProxyAnthropicV1ProxyAnthropicPostParams, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -63541,6 +63745,76 @@ func NewProxyAnthropicV1ProxyAnthropicPostRequestWithBody(server string, content
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	if params != nil {
+
+		if params.XAPIKey != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithOptions("simple", false, "X-API-Key", *params.XAPIKey, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-API-Key", headerParam0)
+		}
+
+	}
+
+	return req, nil
+}
+
+// NewProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostRequest calls the generic ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPost builder with application/json body
+func NewProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostRequest(server string, params *ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostParams, body ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostRequestWithBody(server, params, "application/json", bodyReader)
+}
+
+// NewProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostRequestWithBody generates requests for ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPost with any type of body
+func NewProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostRequestWithBody(server string, params *ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/proxy/anthropic/v1/messages")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	if params != nil {
+
+		if params.XAPIKey != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithOptions("simple", false, "X-API-Key", *params.XAPIKey, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-API-Key", headerParam0)
+		}
+
+	}
 
 	return req, nil
 }
@@ -67023,6 +67297,9 @@ type ClientWithResponsesInterface interface {
 
 	CreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPostWithResponse(ctx context.Context, projectId string, body CreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPostResponse, error)
 
+	// DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteWithResponse request
+	DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteWithResponse(ctx context.Context, projectId string, connectorId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteResponse, error)
+
 	// GetDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdGetWithResponse request
 	GetDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdGetWithResponse(ctx context.Context, projectId string, connectorId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdGetResponse, error)
 
@@ -67871,9 +68148,14 @@ type ClientWithResponsesInterface interface {
 	V1ProvidersHealthPublicV1ProvidersHealthPublicGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*V1ProvidersHealthPublicV1ProvidersHealthPublicGetResponse, error)
 
 	// ProxyAnthropicV1ProxyAnthropicPostWithBodyWithResponse request with any body
-	ProxyAnthropicV1ProxyAnthropicPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ProxyAnthropicV1ProxyAnthropicPostResponse, error)
+	ProxyAnthropicV1ProxyAnthropicPostWithBodyWithResponse(ctx context.Context, params *ProxyAnthropicV1ProxyAnthropicPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ProxyAnthropicV1ProxyAnthropicPostResponse, error)
 
-	ProxyAnthropicV1ProxyAnthropicPostWithResponse(ctx context.Context, body ProxyAnthropicV1ProxyAnthropicPostJSONRequestBody, reqEditors ...RequestEditorFn) (*ProxyAnthropicV1ProxyAnthropicPostResponse, error)
+	ProxyAnthropicV1ProxyAnthropicPostWithResponse(ctx context.Context, params *ProxyAnthropicV1ProxyAnthropicPostParams, body ProxyAnthropicV1ProxyAnthropicPostJSONRequestBody, reqEditors ...RequestEditorFn) (*ProxyAnthropicV1ProxyAnthropicPostResponse, error)
+
+	// ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostWithBodyWithResponse request with any body
+	ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostWithBodyWithResponse(ctx context.Context, params *ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse, error)
+
+	ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostWithResponse(ctx context.Context, params *ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostParams, body ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostJSONRequestBody, reqEditors ...RequestEditorFn) (*ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse, error)
 
 	// ProxyGoogleV1ProxyGooglePostWithBodyWithResponse request with any body
 	ProxyGoogleV1ProxyGooglePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ProxyGoogleV1ProxyGooglePostResponse, error)
@@ -73305,6 +73587,37 @@ func (r CreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPos
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r CreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPostResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody
+	JSON422      *HTTPValidationError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -80366,6 +80679,37 @@ func (r ProxyAnthropicV1ProxyAnthropicPostResponse) ContentType() string {
 	return ""
 }
 
+type ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *interface{}
+	JSON422      *HTTPValidationError
+}
+
+// Status returns HTTPResponse.Status
+func (r ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type ProxyGoogleV1ProxyGooglePostResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -84200,6 +84544,15 @@ func (c *ClientWithResponses) CreateDashboardProjectConnectorV1DashboardProjects
 	return ParseCreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsPostResponse(rsp)
 }
 
+// DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteWithResponse request returning *DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteResponse
+func (c *ClientWithResponses) DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteWithResponse(ctx context.Context, projectId string, connectorId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteResponse, error) {
+	rsp, err := c.DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete(ctx, projectId, connectorId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteResponse(rsp)
+}
+
 // GetDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdGetWithResponse request returning *GetDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdGetResponse
 func (c *ClientWithResponses) GetDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdGetWithResponse(ctx context.Context, projectId string, connectorId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdGetResponse, error) {
 	rsp, err := c.GetDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdGet(ctx, projectId, connectorId, reqEditors...)
@@ -86908,20 +87261,37 @@ func (c *ClientWithResponses) V1ProvidersHealthPublicV1ProvidersHealthPublicGetW
 }
 
 // ProxyAnthropicV1ProxyAnthropicPostWithBodyWithResponse request with arbitrary body returning *ProxyAnthropicV1ProxyAnthropicPostResponse
-func (c *ClientWithResponses) ProxyAnthropicV1ProxyAnthropicPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ProxyAnthropicV1ProxyAnthropicPostResponse, error) {
-	rsp, err := c.ProxyAnthropicV1ProxyAnthropicPostWithBody(ctx, contentType, body, reqEditors...)
+func (c *ClientWithResponses) ProxyAnthropicV1ProxyAnthropicPostWithBodyWithResponse(ctx context.Context, params *ProxyAnthropicV1ProxyAnthropicPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ProxyAnthropicV1ProxyAnthropicPostResponse, error) {
+	rsp, err := c.ProxyAnthropicV1ProxyAnthropicPostWithBody(ctx, params, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
 	return ParseProxyAnthropicV1ProxyAnthropicPostResponse(rsp)
 }
 
-func (c *ClientWithResponses) ProxyAnthropicV1ProxyAnthropicPostWithResponse(ctx context.Context, body ProxyAnthropicV1ProxyAnthropicPostJSONRequestBody, reqEditors ...RequestEditorFn) (*ProxyAnthropicV1ProxyAnthropicPostResponse, error) {
-	rsp, err := c.ProxyAnthropicV1ProxyAnthropicPost(ctx, body, reqEditors...)
+func (c *ClientWithResponses) ProxyAnthropicV1ProxyAnthropicPostWithResponse(ctx context.Context, params *ProxyAnthropicV1ProxyAnthropicPostParams, body ProxyAnthropicV1ProxyAnthropicPostJSONRequestBody, reqEditors ...RequestEditorFn) (*ProxyAnthropicV1ProxyAnthropicPostResponse, error) {
+	rsp, err := c.ProxyAnthropicV1ProxyAnthropicPost(ctx, params, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
 	return ParseProxyAnthropicV1ProxyAnthropicPostResponse(rsp)
+}
+
+// ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostWithBodyWithResponse request with arbitrary body returning *ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse
+func (c *ClientWithResponses) ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostWithBodyWithResponse(ctx context.Context, params *ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse, error) {
+	rsp, err := c.ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostWithBody(ctx, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse(rsp)
+}
+
+func (c *ClientWithResponses) ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostWithResponse(ctx context.Context, params *ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostParams, body ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostJSONRequestBody, reqEditors ...RequestEditorFn) (*ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse, error) {
+	rsp, err := c.ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPost(ctx, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse(rsp)
 }
 
 // ProxyGoogleV1ProxyGooglePostWithBodyWithResponse request with arbitrary body returning *ProxyGoogleV1ProxyGooglePostResponse
@@ -93062,6 +93432,39 @@ func ParseCreateDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsP
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest HTTPValidationError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteResponse parses an HTTP response from a DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteWithResponse call
+func ParseDeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteResponse(rsp *http.Response) (*DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDeleteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest DeleteDashboardProjectConnectorV1DashboardProjectsProjectIdConnectorsConnectorIdDelete200JSONResponseBody
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
 		var dest HTTPValidationError
@@ -100484,6 +100887,39 @@ func ParseProxyAnthropicV1ProxyAnthropicPostResponse(rsp *http.Response) (*Proxy
 	}
 
 	response := &ProxyAnthropicV1ProxyAnthropicPostResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest interface{}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest HTTPValidationError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse parses an HTTP response from a ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostWithResponse call
+func ParseProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse(rsp *http.Response) (*ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ProxyAnthropicSdkMessagesV1ProxyAnthropicV1MessagesPostResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}

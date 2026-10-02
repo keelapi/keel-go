@@ -1408,6 +1408,8 @@
                     "permit-exact.v1",
                     "permit-exact.v2",
                     "permit-exact.v3",
+                    "permit-exact.v4",
+                    "mcp-review-journey.v1",
                     "permit-cosign.v1"
                   ],
                   "type": "string"
@@ -7245,15 +7247,38 @@
     "/v1/proxy/anthropic": {
       "post": {
         "operationId": "proxy_anthropic_v1_proxy_anthropic_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AnthropicMessagesProxyRequest"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -7272,12 +7297,63 @@
               }
             }
           }
-        },
+        }
+      }
+    },
+    "/v1/proxy/anthropic/v1/messages": {
+      "post": {
+        "operationId": "proxy_anthropic_sdk_messages_v1_proxy_anthropic_v1_messages_post",
         "security": [
           {
             "HTTPBearer": []
           }
-        ]
+        ],
+        "parameters": [
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnthropicMessagesProxyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v1/proxy/google": {
@@ -12338,6 +12414,58 @@
             }
           }
         }
+      },
+      "delete": {
+        "operationId": "delete_dashboard_project_connector_v1_dashboard_projects__project_id__connectors__connector_id__delete",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "connector_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Connector Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/DashboardConnectorDeleteResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PendingDashboardProjectPolicyResponse"
+                    }
+                  ],
+                  "title": "Response Delete Dashboard Project Connector V1 Dashboard Projects  Project Id  Connectors  Connector Id  Delete"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v1/dashboard/provider-telemetry": {
@@ -16333,6 +16461,8 @@
                     "permit-exact.v1",
                     "permit-exact.v2",
                     "permit-exact.v3",
+                    "permit-exact.v4",
+                    "mcp-review-journey.v1",
                     "permit-cosign.v1"
                   ],
                   "type": "string"
@@ -38058,6 +38188,27 @@
         ],
         "title": "DashboardConnectorCreateRequest"
       },
+      "DashboardConnectorDeleteResponse": {
+        "properties": {
+          "connector_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Connector Id"
+          },
+          "status": {
+            "type": "string",
+            "const": "deleted",
+            "title": "Status"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "connector_id",
+          "status"
+        ],
+        "title": "DashboardConnectorDeleteResponse"
+      },
       "DashboardConnectorPatchRequest": {
         "properties": {
           "display_name": {
@@ -38094,6 +38245,17 @@
               }
             ],
             "title": "Metadata"
+          },
+          "anthropic_workspace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Anthropic Workspace Id"
           },
           "is_default": {
             "anyOf": [
@@ -40637,6 +40799,28 @@
               }
             ],
             "title": "Last Validated At"
+          },
+          "last_validation_error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Validation Error Code"
+          },
+          "last_validation_error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Validation Error Message"
           },
           "key_prefix": {
             "anyOf": [

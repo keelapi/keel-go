@@ -2,6 +2,41 @@
 
 keel-go follows Go module versioning. While the major version is 0, a minor release (v0.x.0) can contain breaking changes.
 
+## v0.5.0 (2026-10-02)
+
+Updates the generated/reference client to the current published structural contract. **This release changes the existing Anthropic proxy call signatures**; see [Migrating from v0.4.x](#migrating-from-v04x).
+
+### Added
+
+- Generated bindings for `POST /v1/proxy/anthropic/v1/messages` and dashboard connector deletion.
+- `permit-exact.v4` and `mcp-review-journey.v1` audit bundle profile values.
+- Connector workspace and validation-error fields from the published contract.
+
+### Changed (breaking)
+
+- The `/v1/proxy/anthropic` methods, response methods, interfaces, and request builders now accept `*ProxyAnthropicV1ProxyAnthropicPostParams` before the body arguments. The optional `XAPIKey` field sends a Keel project key in `X-API-Key` on this compatibility path. Pass `nil` to retain existing Bearer-header behavior.
+- Adding methods to the generated client interfaces requires custom interface implementations and mocks to implement the new operations.
+
+### Fixed
+
+- Scheduled regeneration can push its branch using the repository-scoped token and open the PR with a separate API token. Updates to an existing regeneration PR explicitly dispatch CI on its new commit.
+
+### Migrating from v0.4.x
+
+1. Run `go get github.com/keelapi/keel-go@v0.5.0`, then build your application.
+2. Insert `nil` before the body arguments in existing Anthropic calls and request builders. For example:
+
+   ```go
+   // v0.4.x
+   response, err := client.ProxyAnthropicV1ProxyAnthropicPost(ctx, body)
+   // v0.5.0; keep the existing Bearer request editor.
+   response, err := client.ProxyAnthropicV1ProxyAnthropicPost(ctx, nil, body)
+   ```
+
+   With arbitrary bodies, use `client.ProxyAnthropicV1ProxyAnthropicPostWithBody(ctx, nil, contentType, reader)`. With parsed responses, use `client.ProxyAnthropicV1ProxyAnthropicPostWithResponse(ctx, nil, body)` or `client.ProxyAnthropicV1ProxyAnthropicPostWithBodyWithResponse(ctx, nil, contentType, reader)`. Request builders likewise take `nil` after `server`.
+3. If you use the documented `X-API-Key` compatibility path, pass `&keelclient.ProxyAnthropicV1ProxyAnthropicPostParams{XAPIKey: &key}` instead of `nil`. `key` is the Keel project key, not an Anthropic provider credential.
+4. Update custom generated-client interface implementations and mocks. The client remains generated; it does not add provider wrappers or automatic retries.
+
 ## v0.4.0 (2026-09-23)
 
 Regenerates the client from Keel's current OpenAPI document and fixes the generator pipeline. **This release breaks code written against v0.3.x**; see [Migrating from v0.3.x](#migrating-from-v03x).
