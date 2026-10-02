@@ -17,7 +17,7 @@ on:
 #   KEEL_API_READ_TOKEN  Contents: read-only on keelapi/keel-api
 #   KEEL_GO_PR_TOKEN     Pull requests: read and write on keelapi/keel-go
 # Branch pushes use the job's repository-scoped GITHUB_TOKEN. Keeping the PR
-# API token separate lets the opened pull request trigger CI without requiring
+# API token separate lets a newly opened pull request trigger CI without requiring
 # the personal or installation token to have Contents: write.
 # Without KEEL_API_READ_TOKEN the run is skipped with a notice. Without
 # KEEL_GO_PR_TOKEN the client is regenerated and verified, but no pull
@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
 
     steps:
       - name: Check for tokens
@@ -101,6 +102,7 @@ jobs:
           echo "sha256=$(sed -n 's/^spec_sha256: //p' pkg/keelclient/SPEC_SOURCE)" >> "$GITHUB_OUTPUT"
 
       - name: Open regeneration PR
+        id: pull-request
         if: steps.tokens.outputs.read == 'true' && steps.tokens.outputs.pr == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
@@ -125,6 +127,16 @@ jobs:
             Updates `api/openapi.json` to the prose-redacted structural contract derived from `docs/public-artifacts/openapi.json` at keelapi/keel-api@${{ steps.source.outputs.commit }} and regenerates `pkg/keelclient/client.gen.go` from it. The vendored spec SHA-256 is `${{ steps.source.outputs.sha256 }}`; `SPEC_SOURCE` also records the original source digest.
 
             Before opening this PR, the workflow ran `go build`, `go vet`, `go test -race`, the gofmt check and `make check-readme` on the regenerated client. Review the diff for breaking changes and add a CHANGELOG entry before merging.
+
+      # GITHUB_TOKEN pushes do not emit a pull_request synchronize workflow.
+      # New PRs trigger CI through the PR API token; updated PRs need a dispatch
+      # against the generated branch so checks attach to its current commit.
+      - name: Run CI on an updated regeneration PR
+        if: steps.pull-request.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_BRANCH: codex/regenerate-openapi-client
+        run: gh workflow run ci.yml --ref "$PR_BRANCH"
 
       - name: Report without a pull request
         if: steps.tokens.outputs.read == 'true' && steps.tokens.outputs.pr != 'true'
