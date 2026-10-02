@@ -15,7 +15,10 @@ on:
 # workflow uses two repository secrets (fine-grained tokens or GitHub App
 # installation tokens):
 #   KEEL_API_READ_TOKEN  Contents: read-only on keelapi/keel-api
-#   KEEL_GO_PR_TOKEN     Contents and Pull requests: read and write on keelapi/keel-go
+#   KEEL_GO_PR_TOKEN     Pull requests: read and write on keelapi/keel-go
+# Branch pushes use the job's repository-scoped GITHUB_TOKEN. Keeping the PR
+# API token separate lets the opened pull request trigger CI without requiring
+# the personal or installation token to have Contents: write.
 # Without KEEL_API_READ_TOKEN the run is skipped with a notice. Without
 # KEEL_GO_PR_TOKEN the client is regenerated and verified, but no pull
 # request is opened.
@@ -25,6 +28,8 @@ permissions:
 jobs:
   regenerate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Check for tokens
@@ -48,6 +53,8 @@ jobs:
       - name: Check out keel-go
         if: steps.tokens.outputs.read == 'true'
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Check out the keel-api OpenAPI spec
         if: steps.tokens.outputs.read == 'true'
@@ -98,6 +105,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.KEEL_GO_PR_TOKEN }}
+          git-token: ${{ github.token }}
           add-paths: |
             api/openapi.json
             pkg/keelclient/client.gen.go
