@@ -2671,14 +2671,17 @@ func (e ComplianceExportCreateRequestExportType) Valid() bool {
 
 // Defines values for ComplianceExportCreateRequestFormat.
 const (
-	ComplianceExportCreateRequestFormatCsv   ComplianceExportCreateRequestFormat = "csv"
-	ComplianceExportCreateRequestFormatJson  ComplianceExportCreateRequestFormat = "json"
-	ComplianceExportCreateRequestFormatJsonl ComplianceExportCreateRequestFormat = "jsonl"
+	ComplianceExportCreateRequestFormatChainProofJson ComplianceExportCreateRequestFormat = "chain_proof_json"
+	ComplianceExportCreateRequestFormatCsv            ComplianceExportCreateRequestFormat = "csv"
+	ComplianceExportCreateRequestFormatJson           ComplianceExportCreateRequestFormat = "json"
+	ComplianceExportCreateRequestFormatJsonl          ComplianceExportCreateRequestFormat = "jsonl"
 )
 
 // Valid indicates whether the value is a known member of the ComplianceExportCreateRequestFormat enum.
 func (e ComplianceExportCreateRequestFormat) Valid() bool {
 	switch e {
+	case ComplianceExportCreateRequestFormatChainProofJson:
+		return true
 	case ComplianceExportCreateRequestFormatCsv:
 		return true
 	case ComplianceExportCreateRequestFormatJson:
@@ -2711,6 +2714,36 @@ func (e ComplianceExportFiltersPeriod) Valid() bool {
 	}
 }
 
+// Defines values for ComplianceExportVerifyResponseChainWalkVerified.
+const (
+	ComplianceExportVerifyResponseChainWalkVerifiedFalse ComplianceExportVerifyResponseChainWalkVerified = false
+)
+
+// Valid indicates whether the value is a known member of the ComplianceExportVerifyResponseChainWalkVerified enum.
+func (e ComplianceExportVerifyResponseChainWalkVerified) Valid() bool {
+	switch e {
+	case ComplianceExportVerifyResponseChainWalkVerifiedFalse:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComplianceExportVerifyResponseClosureVerified.
+const (
+	ComplianceExportVerifyResponseClosureVerifiedFalse ComplianceExportVerifyResponseClosureVerified = false
+)
+
+// Valid indicates whether the value is a known member of the ComplianceExportVerifyResponseClosureVerified enum.
+func (e ComplianceExportVerifyResponseClosureVerified) Valid() bool {
+	switch e {
+	case ComplianceExportVerifyResponseClosureVerifiedFalse:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ComplianceExportVerifyResponseStatus.
 const (
 	ComplianceExportVerifyResponseStatusFailed   ComplianceExportVerifyResponseStatus = "failed"
@@ -2723,6 +2756,21 @@ func (e ComplianceExportVerifyResponseStatus) Valid() bool {
 	case ComplianceExportVerifyResponseStatusFailed:
 		return true
 	case ComplianceExportVerifyResponseStatusVerified:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ComplianceExportVerifyResponseVerificationScope.
+const (
+	ComplianceExportVerifyResponseVerificationScopeExportIntegrity ComplianceExportVerifyResponseVerificationScope = "export_integrity"
+)
+
+// Valid indicates whether the value is a known member of the ComplianceExportVerifyResponseVerificationScope enum.
+func (e ComplianceExportVerifyResponseVerificationScope) Valid() bool {
+	switch e {
+	case ComplianceExportVerifyResponseVerificationScopeExportIntegrity:
 		return true
 	default:
 		return false
@@ -4151,27 +4199,6 @@ func (e FeatureAccessInfoLevel) Valid() bool {
 	case FeatureAccessInfoLevelFull:
 		return true
 	case FeatureAccessInfoLevelMinimal:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for GoogleGeminiToolRunCreateResponseStatus.
-const (
-	GoogleGeminiToolRunCreateResponseStatusCompleted GoogleGeminiToolRunCreateResponseStatus = "completed"
-	GoogleGeminiToolRunCreateResponseStatusFailed    GoogleGeminiToolRunCreateResponseStatus = "failed"
-	GoogleGeminiToolRunCreateResponseStatusReview    GoogleGeminiToolRunCreateResponseStatus = "review"
-)
-
-// Valid indicates whether the value is a known member of the GoogleGeminiToolRunCreateResponseStatus enum.
-func (e GoogleGeminiToolRunCreateResponseStatus) Valid() bool {
-	switch e {
-	case GoogleGeminiToolRunCreateResponseStatusCompleted:
-		return true
-	case GoogleGeminiToolRunCreateResponseStatusFailed:
-		return true
-	case GoogleGeminiToolRunCreateResponseStatusReview:
 		return true
 	default:
 		return false
@@ -5618,27 +5645,6 @@ func (e ObservabilityWindowInfoKey) Valid() bool {
 	}
 }
 
-// Defines values for OpenAIResponsesToolRunCreateResponseStatus.
-const (
-	OpenAIResponsesToolRunCreateResponseStatusCompleted OpenAIResponsesToolRunCreateResponseStatus = "completed"
-	OpenAIResponsesToolRunCreateResponseStatusFailed    OpenAIResponsesToolRunCreateResponseStatus = "failed"
-	OpenAIResponsesToolRunCreateResponseStatusReview    OpenAIResponsesToolRunCreateResponseStatus = "review"
-)
-
-// Valid indicates whether the value is a known member of the OpenAIResponsesToolRunCreateResponseStatus enum.
-func (e OpenAIResponsesToolRunCreateResponseStatus) Valid() bool {
-	switch e {
-	case OpenAIResponsesToolRunCreateResponseStatusCompleted:
-		return true
-	case OpenAIResponsesToolRunCreateResponseStatusFailed:
-		return true
-	case OpenAIResponsesToolRunCreateResponseStatusReview:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for OpenAcpCheckoutSessionEvidenceStatus.
 const (
 	OpenAcpCheckoutSessionEvidenceStatusAuthenticationRequired OpenAcpCheckoutSessionEvidenceStatus = "authentication_required"
@@ -6155,96 +6161,48 @@ func (e PermitAuditItemUsageVerificationStatus) Valid() bool {
 	}
 }
 
-// Defines values for PermitCoSignatureClaimInputCustodyTier.
+// Defines values for PermitCoSignatureClaimCustodyTier.
 const (
-	PermitCoSignatureClaimInputCustodyTierHumanPasskey PermitCoSignatureClaimInputCustodyTier = "human_passkey"
+	PermitCoSignatureClaimCustodyTierHumanPasskey PermitCoSignatureClaimCustodyTier = "human_passkey"
 )
 
-// Valid indicates whether the value is a known member of the PermitCoSignatureClaimInputCustodyTier enum.
-func (e PermitCoSignatureClaimInputCustodyTier) Valid() bool {
+// Valid indicates whether the value is a known member of the PermitCoSignatureClaimCustodyTier enum.
+func (e PermitCoSignatureClaimCustodyTier) Valid() bool {
 	switch e {
-	case PermitCoSignatureClaimInputCustodyTierHumanPasskey:
+	case PermitCoSignatureClaimCustodyTierHumanPasskey:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for PermitCoSignatureClaimInputPayloadType.
+// Defines values for PermitCoSignatureClaimPayloadType.
 const (
-	PermitCoSignatureClaimInputPayloadTypePermitCoSignatureV1 PermitCoSignatureClaimInputPayloadType = "permit.co_signature.v1"
+	PermitCoSignatureClaimPayloadTypePermitCoSignatureV1 PermitCoSignatureClaimPayloadType = "permit.co_signature.v1"
 )
 
-// Valid indicates whether the value is a known member of the PermitCoSignatureClaimInputPayloadType enum.
-func (e PermitCoSignatureClaimInputPayloadType) Valid() bool {
+// Valid indicates whether the value is a known member of the PermitCoSignatureClaimPayloadType enum.
+func (e PermitCoSignatureClaimPayloadType) Valid() bool {
 	switch e {
-	case PermitCoSignatureClaimInputPayloadTypePermitCoSignatureV1:
+	case PermitCoSignatureClaimPayloadTypePermitCoSignatureV1:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for PermitCoSignatureClaimInputRole.
+// Defines values for PermitCoSignatureClaimRole.
 const (
-	PermitCoSignatureClaimInputRoleApprover PermitCoSignatureClaimInputRole = "approver"
-	PermitCoSignatureClaimInputRoleWitness  PermitCoSignatureClaimInputRole = "witness"
+	PermitCoSignatureClaimRoleApprover PermitCoSignatureClaimRole = "approver"
+	PermitCoSignatureClaimRoleWitness  PermitCoSignatureClaimRole = "witness"
 )
 
-// Valid indicates whether the value is a known member of the PermitCoSignatureClaimInputRole enum.
-func (e PermitCoSignatureClaimInputRole) Valid() bool {
+// Valid indicates whether the value is a known member of the PermitCoSignatureClaimRole enum.
+func (e PermitCoSignatureClaimRole) Valid() bool {
 	switch e {
-	case PermitCoSignatureClaimInputRoleApprover:
+	case PermitCoSignatureClaimRoleApprover:
 		return true
-	case PermitCoSignatureClaimInputRoleWitness:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PermitCoSignatureClaimOutputCustodyTier.
-const (
-	PermitCoSignatureClaimOutputCustodyTierHumanPasskey PermitCoSignatureClaimOutputCustodyTier = "human_passkey"
-)
-
-// Valid indicates whether the value is a known member of the PermitCoSignatureClaimOutputCustodyTier enum.
-func (e PermitCoSignatureClaimOutputCustodyTier) Valid() bool {
-	switch e {
-	case PermitCoSignatureClaimOutputCustodyTierHumanPasskey:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PermitCoSignatureClaimOutputPayloadType.
-const (
-	PermitCoSignatureClaimOutputPayloadTypePermitCoSignatureV1 PermitCoSignatureClaimOutputPayloadType = "permit.co_signature.v1"
-)
-
-// Valid indicates whether the value is a known member of the PermitCoSignatureClaimOutputPayloadType enum.
-func (e PermitCoSignatureClaimOutputPayloadType) Valid() bool {
-	switch e {
-	case PermitCoSignatureClaimOutputPayloadTypePermitCoSignatureV1:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PermitCoSignatureClaimOutputRole.
-const (
-	PermitCoSignatureClaimOutputRoleApprover PermitCoSignatureClaimOutputRole = "approver"
-	PermitCoSignatureClaimOutputRoleWitness  PermitCoSignatureClaimOutputRole = "witness"
-)
-
-// Valid indicates whether the value is a known member of the PermitCoSignatureClaimOutputRole enum.
-func (e PermitCoSignatureClaimOutputRole) Valid() bool {
-	switch e {
-	case PermitCoSignatureClaimOutputRoleApprover:
-		return true
-	case PermitCoSignatureClaimOutputRoleWitness:
+	case PermitCoSignatureClaimRoleWitness:
 		return true
 	default:
 		return false
@@ -7508,72 +7466,6 @@ func (e PermitResponseDisplayDecision) Valid() bool {
 	case PermitResponseDisplayDecisionReview:
 		return true
 	case PermitResponseDisplayDecisionThrottle:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PermitReviewGuestContextResponseIdentityScope.
-const (
-	PermitReviewGuestContextResponseIdentityScopeMailboxControlAndPasskeyPossession PermitReviewGuestContextResponseIdentityScope = "mailbox_control_and_passkey_possession"
-)
-
-// Valid indicates whether the value is a known member of the PermitReviewGuestContextResponseIdentityScope enum.
-func (e PermitReviewGuestContextResponseIdentityScope) Valid() bool {
-	switch e {
-	case PermitReviewGuestContextResponseIdentityScopeMailboxControlAndPasskeyPossession:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PermitReviewGuestContextResponseMailboxControlEstablished.
-const (
-	PermitReviewGuestContextResponseMailboxControlEstablishedTrue PermitReviewGuestContextResponseMailboxControlEstablished = true
-)
-
-// Valid indicates whether the value is a known member of the PermitReviewGuestContextResponseMailboxControlEstablished enum.
-func (e PermitReviewGuestContextResponseMailboxControlEstablished) Valid() bool {
-	switch e {
-	case PermitReviewGuestContextResponseMailboxControlEstablishedTrue:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PermitReviewGuestContextResponsePurpose.
-const (
-	PermitReviewGuestContextResponsePurposeReview  PermitReviewGuestContextResponsePurpose = "review"
-	PermitReviewGuestContextResponsePurposeWitness PermitReviewGuestContextResponsePurpose = "witness"
-)
-
-// Valid indicates whether the value is a known member of the PermitReviewGuestContextResponsePurpose enum.
-func (e PermitReviewGuestContextResponsePurpose) Valid() bool {
-	switch e {
-	case PermitReviewGuestContextResponsePurposeReview:
-		return true
-	case PermitReviewGuestContextResponsePurposeWitness:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for PermitReviewGuestContextResponseRole.
-const (
-	PermitReviewGuestContextResponseRoleApprover PermitReviewGuestContextResponseRole = "approver"
-	PermitReviewGuestContextResponseRoleWitness  PermitReviewGuestContextResponseRole = "witness"
-)
-
-// Valid indicates whether the value is a known member of the PermitReviewGuestContextResponseRole enum.
-func (e PermitReviewGuestContextResponseRole) Valid() bool {
-	switch e {
-	case PermitReviewGuestContextResponseRoleApprover:
-		return true
-	case PermitReviewGuestContextResponseRoleWitness:
 		return true
 	default:
 		return false
@@ -9209,6 +9101,36 @@ func (e ProviderKeyInputProvider) Valid() bool {
 	}
 }
 
+// Defines values for PublicStatusArtifactSchemaVersion.
+const (
+	PublicStatusArtifactSchemaVersionN1 PublicStatusArtifactSchemaVersion = 1
+)
+
+// Valid indicates whether the value is a known member of the PublicStatusArtifactSchemaVersion enum.
+func (e PublicStatusArtifactSchemaVersion) Valid() bool {
+	switch e {
+	case PublicStatusArtifactSchemaVersionN1:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PublicStatusArtifactSource.
+const (
+	PublicStatusArtifactSourceFirstParty PublicStatusArtifactSource = "first_party"
+)
+
+// Valid indicates whether the value is a known member of the PublicStatusArtifactSource enum.
+func (e PublicStatusArtifactSource) Valid() bool {
+	switch e {
+	case PublicStatusArtifactSourceFirstParty:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for PublicStatusComponentKey.
 const (
 	PublicStatusComponentKeyAccounting        PublicStatusComponentKey = "accounting"
@@ -9302,6 +9224,60 @@ func (e PublicStatusHistoryRowKey) Valid() bool {
 	case PublicStatusHistoryRowKeyExecutionPipeline:
 		return true
 	case PublicStatusHistoryRowKeyPolicy:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PublicStatusSampleHistoryCoverageBasis.
+const (
+	PublicStatusSampleHistoryCoverageBasisScheduledChecks PublicStatusSampleHistoryCoverageBasis = "scheduled_checks"
+)
+
+// Valid indicates whether the value is a known member of the PublicStatusSampleHistoryCoverageBasis enum.
+func (e PublicStatusSampleHistoryCoverageBasis) Valid() bool {
+	switch e {
+	case PublicStatusSampleHistoryCoverageBasisScheduledChecks:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PublicStatusSampleHistoryWindowDays.
+const (
+	PublicStatusSampleHistoryWindowDaysN90 PublicStatusSampleHistoryWindowDays = 90
+)
+
+// Valid indicates whether the value is a known member of the PublicStatusSampleHistoryWindowDays enum.
+func (e PublicStatusSampleHistoryWindowDays) Valid() bool {
+	switch e {
+	case PublicStatusSampleHistoryWindowDaysN90:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PublicStatusSampleRowKey.
+const (
+	PublicStatusSampleRowKeyAccounting        PublicStatusSampleRowKey = "accounting"
+	PublicStatusSampleRowKeyApi               PublicStatusSampleRowKey = "api"
+	PublicStatusSampleRowKeyExecutionPipeline PublicStatusSampleRowKey = "execution_pipeline"
+	PublicStatusSampleRowKeyPolicy            PublicStatusSampleRowKey = "policy"
+)
+
+// Valid indicates whether the value is a known member of the PublicStatusSampleRowKey enum.
+func (e PublicStatusSampleRowKey) Valid() bool {
+	switch e {
+	case PublicStatusSampleRowKeyAccounting:
+		return true
+	case PublicStatusSampleRowKeyApi:
+		return true
+	case PublicStatusSampleRowKeyExecutionPipeline:
+		return true
+	case PublicStatusSampleRowKeyPolicy:
 		return true
 	default:
 		return false
@@ -15517,27 +15493,40 @@ type ComplianceExportVantaWebhook struct {
 
 // ComplianceExportVerifyRequest defines model for ComplianceExportVerifyRequest.
 type ComplianceExportVerifyRequest struct {
-	EventId         *string `json:"event_id,omitempty"`
+	EventId *string `json:"event_id,omitempty"`
+	// Deprecated: this property has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	VerifierCommand *string `json:"verifier_command,omitempty"`
 	VerifyClosure   *bool   `json:"verify_closure,omitempty"`
 }
 
 // ComplianceExportVerifyResponse defines model for ComplianceExportVerifyResponse.
 type ComplianceExportVerifyResponse struct {
-	ChainIntegrity *map[string]interface{}              `json:"chain_integrity,omitempty"`
-	Checks         map[string]bool                      `json:"checks"`
-	Command        *string                              `json:"command,omitempty"`
-	Output         string                               `json:"output"`
-	ResultId       string                               `json:"result_id"`
-	ResultPath     string                               `json:"result_path"`
-	ResultStorage  *map[string]interface{}              `json:"result_storage,omitempty"`
-	Status         ComplianceExportVerifyResponseStatus `json:"status"`
-	Summary        string                               `json:"summary"`
-	VerifiedAt     time.Time                            `json:"verified_at"`
+	ChainIntegrity    *map[string]interface{}                         `json:"chain_integrity,omitempty"`
+	ChainWalkVerified ComplianceExportVerifyResponseChainWalkVerified `json:"chain_walk_verified"`
+	Checks            map[string]bool                                 `json:"checks"`
+	ClosureVerified   ComplianceExportVerifyResponseClosureVerified   `json:"closure_verified"`
+	Command           *string                                         `json:"command,omitempty"`
+	Output            string                                          `json:"output"`
+	ResultId          string                                          `json:"result_id"`
+	ResultPath        string                                          `json:"result_path"`
+	ResultStorage     *map[string]interface{}                         `json:"result_storage,omitempty"`
+	Status            ComplianceExportVerifyResponseStatus            `json:"status"`
+	Summary           string                                          `json:"summary"`
+	VerificationScope ComplianceExportVerifyResponseVerificationScope `json:"verification_scope"`
+	VerifiedAt        time.Time                                       `json:"verified_at"`
 }
+
+// ComplianceExportVerifyResponseChainWalkVerified defines model for ComplianceExportVerifyResponse.ChainWalkVerified.
+type ComplianceExportVerifyResponseChainWalkVerified bool
+
+// ComplianceExportVerifyResponseClosureVerified defines model for ComplianceExportVerifyResponse.ClosureVerified.
+type ComplianceExportVerifyResponseClosureVerified bool
 
 // ComplianceExportVerifyResponseStatus defines model for ComplianceExportVerifyResponse.Status.
 type ComplianceExportVerifyResponseStatus string
+
+// ComplianceExportVerifyResponseVerificationScope defines model for ComplianceExportVerifyResponse.VerificationScope.
+type ComplianceExportVerifyResponseVerificationScope string
 
 // Context defines model for Context.
 type Context struct {
@@ -17102,28 +17091,6 @@ type FeatureAccessInfo struct {
 // FeatureAccessInfoLevel defines model for FeatureAccessInfo.Level.
 type FeatureAccessInfoLevel string
 
-// GoogleGeminiToolRunCreateResponse defines model for GoogleGeminiToolRunCreateResponse.
-type GoogleGeminiToolRunCreateResponse struct {
-	ActionPermits      []ActionPermitIssueResponse             `json:"action_permits"`
-	ProviderResponse   *map[string]interface{}                 `json:"provider_response,omitempty"`
-	ProviderStatusCode *int                                    `json:"provider_status_code,omitempty"`
-	RunId              string                                  `json:"run_id"`
-	SignedEvent        *map[string]interface{}                 `json:"signed_event,omitempty"`
-	Status             GoogleGeminiToolRunCreateResponseStatus `json:"status"`
-}
-
-// GoogleGeminiToolRunCreateResponseStatus defines model for GoogleGeminiToolRunCreateResponse.Status.
-type GoogleGeminiToolRunCreateResponseStatus string
-
-// GoogleGeminiToolRunEvidenceResponse defines model for GoogleGeminiToolRunEvidenceResponse.
-type GoogleGeminiToolRunEvidenceResponse struct {
-	EventId     string                 `json:"event_id"`
-	ProjectId   openapi_types.UUID     `json:"project_id"`
-	RunId       string                 `json:"run_id"`
-	SessionId   string                 `json:"session_id"`
-	SignedEvent map[string]interface{} `json:"signed_event"`
-}
-
 // GoogleGenerateContentProxyRequest defines model for GoogleGenerateContentProxyRequest.
 type GoogleGenerateContentProxyRequest struct {
 	CachedContent        *string                   `json:"cachedContent,omitempty"`
@@ -18535,28 +18502,6 @@ type OpenAIChatCompletionsProxyRequest struct {
 	AdditionalProperties map[string]interface{}  `json:"-"`
 }
 
-// OpenAIResponsesToolRunCreateResponse defines model for OpenAIResponsesToolRunCreateResponse.
-type OpenAIResponsesToolRunCreateResponse struct {
-	ActionPermits      []ActionPermitIssueResponse                `json:"action_permits"`
-	ProviderResponse   *map[string]interface{}                    `json:"provider_response,omitempty"`
-	ProviderStatusCode *int                                       `json:"provider_status_code,omitempty"`
-	RunId              string                                     `json:"run_id"`
-	SignedEvent        *map[string]interface{}                    `json:"signed_event,omitempty"`
-	Status             OpenAIResponsesToolRunCreateResponseStatus `json:"status"`
-}
-
-// OpenAIResponsesToolRunCreateResponseStatus defines model for OpenAIResponsesToolRunCreateResponse.Status.
-type OpenAIResponsesToolRunCreateResponseStatus string
-
-// OpenAIResponsesToolRunEvidenceResponse defines model for OpenAIResponsesToolRunEvidenceResponse.
-type OpenAIResponsesToolRunEvidenceResponse struct {
-	EventId     string                 `json:"event_id"`
-	ProjectId   openapi_types.UUID     `json:"project_id"`
-	RunId       string                 `json:"run_id"`
-	SessionId   string                 `json:"session_id"`
-	SignedEvent map[string]interface{} `json:"signed_event"`
-}
-
 // OpenAcpAddressEvidence defines model for OpenAcpAddressEvidence.
 type OpenAcpAddressEvidence struct {
 	City       string  `json:"city"`
@@ -19187,55 +19132,30 @@ type PermitAuditListResponse struct {
 	NextCursor *string           `json:"next_cursor"`
 }
 
-// PermitCoSignatureClaimInput defines model for PermitCoSignatureClaim-Input.
-type PermitCoSignatureClaimInput struct {
-	Action              string                                 `json:"action"`
-	Assertion           WebAuthnAssertionEnvelope              `json:"assertion"`
-	CoSignerId          openapi_types.UUID                     `json:"co_signer_id"`
-	CustodyTier         PermitCoSignatureClaimInputCustodyTier `json:"custody_tier"`
-	KeyId               string                                 `json:"key_id"`
-	Modality            string                                 `json:"modality"`
-	PayloadType         PermitCoSignatureClaimInputPayloadType `json:"payload_type"`
-	PermitCanonicalHash string                                 `json:"permit_canonical_hash"`
-	PermitId            openapi_types.UUID                     `json:"permit_id"`
-	Resource            string                                 `json:"resource"`
-	Role                PermitCoSignatureClaimInputRole        `json:"role"`
-	SignedAt            time.Time                              `json:"signed_at"`
+// PermitCoSignatureClaim defines model for PermitCoSignatureClaim.
+type PermitCoSignatureClaim struct {
+	Action              string                            `json:"action"`
+	Assertion           WebAuthnAssertionEnvelope         `json:"assertion"`
+	CoSignerId          openapi_types.UUID                `json:"co_signer_id"`
+	CustodyTier         PermitCoSignatureClaimCustodyTier `json:"custody_tier"`
+	KeyId               string                            `json:"key_id"`
+	Modality            string                            `json:"modality"`
+	PayloadType         PermitCoSignatureClaimPayloadType `json:"payload_type"`
+	PermitCanonicalHash string                            `json:"permit_canonical_hash"`
+	PermitId            openapi_types.UUID                `json:"permit_id"`
+	Resource            string                            `json:"resource"`
+	Role                PermitCoSignatureClaimRole        `json:"role"`
+	SignedAt            string                            `json:"signed_at"`
 }
 
-// PermitCoSignatureClaimInputCustodyTier defines model for PermitCoSignatureClaimInput.CustodyTier.
-type PermitCoSignatureClaimInputCustodyTier string
+// PermitCoSignatureClaimCustodyTier defines model for PermitCoSignatureClaim.CustodyTier.
+type PermitCoSignatureClaimCustodyTier string
 
-// PermitCoSignatureClaimInputPayloadType defines model for PermitCoSignatureClaimInput.PayloadType.
-type PermitCoSignatureClaimInputPayloadType string
+// PermitCoSignatureClaimPayloadType defines model for PermitCoSignatureClaim.PayloadType.
+type PermitCoSignatureClaimPayloadType string
 
-// PermitCoSignatureClaimInputRole defines model for PermitCoSignatureClaimInput.Role.
-type PermitCoSignatureClaimInputRole string
-
-// PermitCoSignatureClaimOutput defines model for PermitCoSignatureClaim-Output.
-type PermitCoSignatureClaimOutput struct {
-	Action              string                                  `json:"action"`
-	Assertion           WebAuthnAssertionEnvelope               `json:"assertion"`
-	CoSignerId          openapi_types.UUID                      `json:"co_signer_id"`
-	CustodyTier         PermitCoSignatureClaimOutputCustodyTier `json:"custody_tier"`
-	KeyId               string                                  `json:"key_id"`
-	Modality            string                                  `json:"modality"`
-	PayloadType         PermitCoSignatureClaimOutputPayloadType `json:"payload_type"`
-	PermitCanonicalHash string                                  `json:"permit_canonical_hash"`
-	PermitId            openapi_types.UUID                      `json:"permit_id"`
-	Resource            string                                  `json:"resource"`
-	Role                PermitCoSignatureClaimOutputRole        `json:"role"`
-	SignedAt            string                                  `json:"signed_at"`
-}
-
-// PermitCoSignatureClaimOutputCustodyTier defines model for PermitCoSignatureClaimOutput.CustodyTier.
-type PermitCoSignatureClaimOutputCustodyTier string
-
-// PermitCoSignatureClaimOutputPayloadType defines model for PermitCoSignatureClaimOutput.PayloadType.
-type PermitCoSignatureClaimOutputPayloadType string
-
-// PermitCoSignatureClaimOutputRole defines model for PermitCoSignatureClaimOutput.Role.
-type PermitCoSignatureClaimOutputRole string
+// PermitCoSignatureClaimRole defines model for PermitCoSignatureClaim.Role.
+type PermitCoSignatureClaimRole string
 
 // PermitCoSignatureClaimV2 defines model for PermitCoSignatureClaimV2.
 type PermitCoSignatureClaimV2 struct {
@@ -19289,7 +19209,7 @@ type PermitCoSignatureContextResponse struct {
 // PermitCoSignatureEvidence defines model for PermitCoSignatureEvidence.
 type PermitCoSignatureEvidence struct {
 	AllowedOrigins          []string                       `json:"allowed_origins"`
-	Claim                   PermitCoSignatureClaimOutput   `json:"claim"`
+	Claim                   PermitCoSignatureClaim         `json:"claim"`
 	RequireUserVerification *bool                          `json:"require_user_verification,omitempty"`
 	TargetPermit            PermitCoSignatureTargetContext `json:"target_permit"`
 }
@@ -19343,13 +19263,6 @@ type PermitCoSignatureRequirementStatusRole string
 // PermitCoSignatureRequirementStatusStatus defines model for PermitCoSignatureRequirementStatus.Status.
 type PermitCoSignatureRequirementStatusStatus string
 
-// PermitCoSignatureResponse defines model for PermitCoSignatureResponse.
-type PermitCoSignatureResponse struct {
-	AlreadyRecorded bool                         `json:"already_recorded"`
-	Claim           PermitCoSignatureClaimOutput `json:"claim"`
-	Permit          map[string]interface{}       `json:"permit"`
-}
-
 // PermitCoSignatureTargetContext defines model for PermitCoSignatureTargetContext.
 type PermitCoSignatureTargetContext struct {
 	Action              string `json:"action"`
@@ -19391,21 +19304,6 @@ type PermitCoSignerKeyResponseCustodyTier string
 
 // PermitCoSignerKeyResponseRecordType defines model for PermitCoSignerKeyResponse.RecordType.
 type PermitCoSignerKeyResponseRecordType string
-
-// PermitCoSignerRegistrationCompleteRequest defines model for PermitCoSignerRegistrationCompleteRequest.
-type PermitCoSignerRegistrationCompleteRequest struct {
-	AttestationObject string             `json:"attestation_object"`
-	ClientDataJson    string             `json:"client_data_json"`
-	CredentialId      string             `json:"credential_id"`
-	RegistrationId    openapi_types.UUID `json:"registration_id"`
-}
-
-// PermitCoSignerRegistrationOptions defines model for PermitCoSignerRegistrationOptions.
-type PermitCoSignerRegistrationOptions struct {
-	ExpiresAt      time.Time              `json:"expires_at"`
-	PublicKey      map[string]interface{} `json:"public_key"`
-	RegistrationId openapi_types.UUID     `json:"registration_id"`
-}
 
 // PermitConditionEvaluation defines model for PermitConditionEvaluation.
 type PermitConditionEvaluation struct {
@@ -20290,55 +20188,6 @@ type PermitResponseDisplayDecision string
 // PermitResponse_Work defines model for PermitResponse.Work.
 type PermitResponse_Work struct {
 	union json.RawMessage
-}
-
-// PermitReviewGuestContextResponse defines model for PermitReviewGuestContextResponse.
-type PermitReviewGuestContextResponse struct {
-	AlreadySigned             bool                                                       `json:"already_signed"`
-	Containment               *PermitCoSignatureContainmentStatus                        `json:"containment,omitempty"`
-	CurrentGuestKeys          *[]PermitCoSignerKeyResponse                               `json:"current_guest_keys,omitempty"`
-	ExpiresAt                 *time.Time                                                 `json:"expires_at,omitempty"`
-	FirstDispatchAt           *time.Time                                                 `json:"first_dispatch_at,omitempty"`
-	GuestPrincipalId          openapi_types.UUID                                         `json:"guest_principal_id"`
-	IdentityScope             *PermitReviewGuestContextResponseIdentityScope             `json:"identity_scope,omitempty"`
-	MailboxControlEstablished *PermitReviewGuestContextResponseMailboxControlEstablished `json:"mailbox_control_established,omitempty"`
-	PermitId                  openapi_types.UUID                                         `json:"permit_id"`
-	PermitStatus              string                                                     `json:"permit_status"`
-	Purpose                   PermitReviewGuestContextResponsePurpose                    `json:"purpose"`
-	Requirement               PermitCoSignatureRequirementStatus                         `json:"requirement"`
-	RevokedAt                 *time.Time                                                 `json:"revoked_at,omitempty"`
-	Role                      PermitReviewGuestContextResponseRole                       `json:"role"`
-	TargetPermit              PermitCoSignatureTargetContext                             `json:"target_permit"`
-}
-
-// PermitReviewGuestContextResponseIdentityScope defines model for PermitReviewGuestContextResponse.IdentityScope.
-type PermitReviewGuestContextResponseIdentityScope string
-
-// PermitReviewGuestContextResponseMailboxControlEstablished defines model for PermitReviewGuestContextResponse.MailboxControlEstablished.
-type PermitReviewGuestContextResponseMailboxControlEstablished bool
-
-// PermitReviewGuestContextResponsePurpose defines model for PermitReviewGuestContextResponse.Purpose.
-type PermitReviewGuestContextResponsePurpose string
-
-// PermitReviewGuestContextResponseRole defines model for PermitReviewGuestContextResponse.Role.
-type PermitReviewGuestContextResponseRole string
-
-// PermitReviewGuestSignResponse defines model for PermitReviewGuestSignResponse.
-type PermitReviewGuestSignResponse struct {
-	AlreadyRecorded bool                             `json:"already_recorded"`
-	Claim           PermitCoSignatureClaimOutput     `json:"claim"`
-	Context         PermitReviewGuestContextResponse `json:"context"`
-}
-
-// PermitReviewInvitationAcceptRequest defines model for PermitReviewInvitationAcceptRequest.
-type PermitReviewInvitationAcceptRequest struct {
-	RawToken string `json:"raw_token"`
-}
-
-// PermitReviewInvitationAcceptResponse defines model for PermitReviewInvitationAcceptResponse.
-type PermitReviewInvitationAcceptResponse struct {
-	Context          PermitReviewGuestContextResponse `json:"context"`
-	SessionExpiresAt time.Time                        `json:"session_expires_at"`
 }
 
 // PermitRevocationRequest defines model for PermitRevocationRequest.
@@ -21777,6 +21626,22 @@ type ProviderMeta struct {
 	ZeroDataRetention *bool     `json:"zero_data_retention,omitempty"`
 }
 
+// PublicStatusArtifact defines model for PublicStatusArtifact.
+type PublicStatusArtifact struct {
+	ExpiresAt     time.Time                         `json:"expires_at"`
+	GeneratedAt   time.Time                         `json:"generated_at"`
+	History       PublicStatusSampleHistory         `json:"history"`
+	SchemaVersion PublicStatusArtifactSchemaVersion `json:"schema_version"`
+	Source        PublicStatusArtifactSource        `json:"source"`
+	Summary       PublicStatusSummaryResponse       `json:"summary"`
+}
+
+// PublicStatusArtifactSchemaVersion defines model for PublicStatusArtifact.SchemaVersion.
+type PublicStatusArtifactSchemaVersion int
+
+// PublicStatusArtifactSource defines model for PublicStatusArtifact.Source.
+type PublicStatusArtifactSource string
+
 // PublicStatusComponent defines model for PublicStatusComponent.
 type PublicStatusComponent struct {
 	Key       PublicStatusComponentKey                                       `json:"key"`
@@ -21847,6 +21712,35 @@ type PublicStatusHistoryRow struct {
 
 // PublicStatusHistoryRowKey defines model for PublicStatusHistoryRow.Key.
 type PublicStatusHistoryRowKey string
+
+// PublicStatusSampleHistory defines model for PublicStatusSampleHistory.
+type PublicStatusSampleHistory struct {
+	CoverageBasis PublicStatusSampleHistoryCoverageBasis `json:"coverage_basis"`
+	GeneratedAt   time.Time                              `json:"generated_at"`
+	Methodology   string                                 `json:"methodology"`
+	RangeLabel    string                                 `json:"range_label"`
+	Rows          []PublicStatusSampleRow                `json:"rows"`
+	WindowDays    PublicStatusSampleHistoryWindowDays    `json:"window_days"`
+}
+
+// PublicStatusSampleHistoryCoverageBasis defines model for PublicStatusSampleHistory.CoverageBasis.
+type PublicStatusSampleHistoryCoverageBasis string
+
+// PublicStatusSampleHistoryWindowDays defines model for PublicStatusSampleHistory.WindowDays.
+type PublicStatusSampleHistoryWindowDays int
+
+// PublicStatusSampleRow defines model for PublicStatusSampleRow.
+type PublicStatusSampleRow struct {
+	CoveragePercentage float32                  `json:"coverage_percentage"`
+	Days               []PublicStatusHistoryDay `json:"days"`
+	ExpectedChecks     int                      `json:"expected_checks"`
+	Key                PublicStatusSampleRowKey `json:"key"`
+	Name               string                   `json:"name"`
+	VerifiedChecks     int                      `json:"verified_checks"`
+}
+
+// PublicStatusSampleRowKey defines model for PublicStatusSampleRow.Key.
+type PublicStatusSampleRowKey string
 
 // PublicStatusSummaryResponse defines model for PublicStatusSummaryResponse.
 type PublicStatusSummaryResponse struct {
@@ -24244,6 +24138,11 @@ type PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostParams struct {
 	XAPIKey *string `json:"X-API-Key,omitempty"`
 }
 
+// GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetParams defines parameters for GetAuthorityVerifierKeysV1AuthorityVerifierKeysGet.
+type GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetParams struct {
+	XAPIKey *string `json:"X-API-Key,omitempty"`
+}
+
 // GetBillingStatusV1BillingStatusGetParams defines parameters for GetBillingStatusV1BillingStatusGet.
 type GetBillingStatusV1BillingStatusGetParams struct {
 	ProjectId *openapi_types.UUID `form:"project_id,omitempty" json:"project_id,omitempty"`
@@ -24824,6 +24723,11 @@ type SetDashboardProjectProviderKeyV1DashboardProjectsProjectIdProvidersProvider
 
 // TestDashboardProjectProviderKeyV1DashboardProjectsProjectIdProvidersProviderTestPostParamsProvider defines parameters for TestDashboardProjectProviderKeyV1DashboardProjectsProjectIdProvidersProviderTestPost.
 type TestDashboardProjectProviderKeyV1DashboardProjectsProjectIdProvidersProviderTestPostParamsProvider string
+
+// StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetParams defines parameters for StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGet.
+type StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetParams struct {
+	EventTypes *[]string `form:"event_types,omitempty" json:"event_types,omitempty"`
+}
 
 // GetDashboardProjectUsageSummaryV1DashboardProjectsProjectIdUsageGetParams defines parameters for GetDashboardProjectUsageSummaryV1DashboardProjectsProjectIdUsageGet.
 type GetDashboardProjectUsageSummaryV1DashboardProjectsProjectIdUsageGetParams struct {
@@ -25523,19 +25427,6 @@ type SessionEventsStreamV1SessionsSessionIdEventsGetParams struct {
 	XAPIKey    *string   `json:"X-API-Key,omitempty"`
 }
 
-// CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostJSONBody defines parameters for CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPost.
-type CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostJSONBody map[string]interface{}
-
-// CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostParams defines parameters for CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPost.
-type CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostParams struct {
-	XAPIKey *string `json:"X-API-Key,omitempty"`
-}
-
-// GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetParams defines parameters for GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGet.
-type GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetParams struct {
-	XAPIKey *string `json:"X-API-Key,omitempty"`
-}
-
 // CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostJSONBody defines parameters for CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPost.
 type CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostJSONBody map[string]interface{}
 
@@ -25546,19 +25437,6 @@ type CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostParams stru
 
 // ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetParams defines parameters for ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGet.
 type ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetParams struct {
-	XAPIKey *string `json:"X-API-Key,omitempty"`
-}
-
-// CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostJSONBody defines parameters for CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPost.
-type CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostJSONBody map[string]interface{}
-
-// CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostParams defines parameters for CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPost.
-type CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostParams struct {
-	XAPIKey *string `json:"X-API-Key,omitempty"`
-}
-
-// GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetParams defines parameters for GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGet.
-type GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetParams struct {
 	XAPIKey *string `json:"X-API-Key,omitempty"`
 }
 
@@ -26004,9 +25882,6 @@ type ApproveProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesChange
 // RejectProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesChangeIdRejectPostJSONRequestBody defines body for RejectProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesChangeIdRejectPost for application/json ContentType.
 type RejectProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesChangeIdRejectPostJSONRequestBody = PendingChangeDecisionRequest
 
-// CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostJSONRequestBody defines body for CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePost for application/json ContentType.
-type CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostJSONRequestBody = PermitCoSignerRegistrationCompleteRequest
-
 // CreateDashboardProjectPermitDryRunV1DashboardProjectsProjectIdPermitsDryRunPostJSONRequestBody defines body for CreateDashboardProjectPermitDryRunV1DashboardProjectsProjectIdPermitsDryRunPost for application/json ContentType.
 type CreateDashboardProjectPermitDryRunV1DashboardProjectsProjectIdPermitsDryRunPostJSONRequestBody CreateDashboardProjectPermitDryRunV1DashboardProjectsProjectIdPermitsDryRunPostJSONBody
 
@@ -26124,9 +25999,6 @@ type CreatePermitAuditAttestationV1PermitsPermitIdAuditAttestationPostJSONReques
 // CloseWorkPermitByIdV1PermitsPermitIdClosePostJSONRequestBody defines body for CloseWorkPermitByIdV1PermitsPermitIdClosePost for application/json ContentType.
 type CloseWorkPermitByIdV1PermitsPermitIdClosePostJSONRequestBody = WorkPermitCloseRequest
 
-// CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostJSONRequestBody defines body for CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePost for application/json ContentType.
-type CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostJSONRequestBody = PermitCoSignatureClaimInput
-
 // CreatePermitCounterSignatureV1PermitsPermitIdCounterSignaturePostJSONRequestBody defines body for CreatePermitCounterSignatureV1PermitsPermitIdCounterSignaturePost for application/json ContentType.
 type CreatePermitCounterSignatureV1PermitsPermitIdCounterSignaturePostJSONRequestBody = PermitCounterSignatureEnvelopeRequest
 
@@ -26211,15 +26083,6 @@ type ProxyOpenaiV1ProxyOpenaiPostJSONRequestBody = OpenAIChatCompletionsProxyReq
 // ProxyXaiV1ProxyXaiPostJSONRequestBody defines body for ProxyXaiV1ProxyXaiPost for application/json ContentType.
 type ProxyXaiV1ProxyXaiPostJSONRequestBody = XAIChatCompletionsProxyRequest
 
-// AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostJSONRequestBody defines body for AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPost for application/json ContentType.
-type AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostJSONRequestBody = PermitReviewInvitationAcceptRequest
-
-// CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostJSONRequestBody defines body for CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePost for application/json ContentType.
-type CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostJSONRequestBody = PermitCoSignatureClaimInput
-
-// CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostJSONRequestBody defines body for CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePost for application/json ContentType.
-type CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostJSONRequestBody = PermitCoSignerRegistrationCompleteRequest
-
 // StartSessionV1SessionsPostJSONRequestBody defines body for StartSessionV1SessionsPost for application/json ContentType.
 type StartSessionV1SessionsPostJSONRequestBody StartSessionV1SessionsPostJSONBody
 
@@ -26235,14 +26098,8 @@ type CreateCodeExecutionV1SessionsSessionIdCodeExecutionsPostJSONRequestBody Cre
 // EndSessionV1SessionsSessionIdEndPostJSONRequestBody defines body for EndSessionV1SessionsSessionIdEndPost for application/json ContentType.
 type EndSessionV1SessionsSessionIdEndPostJSONRequestBody EndSessionV1SessionsSessionIdEndPostJSONBody
 
-// CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostJSONRequestBody defines body for CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPost for application/json ContentType.
-type CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostJSONRequestBody CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostJSONBody
-
 // CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostJSONRequestBody defines body for CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPost for application/json ContentType.
 type CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostJSONRequestBody CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostJSONBody
-
-// CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostJSONRequestBody defines body for CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPost for application/json ContentType.
-type CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostJSONRequestBody CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostJSONBody
 
 // CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePostJSONRequestBody defines body for CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePost for application/json ContentType.
 type CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePostJSONRequestBody CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePostJSONBody
@@ -33596,6 +33453,9 @@ type ClientInterface interface {
 
 	PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePost(ctx context.Context, params *PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostParams, body PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetAuthorityVerifierKeysV1AuthorityVerifierKeysGet request
+	GetAuthorityVerifierKeysV1AuthorityVerifierKeysGet(ctx context.Context, params *GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// CreateBillingCheckoutSessionV1BillingCheckoutPostWithBody request with any body
 	CreateBillingCheckoutSessionV1BillingCheckoutPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -34028,6 +33888,9 @@ type ClientInterface interface {
 	// DownloadDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdDownloadGet request
 	DownloadDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdDownloadGet(ctx context.Context, projectId string, exportId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGet request
+	DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGet(ctx context.Context, projectId string, exportId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostWithBody request with any body
 	VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostWithBody(ctx context.Context, projectId string, exportId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -34267,14 +34130,6 @@ type ClientInterface interface {
 
 	RejectProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesChangeIdRejectPost(ctx context.Context, projectId openapi_types.UUID, changeId openapi_types.UUID, body RejectProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesChangeIdRejectPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostWithBody request with any body
-	CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostWithBody(ctx context.Context, projectId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePost(ctx context.Context, projectId string, body CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPost request
-	CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPost(ctx context.Context, projectId string, reqEditors ...RequestEditorFn) (*http.Response, error)
-
 	// ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGet request
 	ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGet(ctx context.Context, projectId string, params *ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -34398,6 +34253,12 @@ type ClientInterface interface {
 
 	RunDashboardSandboxScenarioV1DashboardProjectsProjectIdSandboxScenariosRunPost(ctx context.Context, projectId string, body RunDashboardSandboxScenarioV1DashboardProjectsProjectIdSandboxScenariosRunPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGet request
+	GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGet(ctx context.Context, projectId string, sessionId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGet request
+	StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGet(ctx context.Context, projectId string, sessionId string, params *StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePost request
 	UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePost(ctx context.Context, projectId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -34498,6 +34359,9 @@ type ClientInterface interface {
 
 	// GetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGet request
 	GetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGet(ctx context.Context, decisionId openapi_types.UUID, params *GetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetMcpRuntimeToolsV1McpRuntimeToolsGet request
+	GetMcpRuntimeToolsV1McpRuntimeToolsGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetMcpServersV1McpServersGet request
 	GetMcpServersV1McpServersGet(ctx context.Context, params *GetMcpServersV1McpServersGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -34658,11 +34522,6 @@ type ClientInterface interface {
 	CloseWorkPermitByIdV1PermitsPermitIdClosePostWithBody(ctx context.Context, permitId string, params *CloseWorkPermitByIdV1PermitsPermitIdClosePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	CloseWorkPermitByIdV1PermitsPermitIdClosePost(ctx context.Context, permitId string, params *CloseWorkPermitByIdV1PermitsPermitIdClosePostParams, body CloseWorkPermitByIdV1PermitsPermitIdClosePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostWithBody request with any body
-	CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostWithBody(ctx context.Context, permitId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePost(ctx context.Context, permitId string, body CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// CreatePermitCounterSignatureV1PermitsPermitIdCounterSignaturePostWithBody request with any body
 	CreatePermitCounterSignatureV1PermitsPermitIdCounterSignaturePostWithBody(ctx context.Context, permitId string, params *CreatePermitCounterSignatureV1PermitsPermitIdCounterSignaturePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -34921,6 +34780,9 @@ type ClientInterface interface {
 
 	ProxyXaiV1ProxyXaiPost(ctx context.Context, body ProxyXaiV1ProxyXaiPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetPublicStatusArtifactV1PublicStatusArtifactGet request
+	GetPublicStatusArtifactV1PublicStatusArtifactGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetPublicStatusHistoryV1PublicStatusHistoryGet request
 	GetPublicStatusHistoryV1PublicStatusHistoryGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -34932,27 +34794,6 @@ type ClientInterface interface {
 
 	// GetRequestTimelineV1RequestsRequestIdTimelineGet request
 	GetRequestTimelineV1RequestsRequestIdTimelineGet(ctx context.Context, requestId string, params *GetRequestTimelineV1RequestsRequestIdTimelineGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostWithBody request with any body
-	AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPost(ctx context.Context, body AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostWithBody request with any body
-	CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePost(ctx context.Context, body CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetPermitReviewContextV1ReviewSessionContextGet request
-	GetPermitReviewContextV1ReviewSessionContextGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostWithBody request with any body
-	CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePost(ctx context.Context, body CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPost request
-	CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPost(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// StartSessionV1SessionsPostWithBody request with any body
 	StartSessionV1SessionsPostWithBody(ctx context.Context, params *StartSessionV1SessionsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -34994,14 +34835,6 @@ type ClientInterface interface {
 	// SessionEventsStreamV1SessionsSessionIdEventsGet request
 	SessionEventsStreamV1SessionsSessionIdEventsGet(ctx context.Context, sessionId string, params *SessionEventsStreamV1SessionsSessionIdEventsGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostWithBody request with any body
-	CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostWithBody(ctx context.Context, sessionId string, params *CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPost(ctx context.Context, sessionId string, params *CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostParams, body CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGet request
-	GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGet(ctx context.Context, sessionId string, runId string, params *GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
 	// CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostWithBody request with any body
 	CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostWithBody(ctx context.Context, sessionId string, params *CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -35009,14 +34842,6 @@ type ClientInterface interface {
 
 	// ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGet request
 	ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGet(ctx context.Context, sessionId string, params *ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostWithBody request with any body
-	CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostWithBody(ctx context.Context, sessionId string, params *CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPost(ctx context.Context, sessionId string, params *CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostParams, body CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGet request
-	GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGet(ctx context.Context, sessionId string, runId string, params *GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePostWithBody request with any body
 	CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePostWithBody(ctx context.Context, sessionId string, params *CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -36112,6 +35937,18 @@ func (c *KeelHTTPClient) PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePos
 
 func (c *KeelHTTPClient) PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePost(ctx context.Context, params *PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostParams, body PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostRequest(c.Server, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *KeelHTTPClient) GetAuthorityVerifierKeysV1AuthorityVerifierKeysGet(ctx context.Context, params *GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAuthorityVerifierKeysV1AuthorityVerifierKeysGetRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -38054,6 +37891,18 @@ func (c *KeelHTTPClient) DownloadDashboardComplianceExportV1DashboardProjectsPro
 	return c.Client.Do(req)
 }
 
+func (c *KeelHTTPClient) DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGet(ctx context.Context, projectId string, exportId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetRequest(c.Server, projectId, exportId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *KeelHTTPClient) VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostWithBody(ctx context.Context, projectId string, exportId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewVerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostRequestWithBody(c.Server, projectId, exportId, contentType, body)
 	if err != nil {
@@ -39098,42 +38947,6 @@ func (c *KeelHTTPClient) RejectProjectPendingChangeV1DashboardProjectsProjectIdP
 	return c.Client.Do(req)
 }
 
-func (c *KeelHTTPClient) CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostWithBody(ctx context.Context, projectId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostRequestWithBody(c.Server, projectId, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePost(ctx context.Context, projectId string, body CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostRequest(c.Server, projectId, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPost(ctx context.Context, projectId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostRequest(c.Server, projectId)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
 func (c *KeelHTTPClient) ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGet(ctx context.Context, projectId string, params *ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetRequest(c.Server, projectId, params)
 	if err != nil {
@@ -39674,6 +39487,30 @@ func (c *KeelHTTPClient) RunDashboardSandboxScenarioV1DashboardProjectsProjectId
 	return c.Client.Do(req)
 }
 
+func (c *KeelHTTPClient) GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGet(ctx context.Context, projectId string, sessionId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetRequest(c.Server, projectId, sessionId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *KeelHTTPClient) StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGet(ctx context.Context, projectId string, sessionId string, params *StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetRequest(c.Server, projectId, sessionId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *KeelHTTPClient) UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePost(ctx context.Context, projectId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostRequest(c.Server, projectId)
 	if err != nil {
@@ -40096,6 +39933,18 @@ func (c *KeelHTTPClient) PostMcpDecisionV1McpDecidePost(ctx context.Context, par
 
 func (c *KeelHTTPClient) GetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGet(ctx context.Context, decisionId openapi_types.UUID, params *GetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGetRequest(c.Server, decisionId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *KeelHTTPClient) GetMcpRuntimeToolsV1McpRuntimeToolsGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetMcpRuntimeToolsV1McpRuntimeToolsGetRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -40816,30 +40665,6 @@ func (c *KeelHTTPClient) CloseWorkPermitByIdV1PermitsPermitIdClosePostWithBody(c
 
 func (c *KeelHTTPClient) CloseWorkPermitByIdV1PermitsPermitIdClosePost(ctx context.Context, permitId string, params *CloseWorkPermitByIdV1PermitsPermitIdClosePostParams, body CloseWorkPermitByIdV1PermitsPermitIdClosePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewCloseWorkPermitByIdV1PermitsPermitIdClosePostRequest(c.Server, permitId, params, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostWithBody(ctx context.Context, permitId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostRequestWithBody(c.Server, permitId, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePost(ctx context.Context, permitId string, body CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostRequest(c.Server, permitId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -41990,6 +41815,18 @@ func (c *KeelHTTPClient) ProxyXaiV1ProxyXaiPost(ctx context.Context, body ProxyX
 	return c.Client.Do(req)
 }
 
+func (c *KeelHTTPClient) GetPublicStatusArtifactV1PublicStatusArtifactGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetPublicStatusArtifactV1PublicStatusArtifactGetRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *KeelHTTPClient) GetPublicStatusHistoryV1PublicStatusHistoryGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetPublicStatusHistoryV1PublicStatusHistoryGetRequest(c.Server)
 	if err != nil {
@@ -42028,102 +41865,6 @@ func (c *KeelHTTPClient) V1ReadyV1ReadyGet(ctx context.Context, reqEditors ...Re
 
 func (c *KeelHTTPClient) GetRequestTimelineV1RequestsRequestIdTimelineGet(ctx context.Context, requestId string, params *GetRequestTimelineV1RequestsRequestIdTimelineGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetRequestTimelineV1RequestsRequestIdTimelineGetRequest(c.Server, requestId, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewAcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPost(ctx context.Context, body AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewAcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePost(ctx context.Context, body CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) GetPermitReviewContextV1ReviewSessionContextGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetPermitReviewContextV1ReviewSessionContextGetRequest(c.Server)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePost(ctx context.Context, body CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPost(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -42314,42 +42055,6 @@ func (c *KeelHTTPClient) SessionEventsStreamV1SessionsSessionIdEventsGet(ctx con
 	return c.Client.Do(req)
 }
 
-func (c *KeelHTTPClient) CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostWithBody(ctx context.Context, sessionId string, params *CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostRequestWithBody(c.Server, sessionId, params, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPost(ctx context.Context, sessionId string, params *CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostParams, body CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostRequest(c.Server, sessionId, params, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGet(ctx context.Context, sessionId string, runId string, params *GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetRequest(c.Server, sessionId, runId, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
 func (c *KeelHTTPClient) CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostWithBody(ctx context.Context, sessionId string, params *CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewCreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostRequestWithBody(c.Server, sessionId, params, contentType, body)
 	if err != nil {
@@ -42376,42 +42081,6 @@ func (c *KeelHTTPClient) CreateInterruptionEventV1SessionsSessionIdInterruptionE
 
 func (c *KeelHTTPClient) ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGet(ctx context.Context, sessionId string, params *ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetRequest(c.Server, sessionId, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostWithBody(ctx context.Context, sessionId string, params *CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostRequestWithBody(c.Server, sessionId, params, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPost(ctx context.Context, sessionId string, params *CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostParams, body CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostRequest(c.Server, sessionId, params, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *KeelHTTPClient) GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGet(ctx context.Context, sessionId string, runId string, params *GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetRequest(c.Server, sessionId, runId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -45497,6 +45166,48 @@ func NewPostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostRequestWithBody(
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	if params != nil {
+
+		if params.XAPIKey != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithOptions("simple", false, "X-API-Key", *params.XAPIKey, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-API-Key", headerParam0)
+		}
+
+	}
+
+	return req, nil
+}
+
+// NewGetAuthorityVerifierKeysV1AuthorityVerifierKeysGetRequest generates requests for GetAuthorityVerifierKeysV1AuthorityVerifierKeysGet
+func NewGetAuthorityVerifierKeysV1AuthorityVerifierKeysGetRequest(server string, params *GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/authority/verifier-keys")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	if params != nil {
 
@@ -51373,6 +51084,47 @@ func NewDownloadDashboardComplianceExportV1DashboardProjectsProjectIdComplianceE
 	return req, nil
 }
 
+// NewDownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetRequest generates requests for DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGet
+func NewDownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetRequest(server string, projectId string, exportId openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "project_id", projectId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "export_id", exportId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/dashboard/projects/%s/compliance/exports/%s/proof-pack", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewVerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostRequest calls the generic VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPost builder with application/json body
 func NewVerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostRequest(server string, projectId string, exportId openapi_types.UUID, body VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -54676,87 +54428,6 @@ func NewRejectProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesChan
 	return req, nil
 }
 
-// NewCompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostRequest calls the generic CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePost builder with application/json body
-func NewCompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostRequest(server string, projectId string, body CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewCompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostRequestWithBody(server, projectId, "application/json", bodyReader)
-}
-
-// NewCompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostRequestWithBody generates requests for CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePost with any type of body
-func NewCompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostRequestWithBody(server string, projectId string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "project_id", projectId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/dashboard/projects/%s/permit-co-signer-keys/registration/complete", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewCreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostRequest generates requests for CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPost
-func NewCreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostRequest(server string, projectId string) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "project_id", projectId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/dashboard/projects/%s/permit-co-signer-keys/registration/options", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodPost, queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
 // NewListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetRequest generates requests for ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGet
 func NewListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetRequest(server string, projectId string, params *ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetParams) (*http.Request, error) {
 	var err error
@@ -56455,6 +56126,115 @@ func NewRunDashboardSandboxScenarioV1DashboardProjectsProjectIdSandboxScenariosR
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetRequest generates requests for GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGet
+func NewGetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetRequest(server string, projectId string, sessionId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "project_id", projectId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "session_id", sessionId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/dashboard/projects/%s/sessions/%s/action-ledger", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewStreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetRequest generates requests for StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGet
+func NewStreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetRequest(server string, projectId string, sessionId string, params *StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "project_id", projectId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "session_id", sessionId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/dashboard/projects/%s/sessions/%s/events", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.EventTypes != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "event_types", *params.EventTypes, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -58177,6 +57957,33 @@ func NewGetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGetRequest(server
 			req.Header.Set("X-API-Key", headerParam0)
 		}
 
+	}
+
+	return req, nil
+}
+
+// NewGetMcpRuntimeToolsV1McpRuntimeToolsGetRequest generates requests for GetMcpRuntimeToolsV1McpRuntimeToolsGet
+func NewGetMcpRuntimeToolsV1McpRuntimeToolsGetRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/mcp/runtime-tools")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
 	}
 
 	return req, nil
@@ -60448,53 +60255,6 @@ func NewCloseWorkPermitByIdV1PermitsPermitIdClosePostRequestWithBody(server stri
 		}
 
 	}
-
-	return req, nil
-}
-
-// NewCreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostRequest calls the generic CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePost builder with application/json body
-func NewCreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostRequest(server string, permitId string, body CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewCreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostRequestWithBody(server, permitId, "application/json", bodyReader)
-}
-
-// NewCreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostRequestWithBody generates requests for CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePost with any type of body
-func NewCreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostRequestWithBody(server string, permitId string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "permit_id", permitId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/permits/%s/co-signature", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -63979,6 +63739,33 @@ func NewProxyXaiV1ProxyXaiPostRequestWithBody(server string, contentType string,
 	return req, nil
 }
 
+// NewGetPublicStatusArtifactV1PublicStatusArtifactGetRequest generates requests for GetPublicStatusArtifactV1PublicStatusArtifactGet
+func NewGetPublicStatusArtifactV1PublicStatusArtifactGetRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/public/status/artifact")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetPublicStatusHistoryV1PublicStatusHistoryGetRequest generates requests for GetPublicStatusHistoryV1PublicStatusHistoryGet
 func NewGetPublicStatusHistoryV1PublicStatusHistoryGetRequest(server string) (*http.Request, error) {
 	var err error
@@ -64104,180 +63891,6 @@ func NewGetRequestTimelineV1RequestsRequestIdTimelineGetRequest(server string, r
 			req.Header.Set("X-API-Key", headerParam0)
 		}
 
-	}
-
-	return req, nil
-}
-
-// NewAcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostRequest calls the generic AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPost builder with application/json body
-func NewAcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostRequest(server string, body AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewAcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewAcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostRequestWithBody generates requests for AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPost with any type of body
-func NewAcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/review-invitations/accept")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewCreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostRequest calls the generic CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePost builder with application/json body
-func NewCreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostRequest(server string, body CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewCreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewCreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostRequestWithBody generates requests for CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePost with any type of body
-func NewCreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/review-session/co-signature")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewGetPermitReviewContextV1ReviewSessionContextGetRequest generates requests for GetPermitReviewContextV1ReviewSessionContextGet
-func NewGetPermitReviewContextV1ReviewSessionContextGetRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/review-session/context")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewCompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostRequest calls the generic CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePost builder with application/json body
-func NewCompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostRequest(server string, body CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewCompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewCompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostRequestWithBody generates requests for CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePost with any type of body
-func NewCompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/review-session/passkey/registration/complete")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewCreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostRequest generates requests for CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPost
-func NewCreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/review-session/passkey/registration/options")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodPost, queryURL.String(), nil)
-	if err != nil {
-		return nil, err
 	}
 
 	return req, nil
@@ -64872,124 +64485,6 @@ func NewSessionEventsStreamV1SessionsSessionIdEventsGetRequest(server string, se
 	return req, nil
 }
 
-// NewCreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostRequest calls the generic CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPost builder with application/json body
-func NewCreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostRequest(server string, sessionId string, params *CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostParams, body CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewCreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostRequestWithBody(server, sessionId, params, "application/json", bodyReader)
-}
-
-// NewCreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostRequestWithBody generates requests for CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPost with any type of body
-func NewCreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostRequestWithBody(server string, sessionId string, params *CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostParams, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "session_id", sessionId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/sessions/%s/google-gemini-tool-runs", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	if params != nil {
-
-		if params.XAPIKey != nil {
-			var headerParam0 string
-
-			headerParam0, err = runtime.StyleParamWithOptions("simple", false, "X-API-Key", *params.XAPIKey, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-			if err != nil {
-				return nil, err
-			}
-
-			req.Header.Set("X-API-Key", headerParam0)
-		}
-
-	}
-
-	return req, nil
-}
-
-// NewGetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetRequest generates requests for GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGet
-func NewGetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetRequest(server string, sessionId string, runId string, params *GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetParams) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "session_id", sessionId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "run_id", runId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/sessions/%s/google-gemini-tool-runs/%s", pathParam0, pathParam1)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-
-		if params.XAPIKey != nil {
-			var headerParam0 string
-
-			headerParam0, err = runtime.StyleParamWithOptions("simple", false, "X-API-Key", *params.XAPIKey, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-			if err != nil {
-				return nil, err
-			}
-
-			req.Header.Set("X-API-Key", headerParam0)
-		}
-
-	}
-
-	return req, nil
-}
-
 // NewCreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostRequest calls the generic CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPost builder with application/json body
 func NewCreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostRequest(server string, sessionId string, params *CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostParams, body CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -65069,124 +64564,6 @@ func NewListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetRequest(server 
 	}
 
 	operationPath := fmt.Sprintf("/v1/sessions/%s/mcp-tool-calls", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-
-		if params.XAPIKey != nil {
-			var headerParam0 string
-
-			headerParam0, err = runtime.StyleParamWithOptions("simple", false, "X-API-Key", *params.XAPIKey, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-			if err != nil {
-				return nil, err
-			}
-
-			req.Header.Set("X-API-Key", headerParam0)
-		}
-
-	}
-
-	return req, nil
-}
-
-// NewCreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostRequest calls the generic CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPost builder with application/json body
-func NewCreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostRequest(server string, sessionId string, params *CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostParams, body CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewCreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostRequestWithBody(server, sessionId, params, "application/json", bodyReader)
-}
-
-// NewCreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostRequestWithBody generates requests for CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPost with any type of body
-func NewCreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostRequestWithBody(server string, sessionId string, params *CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostParams, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "session_id", sessionId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/sessions/%s/openai-responses-tool-runs", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	if params != nil {
-
-		if params.XAPIKey != nil {
-			var headerParam0 string
-
-			headerParam0, err = runtime.StyleParamWithOptions("simple", false, "X-API-Key", *params.XAPIKey, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-			if err != nil {
-				return nil, err
-			}
-
-			req.Header.Set("X-API-Key", headerParam0)
-		}
-
-	}
-
-	return req, nil
-}
-
-// NewGetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetRequest generates requests for GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGet
-func NewGetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetRequest(server string, sessionId string, runId string, params *GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetParams) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "session_id", sessionId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "run_id", runId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/sessions/%s/openai-responses-tool-runs/%s", pathParam0, pathParam1)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -66852,6 +66229,9 @@ type ClientWithResponsesInterface interface {
 
 	PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostWithResponse(ctx context.Context, params *PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostParams, body PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostJSONRequestBody, reqEditors ...RequestEditorFn) (*PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostResponse, error)
 
+	// GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetWithResponse request
+	GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetWithResponse(ctx context.Context, params *GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetParams, reqEditors ...RequestEditorFn) (*GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetResponse, error)
+
 	// CreateBillingCheckoutSessionV1BillingCheckoutPostWithBodyWithResponse request with any body
 	CreateBillingCheckoutSessionV1BillingCheckoutPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateBillingCheckoutSessionV1BillingCheckoutPostResponse, error)
 
@@ -67284,6 +66664,9 @@ type ClientWithResponsesInterface interface {
 	// DownloadDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdDownloadGetWithResponse request
 	DownloadDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdDownloadGetWithResponse(ctx context.Context, projectId string, exportId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DownloadDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdDownloadGetResponse, error)
 
+	// DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetWithResponse request
+	DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetWithResponse(ctx context.Context, projectId string, exportId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetResponse, error)
+
 	// VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostWithBodyWithResponse request with any body
 	VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostWithBodyWithResponse(ctx context.Context, projectId string, exportId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostResponse, error)
 
@@ -67523,14 +66906,6 @@ type ClientWithResponsesInterface interface {
 
 	RejectProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesChangeIdRejectPostWithResponse(ctx context.Context, projectId openapi_types.UUID, changeId openapi_types.UUID, body RejectProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesChangeIdRejectPostJSONRequestBody, reqEditors ...RequestEditorFn) (*RejectProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesChangeIdRejectPostResponse, error)
 
-	// CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostWithBodyWithResponse request with any body
-	CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostWithBodyWithResponse(ctx context.Context, projectId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse, error)
-
-	CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostWithResponse(ctx context.Context, projectId string, body CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostJSONRequestBody, reqEditors ...RequestEditorFn) (*CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse, error)
-
-	// CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostWithResponse request
-	CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostWithResponse(ctx context.Context, projectId string, reqEditors ...RequestEditorFn) (*CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostResponse, error)
-
 	// ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetWithResponse request
 	ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetWithResponse(ctx context.Context, projectId string, params *ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetParams, reqEditors ...RequestEditorFn) (*ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetResponse, error)
 
@@ -67654,6 +67029,12 @@ type ClientWithResponsesInterface interface {
 
 	RunDashboardSandboxScenarioV1DashboardProjectsProjectIdSandboxScenariosRunPostWithResponse(ctx context.Context, projectId string, body RunDashboardSandboxScenarioV1DashboardProjectsProjectIdSandboxScenariosRunPostJSONRequestBody, reqEditors ...RequestEditorFn) (*RunDashboardSandboxScenarioV1DashboardProjectsProjectIdSandboxScenariosRunPostResponse, error)
 
+	// GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetWithResponse request
+	GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetWithResponse(ctx context.Context, projectId string, sessionId string, reqEditors ...RequestEditorFn) (*GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetResponse, error)
+
+	// StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetWithResponse request
+	StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetWithResponse(ctx context.Context, projectId string, sessionId string, params *StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetParams, reqEditors ...RequestEditorFn) (*StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetResponse, error)
+
 	// UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostWithResponse request
 	UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostWithResponse(ctx context.Context, projectId string, reqEditors ...RequestEditorFn) (*UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostResponse, error)
 
@@ -67754,6 +67135,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGetWithResponse request
 	GetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGetWithResponse(ctx context.Context, decisionId openapi_types.UUID, params *GetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGetParams, reqEditors ...RequestEditorFn) (*GetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGetResponse, error)
+
+	// GetMcpRuntimeToolsV1McpRuntimeToolsGetWithResponse request
+	GetMcpRuntimeToolsV1McpRuntimeToolsGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetMcpRuntimeToolsV1McpRuntimeToolsGetResponse, error)
 
 	// GetMcpServersV1McpServersGetWithResponse request
 	GetMcpServersV1McpServersGetWithResponse(ctx context.Context, params *GetMcpServersV1McpServersGetParams, reqEditors ...RequestEditorFn) (*GetMcpServersV1McpServersGetResponse, error)
@@ -67914,11 +67298,6 @@ type ClientWithResponsesInterface interface {
 	CloseWorkPermitByIdV1PermitsPermitIdClosePostWithBodyWithResponse(ctx context.Context, permitId string, params *CloseWorkPermitByIdV1PermitsPermitIdClosePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CloseWorkPermitByIdV1PermitsPermitIdClosePostResponse, error)
 
 	CloseWorkPermitByIdV1PermitsPermitIdClosePostWithResponse(ctx context.Context, permitId string, params *CloseWorkPermitByIdV1PermitsPermitIdClosePostParams, body CloseWorkPermitByIdV1PermitsPermitIdClosePostJSONRequestBody, reqEditors ...RequestEditorFn) (*CloseWorkPermitByIdV1PermitsPermitIdClosePostResponse, error)
-
-	// CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostWithBodyWithResponse request with any body
-	CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostWithBodyWithResponse(ctx context.Context, permitId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse, error)
-
-	CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostWithResponse(ctx context.Context, permitId string, body CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostJSONRequestBody, reqEditors ...RequestEditorFn) (*CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse, error)
 
 	// CreatePermitCounterSignatureV1PermitsPermitIdCounterSignaturePostWithBodyWithResponse request with any body
 	CreatePermitCounterSignatureV1PermitsPermitIdCounterSignaturePostWithBodyWithResponse(ctx context.Context, permitId string, params *CreatePermitCounterSignatureV1PermitsPermitIdCounterSignaturePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreatePermitCounterSignatureV1PermitsPermitIdCounterSignaturePostResponse, error)
@@ -68177,6 +67556,9 @@ type ClientWithResponsesInterface interface {
 
 	ProxyXaiV1ProxyXaiPostWithResponse(ctx context.Context, body ProxyXaiV1ProxyXaiPostJSONRequestBody, reqEditors ...RequestEditorFn) (*ProxyXaiV1ProxyXaiPostResponse, error)
 
+	// GetPublicStatusArtifactV1PublicStatusArtifactGetWithResponse request
+	GetPublicStatusArtifactV1PublicStatusArtifactGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetPublicStatusArtifactV1PublicStatusArtifactGetResponse, error)
+
 	// GetPublicStatusHistoryV1PublicStatusHistoryGetWithResponse request
 	GetPublicStatusHistoryV1PublicStatusHistoryGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetPublicStatusHistoryV1PublicStatusHistoryGetResponse, error)
 
@@ -68188,27 +67570,6 @@ type ClientWithResponsesInterface interface {
 
 	// GetRequestTimelineV1RequestsRequestIdTimelineGetWithResponse request
 	GetRequestTimelineV1RequestsRequestIdTimelineGetWithResponse(ctx context.Context, requestId string, params *GetRequestTimelineV1RequestsRequestIdTimelineGetParams, reqEditors ...RequestEditorFn) (*GetRequestTimelineV1RequestsRequestIdTimelineGetResponse, error)
-
-	// AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostWithBodyWithResponse request with any body
-	AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse, error)
-
-	AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostWithResponse(ctx context.Context, body AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostJSONRequestBody, reqEditors ...RequestEditorFn) (*AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse, error)
-
-	// CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostWithBodyWithResponse request with any body
-	CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse, error)
-
-	CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostWithResponse(ctx context.Context, body CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse, error)
-
-	// GetPermitReviewContextV1ReviewSessionContextGetWithResponse request
-	GetPermitReviewContextV1ReviewSessionContextGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetPermitReviewContextV1ReviewSessionContextGetResponse, error)
-
-	// CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostWithBodyWithResponse request with any body
-	CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse, error)
-
-	CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostWithResponse(ctx context.Context, body CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostJSONRequestBody, reqEditors ...RequestEditorFn) (*CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse, error)
-
-	// CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostWithResponse request
-	CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostResponse, error)
 
 	// StartSessionV1SessionsPostWithBodyWithResponse request with any body
 	StartSessionV1SessionsPostWithBodyWithResponse(ctx context.Context, params *StartSessionV1SessionsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StartSessionV1SessionsPostResponse, error)
@@ -68250,14 +67611,6 @@ type ClientWithResponsesInterface interface {
 	// SessionEventsStreamV1SessionsSessionIdEventsGetWithResponse request
 	SessionEventsStreamV1SessionsSessionIdEventsGetWithResponse(ctx context.Context, sessionId string, params *SessionEventsStreamV1SessionsSessionIdEventsGetParams, reqEditors ...RequestEditorFn) (*SessionEventsStreamV1SessionsSessionIdEventsGetResponse, error)
 
-	// CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostWithBodyWithResponse request with any body
-	CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostWithBodyWithResponse(ctx context.Context, sessionId string, params *CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse, error)
-
-	CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostWithResponse(ctx context.Context, sessionId string, params *CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostParams, body CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse, error)
-
-	// GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetWithResponse request
-	GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetWithResponse(ctx context.Context, sessionId string, runId string, params *GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetParams, reqEditors ...RequestEditorFn) (*GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetResponse, error)
-
 	// CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostWithBodyWithResponse request with any body
 	CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostWithBodyWithResponse(ctx context.Context, sessionId string, params *CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostResponse, error)
 
@@ -68265,14 +67618,6 @@ type ClientWithResponsesInterface interface {
 
 	// ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetWithResponse request
 	ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetWithResponse(ctx context.Context, sessionId string, params *ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetParams, reqEditors ...RequestEditorFn) (*ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetResponse, error)
-
-	// CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostWithBodyWithResponse request with any body
-	CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostWithBodyWithResponse(ctx context.Context, sessionId string, params *CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse, error)
-
-	CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostWithResponse(ctx context.Context, sessionId string, params *CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostParams, body CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse, error)
-
-	// GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetWithResponse request
-	GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetWithResponse(ctx context.Context, sessionId string, runId string, params *GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetParams, reqEditors ...RequestEditorFn) (*GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetResponse, error)
 
 	// CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePostWithBodyWithResponse request with any body
 	CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePostWithBodyWithResponse(ctx context.Context, sessionId string, params *CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePostResponse, error)
@@ -70099,6 +69444,37 @@ func (r PostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostResponse) Conten
 	return ""
 }
 
+type GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *map[string]interface{}
+	JSON422      *HTTPValidationError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type CreateBillingCheckoutSessionV1BillingCheckoutPostResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -70319,7 +69695,7 @@ func (r GetComplianceExportV1ComplianceExportsExportIdGetResponse) ContentType()
 type DownloadComplianceExportV1ComplianceExportsExportIdDownloadGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *interface{}
+	JSON200      *openapi_types.File
 	JSON422      *HTTPValidationError
 }
 
@@ -70350,7 +69726,6 @@ func (r DownloadComplianceExportV1ComplianceExportsExportIdDownloadGetResponse) 
 type DownloadComplianceExportProofPackV1ComplianceExportsExportIdProofPackGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *interface{}
 	JSON422      *HTTPValidationError
 }
 
@@ -73472,7 +72847,7 @@ func (r GetDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExport
 type DownloadDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdDownloadGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *interface{}
+	JSON200      *openapi_types.File
 	JSON422      *HTTPValidationError
 }
 
@@ -73494,6 +72869,36 @@ func (r DownloadDashboardComplianceExportV1DashboardProjectsProjectIdComplianceE
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r DownloadDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdDownloadGetResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON422      *HTTPValidationError
+}
+
+// Status returns HTTPResponse.Status
+func (r DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -74278,7 +73683,6 @@ func (r ListDashboardGovernanceEventsV1DashboardProjectsProjectIdGovernanceEvent
 type StreamDashboardProjectGovernanceEventsV1DashboardProjectsProjectIdGovernanceEventsStreamGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *interface{}
 	JSON422      *HTTPValidationError
 }
 
@@ -75515,68 +74919,6 @@ func (r RejectProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesChan
 	return ""
 }
 
-type CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *PermitCoSignerKeyResponse
-	JSON422      *HTTPValidationError
-}
-
-// Status returns HTTPResponse.Status
-func (r CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
-type CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *PermitCoSignerRegistrationOptions
-	JSON422      *HTTPValidationError
-}
-
-// Status returns HTTPResponse.Status
-func (r CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
 type ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -76599,6 +75941,67 @@ func (r RunDashboardSandboxScenarioV1DashboardProjectsProjectIdSandboxScenariosR
 	return ""
 }
 
+type GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ActionLedgerResponse
+	JSON422      *HTTPValidationError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON422      *HTTPValidationError
+}
+
+// Status returns HTTPResponse.Status
+func (r StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -77097,7 +76500,6 @@ func (r ListGovernanceEventsV1GovernanceEventsGetResponse) ContentType() string 
 type StreamProjectGovernanceEventsV1GovernanceEventsStreamGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *interface{}
 	JSON422      *HTTPValidationError
 }
 
@@ -77489,6 +76891,36 @@ func (r GetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGetResponse) Stat
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r GetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGetResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetMcpRuntimeToolsV1McpRuntimeToolsGetResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *map[string]interface{}
+}
+
+// Status returns HTTPResponse.Status
+func (r GetMcpRuntimeToolsV1McpRuntimeToolsGetResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetMcpRuntimeToolsV1McpRuntimeToolsGetResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetMcpRuntimeToolsV1McpRuntimeToolsGetResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -78581,6 +78013,7 @@ func (r GetPermitHumanArtifactV1PermitsPermitIdArtifactGetResponse) ContentType(
 type DownloadPermitArtifactV1PermitsPermitIdArtifactDownloadGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
+	JSON200      *map[string]interface{}
 	JSON422      *HTTPValidationError
 }
 
@@ -78726,37 +78159,6 @@ func (r CloseWorkPermitByIdV1PermitsPermitIdClosePostResponse) StatusCode() int 
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r CloseWorkPermitByIdV1PermitsPermitIdClosePostResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
-type CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *PermitCoSignatureResponse
-	JSON422      *HTTPValidationError
-}
-
-// Status returns HTTPResponse.Status
-func (r CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -80834,6 +80236,36 @@ func (r ProxyXaiV1ProxyXaiPostResponse) ContentType() string {
 	return ""
 }
 
+type GetPublicStatusArtifactV1PublicStatusArtifactGetResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PublicStatusArtifact
+}
+
+// Status returns HTTPResponse.Status
+func (r GetPublicStatusArtifactV1PublicStatusArtifactGetResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetPublicStatusArtifactV1PublicStatusArtifactGetResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetPublicStatusArtifactV1PublicStatusArtifactGetResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type GetPublicStatusHistoryV1PublicStatusHistoryGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -80949,159 +80381,6 @@ func (r GetRequestTimelineV1RequestsRequestIdTimelineGetResponse) StatusCode() i
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r GetRequestTimelineV1RequestsRequestIdTimelineGetResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
-type AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *PermitReviewInvitationAcceptResponse
-	JSON422      *HTTPValidationError
-}
-
-// Status returns HTTPResponse.Status
-func (r AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
-type CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *PermitReviewGuestSignResponse
-	JSON422      *HTTPValidationError
-}
-
-// Status returns HTTPResponse.Status
-func (r CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
-type GetPermitReviewContextV1ReviewSessionContextGetResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *PermitReviewGuestContextResponse
-}
-
-// Status returns HTTPResponse.Status
-func (r GetPermitReviewContextV1ReviewSessionContextGetResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetPermitReviewContextV1ReviewSessionContextGetResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r GetPermitReviewContextV1ReviewSessionContextGetResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
-type CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *PermitCoSignerKeyResponse
-	JSON422      *HTTPValidationError
-}
-
-// Status returns HTTPResponse.Status
-func (r CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
-type CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *PermitCoSignerRegistrationOptions
-}
-
-// Status returns HTTPResponse.Status
-func (r CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -81390,7 +80669,6 @@ func (r EndSessionV1SessionsSessionIdEndPostResponse) ContentType() string {
 type SessionEventsStreamV1SessionsSessionIdEventsGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *interface{}
 	JSON422      *HTTPValidationError
 }
 
@@ -81412,68 +80690,6 @@ func (r SessionEventsStreamV1SessionsSessionIdEventsGetResponse) StatusCode() in
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r SessionEventsStreamV1SessionsSessionIdEventsGetResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
-type CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON201      *GoogleGeminiToolRunCreateResponse
-	JSON422      *HTTPValidationError
-}
-
-// Status returns HTTPResponse.Status
-func (r CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
-type GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *GoogleGeminiToolRunEvidenceResponse
-	JSON422      *HTTPValidationError
-}
-
-// Status returns HTTPResponse.Status
-func (r GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -81536,68 +80752,6 @@ func (r ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetResponse) Statu
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r ListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
-type CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON201      *OpenAIResponsesToolRunCreateResponse
-	JSON422      *HTTPValidationError
-}
-
-// Status returns HTTPResponse.Status
-func (r CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
-type GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *OpenAIResponsesToolRunEvidenceResponse
-	JSON422      *HTTPValidationError
-}
-
-// Status returns HTTPResponse.Status
-func (r GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -83103,6 +82257,15 @@ func (c *ClientWithResponses) PostAuthoritySimulateRevokeV1AuthoritySimulateRevo
 	return ParsePostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostResponse(rsp)
 }
 
+// GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetWithResponse request returning *GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetResponse
+func (c *ClientWithResponses) GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetWithResponse(ctx context.Context, params *GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetParams, reqEditors ...RequestEditorFn) (*GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetResponse, error) {
+	rsp, err := c.GetAuthorityVerifierKeysV1AuthorityVerifierKeysGet(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetAuthorityVerifierKeysV1AuthorityVerifierKeysGetResponse(rsp)
+}
+
 // CreateBillingCheckoutSessionV1BillingCheckoutPostWithBodyWithResponse request with arbitrary body returning *CreateBillingCheckoutSessionV1BillingCheckoutPostResponse
 func (c *ClientWithResponses) CreateBillingCheckoutSessionV1BillingCheckoutPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateBillingCheckoutSessionV1BillingCheckoutPostResponse, error) {
 	rsp, err := c.CreateBillingCheckoutSessionV1BillingCheckoutPostWithBody(ctx, contentType, body, reqEditors...)
@@ -84501,6 +83664,15 @@ func (c *ClientWithResponses) DownloadDashboardComplianceExportV1DashboardProjec
 	return ParseDownloadDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdDownloadGetResponse(rsp)
 }
 
+// DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetWithResponse request returning *DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetResponse
+func (c *ClientWithResponses) DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetWithResponse(ctx context.Context, projectId string, exportId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetResponse, error) {
+	rsp, err := c.DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGet(ctx, projectId, exportId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetResponse(rsp)
+}
+
 // VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostWithBodyWithResponse request with arbitrary body returning *VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostResponse
 func (c *ClientWithResponses) VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostWithBodyWithResponse(ctx context.Context, projectId string, exportId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostResponse, error) {
 	rsp, err := c.VerifyDashboardComplianceExportV1DashboardProjectsProjectIdComplianceExportsExportIdVerifyPostWithBody(ctx, projectId, exportId, contentType, body, reqEditors...)
@@ -85262,32 +84434,6 @@ func (c *ClientWithResponses) RejectProjectPendingChangeV1DashboardProjectsProje
 	return ParseRejectProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesChangeIdRejectPostResponse(rsp)
 }
 
-// CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostWithBodyWithResponse request with arbitrary body returning *CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse
-func (c *ClientWithResponses) CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostWithBodyWithResponse(ctx context.Context, projectId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse, error) {
-	rsp, err := c.CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostWithBody(ctx, projectId, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse(rsp)
-}
-
-func (c *ClientWithResponses) CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostWithResponse(ctx context.Context, projectId string, body CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostJSONRequestBody, reqEditors ...RequestEditorFn) (*CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse, error) {
-	rsp, err := c.CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePost(ctx, projectId, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse(rsp)
-}
-
-// CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostWithResponse request returning *CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostResponse
-func (c *ClientWithResponses) CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostWithResponse(ctx context.Context, projectId string, reqEditors ...RequestEditorFn) (*CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostResponse, error) {
-	rsp, err := c.CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPost(ctx, projectId, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostResponse(rsp)
-}
-
 // ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetWithResponse request returning *ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetResponse
 func (c *ClientWithResponses) ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetWithResponse(ctx context.Context, projectId string, params *ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetParams, reqEditors ...RequestEditorFn) (*ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetResponse, error) {
 	rsp, err := c.ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGet(ctx, projectId, params, reqEditors...)
@@ -85681,6 +84827,24 @@ func (c *ClientWithResponses) RunDashboardSandboxScenarioV1DashboardProjectsProj
 	return ParseRunDashboardSandboxScenarioV1DashboardProjectsProjectIdSandboxScenariosRunPostResponse(rsp)
 }
 
+// GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetWithResponse request returning *GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetResponse
+func (c *ClientWithResponses) GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetWithResponse(ctx context.Context, projectId string, sessionId string, reqEditors ...RequestEditorFn) (*GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetResponse, error) {
+	rsp, err := c.GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGet(ctx, projectId, sessionId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetResponse(rsp)
+}
+
+// StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetWithResponse request returning *StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetResponse
+func (c *ClientWithResponses) StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetWithResponse(ctx context.Context, projectId string, sessionId string, params *StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetParams, reqEditors ...RequestEditorFn) (*StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetResponse, error) {
+	rsp, err := c.StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGet(ctx, projectId, sessionId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetResponse(rsp)
+}
+
 // UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostWithResponse request returning *UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostResponse
 func (c *ClientWithResponses) UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostWithResponse(ctx context.Context, projectId string, reqEditors ...RequestEditorFn) (*UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostResponse, error) {
 	rsp, err := c.UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePost(ctx, projectId, reqEditors...)
@@ -85996,6 +85160,15 @@ func (c *ClientWithResponses) GetMcpDecisionRecordRouteV1McpDecisionRecordsDecis
 		return nil, err
 	}
 	return ParseGetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGetResponse(rsp)
+}
+
+// GetMcpRuntimeToolsV1McpRuntimeToolsGetWithResponse request returning *GetMcpRuntimeToolsV1McpRuntimeToolsGetResponse
+func (c *ClientWithResponses) GetMcpRuntimeToolsV1McpRuntimeToolsGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetMcpRuntimeToolsV1McpRuntimeToolsGetResponse, error) {
+	rsp, err := c.GetMcpRuntimeToolsV1McpRuntimeToolsGet(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetMcpRuntimeToolsV1McpRuntimeToolsGetResponse(rsp)
 }
 
 // GetMcpServersV1McpServersGetWithResponse request returning *GetMcpServersV1McpServersGetResponse
@@ -86516,23 +85689,6 @@ func (c *ClientWithResponses) CloseWorkPermitByIdV1PermitsPermitIdClosePostWithR
 		return nil, err
 	}
 	return ParseCloseWorkPermitByIdV1PermitsPermitIdClosePostResponse(rsp)
-}
-
-// CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostWithBodyWithResponse request with arbitrary body returning *CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse
-func (c *ClientWithResponses) CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostWithBodyWithResponse(ctx context.Context, permitId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse, error) {
-	rsp, err := c.CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostWithBody(ctx, permitId, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse(rsp)
-}
-
-func (c *ClientWithResponses) CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostWithResponse(ctx context.Context, permitId string, body CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostJSONRequestBody, reqEditors ...RequestEditorFn) (*CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse, error) {
-	rsp, err := c.CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePost(ctx, permitId, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse(rsp)
 }
 
 // CreatePermitCounterSignatureV1PermitsPermitIdCounterSignaturePostWithBodyWithResponse request with arbitrary body returning *CreatePermitCounterSignatureV1PermitsPermitIdCounterSignaturePostResponse
@@ -87362,6 +86518,15 @@ func (c *ClientWithResponses) ProxyXaiV1ProxyXaiPostWithResponse(ctx context.Con
 	return ParseProxyXaiV1ProxyXaiPostResponse(rsp)
 }
 
+// GetPublicStatusArtifactV1PublicStatusArtifactGetWithResponse request returning *GetPublicStatusArtifactV1PublicStatusArtifactGetResponse
+func (c *ClientWithResponses) GetPublicStatusArtifactV1PublicStatusArtifactGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetPublicStatusArtifactV1PublicStatusArtifactGetResponse, error) {
+	rsp, err := c.GetPublicStatusArtifactV1PublicStatusArtifactGet(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetPublicStatusArtifactV1PublicStatusArtifactGetResponse(rsp)
+}
+
 // GetPublicStatusHistoryV1PublicStatusHistoryGetWithResponse request returning *GetPublicStatusHistoryV1PublicStatusHistoryGetResponse
 func (c *ClientWithResponses) GetPublicStatusHistoryV1PublicStatusHistoryGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetPublicStatusHistoryV1PublicStatusHistoryGetResponse, error) {
 	rsp, err := c.GetPublicStatusHistoryV1PublicStatusHistoryGet(ctx, reqEditors...)
@@ -87396,75 +86561,6 @@ func (c *ClientWithResponses) GetRequestTimelineV1RequestsRequestIdTimelineGetWi
 		return nil, err
 	}
 	return ParseGetRequestTimelineV1RequestsRequestIdTimelineGetResponse(rsp)
-}
-
-// AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostWithBodyWithResponse request with arbitrary body returning *AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse
-func (c *ClientWithResponses) AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse, error) {
-	rsp, err := c.AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseAcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse(rsp)
-}
-
-func (c *ClientWithResponses) AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostWithResponse(ctx context.Context, body AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostJSONRequestBody, reqEditors ...RequestEditorFn) (*AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse, error) {
-	rsp, err := c.AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPost(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseAcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse(rsp)
-}
-
-// CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostWithBodyWithResponse request with arbitrary body returning *CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse
-func (c *ClientWithResponses) CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse, error) {
-	rsp, err := c.CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse(rsp)
-}
-
-func (c *ClientWithResponses) CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostWithResponse(ctx context.Context, body CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse, error) {
-	rsp, err := c.CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePost(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse(rsp)
-}
-
-// GetPermitReviewContextV1ReviewSessionContextGetWithResponse request returning *GetPermitReviewContextV1ReviewSessionContextGetResponse
-func (c *ClientWithResponses) GetPermitReviewContextV1ReviewSessionContextGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetPermitReviewContextV1ReviewSessionContextGetResponse, error) {
-	rsp, err := c.GetPermitReviewContextV1ReviewSessionContextGet(ctx, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetPermitReviewContextV1ReviewSessionContextGetResponse(rsp)
-}
-
-// CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostWithBodyWithResponse request with arbitrary body returning *CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse
-func (c *ClientWithResponses) CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse, error) {
-	rsp, err := c.CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse(rsp)
-}
-
-func (c *ClientWithResponses) CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostWithResponse(ctx context.Context, body CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostJSONRequestBody, reqEditors ...RequestEditorFn) (*CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse, error) {
-	rsp, err := c.CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePost(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse(rsp)
-}
-
-// CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostWithResponse request returning *CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostResponse
-func (c *ClientWithResponses) CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostResponse, error) {
-	rsp, err := c.CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPost(ctx, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostResponse(rsp)
 }
 
 // StartSessionV1SessionsPostWithBodyWithResponse request with arbitrary body returning *StartSessionV1SessionsPostResponse
@@ -87597,32 +86693,6 @@ func (c *ClientWithResponses) SessionEventsStreamV1SessionsSessionIdEventsGetWit
 	return ParseSessionEventsStreamV1SessionsSessionIdEventsGetResponse(rsp)
 }
 
-// CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostWithBodyWithResponse request with arbitrary body returning *CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse
-func (c *ClientWithResponses) CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostWithBodyWithResponse(ctx context.Context, sessionId string, params *CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse, error) {
-	rsp, err := c.CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostWithBody(ctx, sessionId, params, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse(rsp)
-}
-
-func (c *ClientWithResponses) CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostWithResponse(ctx context.Context, sessionId string, params *CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostParams, body CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse, error) {
-	rsp, err := c.CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPost(ctx, sessionId, params, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse(rsp)
-}
-
-// GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetWithResponse request returning *GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetResponse
-func (c *ClientWithResponses) GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetWithResponse(ctx context.Context, sessionId string, runId string, params *GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetParams, reqEditors ...RequestEditorFn) (*GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetResponse, error) {
-	rsp, err := c.GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGet(ctx, sessionId, runId, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetResponse(rsp)
-}
-
 // CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostWithBodyWithResponse request with arbitrary body returning *CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostResponse
 func (c *ClientWithResponses) CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostWithBodyWithResponse(ctx context.Context, sessionId string, params *CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostResponse, error) {
 	rsp, err := c.CreateInterruptionEventV1SessionsSessionIdInterruptionEventsPostWithBody(ctx, sessionId, params, contentType, body, reqEditors...)
@@ -87647,32 +86717,6 @@ func (c *ClientWithResponses) ListSessionMcpToolCallsV1SessionsSessionIdMcpToolC
 		return nil, err
 	}
 	return ParseListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetResponse(rsp)
-}
-
-// CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostWithBodyWithResponse request with arbitrary body returning *CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse
-func (c *ClientWithResponses) CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostWithBodyWithResponse(ctx context.Context, sessionId string, params *CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse, error) {
-	rsp, err := c.CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostWithBody(ctx, sessionId, params, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse(rsp)
-}
-
-func (c *ClientWithResponses) CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostWithResponse(ctx context.Context, sessionId string, params *CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostParams, body CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse, error) {
-	rsp, err := c.CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPost(ctx, sessionId, params, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse(rsp)
-}
-
-// GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetWithResponse request returning *GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetResponse
-func (c *ClientWithResponses) GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetWithResponse(ctx context.Context, sessionId string, runId string, params *GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetParams, reqEditors ...RequestEditorFn) (*GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetResponse, error) {
-	rsp, err := c.GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGet(ctx, sessionId, runId, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetResponse(rsp)
 }
 
 // CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePostWithBodyWithResponse request with arbitrary body returning *CreateSearchEvidenceV1SessionsSessionIdSearchEvidencePostResponse
@@ -89779,6 +88823,39 @@ func ParsePostAuthoritySimulateRevokeV1AuthoritySimulateRevokePostResponse(rsp *
 	return response, nil
 }
 
+// ParseGetAuthorityVerifierKeysV1AuthorityVerifierKeysGetResponse parses an HTTP response from a GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetWithResponse call
+func ParseGetAuthorityVerifierKeysV1AuthorityVerifierKeysGetResponse(rsp *http.Response) (*GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAuthorityVerifierKeysV1AuthorityVerifierKeysGetResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest map[string]interface{}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest HTTPValidationError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseCreateBillingCheckoutSessionV1BillingCheckoutPostResponse parses an HTTP response from a CreateBillingCheckoutSessionV1BillingCheckoutPostWithResponse call
 func ParseCreateBillingCheckoutSessionV1BillingCheckoutPostResponse(rsp *http.Response) (*CreateBillingCheckoutSessionV1BillingCheckoutPostResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -90025,7 +89102,7 @@ func ParseDownloadComplianceExportV1ComplianceExportsExportIdDownloadGetResponse
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest interface{}
+		var dest openapi_types.File
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -90037,6 +89114,9 @@ func ParseDownloadComplianceExportV1ComplianceExportsExportIdDownloadGetResponse
 			return nil, err
 		}
 		response.JSON422 = &dest
+
+	case rsp.StatusCode == 200:
+		// Content-type (text/csv) unsupported
 
 	}
 
@@ -90057,13 +89137,6 @@ func ParseDownloadComplianceExportProofPackV1ComplianceExportsExportIdProofPackG
 	}
 
 	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest interface{}
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
 		var dest HTTPValidationError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -93328,12 +92401,41 @@ func ParseDownloadDashboardComplianceExportV1DashboardProjectsProjectIdComplianc
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest interface{}
+		var dest openapi_types.File
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON200 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest HTTPValidationError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case rsp.StatusCode == 200:
+		// Content-type (text/csv) unsupported
+
+	}
+
+	return response, nil
+}
+
+// ParseDownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetResponse parses an HTTP response from a DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetWithResponse call
+func ParseDownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetResponse(rsp *http.Response) (*DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DownloadDashboardComplianceExportProofPackV1DashboardProjectsProjectIdComplianceExportsExportIdProofPackGetResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
 		var dest HTTPValidationError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -94185,13 +93287,6 @@ func ParseStreamDashboardProjectGovernanceEventsV1DashboardProjectsProjectIdGove
 	}
 
 	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest interface{}
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
 		var dest HTTPValidationError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -95491,72 +94586,6 @@ func ParseRejectProjectPendingChangeV1DashboardProjectsProjectIdPendingChangesCh
 	return response, nil
 }
 
-// ParseCompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse parses an HTTP response from a CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostWithResponse call
-func ParseCompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse(rsp *http.Response) (*CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &CompletePasskeyRegistrationRouteV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationCompletePostResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest PermitCoSignerKeyResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseCreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostResponse parses an HTTP response from a CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostWithResponse call
-func ParseCreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostResponse(rsp *http.Response) (*CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &CreatePasskeyRegistrationOptionsV1DashboardProjectsProjectIdPermitCoSignerKeysRegistrationOptionsPostResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest PermitCoSignerRegistrationOptions
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
 // ParseListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetResponse parses an HTTP response from a ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetWithResponse call
 func ParseListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetResponse(rsp *http.Response) (*ListDashboardProjectPermitsV1DashboardProjectsProjectIdPermitsGetResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -96639,6 +95668,65 @@ func ParseRunDashboardSandboxScenarioV1DashboardProjectsProjectIdSandboxScenario
 	return response, nil
 }
 
+// ParseGetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetResponse parses an HTTP response from a GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetWithResponse call
+func ParseGetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetResponse(rsp *http.Response) (*GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetDashboardSessionActionLedgerV1DashboardProjectsProjectIdSessionsSessionIdActionLedgerGetResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ActionLedgerResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest HTTPValidationError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetResponse parses an HTTP response from a StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetWithResponse call
+func ParseStreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetResponse(rsp *http.Response) (*StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StreamDashboardSessionEventsV1DashboardProjectsProjectIdSessionsSessionIdEventsGetResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest HTTPValidationError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseUnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostResponse parses an HTTP response from a UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostWithResponse call
 func ParseUnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostResponse(rsp *http.Response) (*UnarchiveDashboardProjectV1DashboardProjectsProjectIdUnarchivePostResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -96964,6 +96052,9 @@ func ParseExecuteV1ExecutePostResponse(rsp *http.Response) (*ExecuteV1ExecutePos
 		}
 		response.JSON422 = &dest
 
+	case rsp.StatusCode == 200:
+		// Content-type (text/event-stream) unsupported
+
 	}
 
 	return response, nil
@@ -97022,6 +96113,9 @@ func ParseCreateExecutionV1ExecutionsPostResponse(rsp *http.Response) (*CreateEx
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case rsp.StatusCode == 200:
+		// Content-type (text/event-stream) unsupported
 
 	}
 
@@ -97174,13 +96268,6 @@ func ParseStreamProjectGovernanceEventsV1GovernanceEventsStreamGetResponse(rsp *
 	}
 
 	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest interface{}
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
 		var dest HTTPValidationError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -97575,6 +96662,32 @@ func ParseGetMcpDecisionRecordRouteV1McpDecisionRecordsDecisionIdGetResponse(rsp
 	return response, nil
 }
 
+// ParseGetMcpRuntimeToolsV1McpRuntimeToolsGetResponse parses an HTTP response from a GetMcpRuntimeToolsV1McpRuntimeToolsGetWithResponse call
+func ParseGetMcpRuntimeToolsV1McpRuntimeToolsGetResponse(rsp *http.Response) (*GetMcpRuntimeToolsV1McpRuntimeToolsGetResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetMcpRuntimeToolsV1McpRuntimeToolsGetResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest map[string]interface{}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetMcpServersV1McpServersGetResponse parses an HTTP response from a GetMcpServersV1McpServersGetWithResponse call
 func ParseGetMcpServersV1McpServersGetResponse(rsp *http.Response) (*GetMcpServersV1McpServersGetResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -97880,6 +96993,9 @@ func ParsePostMcpToolCallV1McpServersServerRefToolsToolNameCallPostResponse(rsp 
 			return nil, err
 		}
 		response.JSON429 = &dest
+
+	case rsp.StatusCode == 200:
+		// Content-type (text/event-stream) unsupported
 
 	}
 
@@ -98730,6 +97846,13 @@ func ParseDownloadPermitArtifactV1PermitsPermitIdArtifactDownloadGetResponse(rsp
 	}
 
 	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest map[string]interface{}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
 		var dest HTTPValidationError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -98857,39 +97980,6 @@ func ParseCloseWorkPermitByIdV1PermitsPermitIdClosePostResponse(rsp *http.Respon
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest WorkPermitCloseResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseCreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse parses an HTTP response from a CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostWithResponse call
-func ParseCreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse(rsp *http.Response) (*CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &CreatePermitCoSignatureV1PermitsPermitIdCoSignaturePostResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest PermitCoSignatureResponse
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -101038,6 +100128,9 @@ func ParseProxyOpenaiV1ProxyOpenaiPostResponse(rsp *http.Response) (*ProxyOpenai
 		}
 		response.JSON422 = &dest
 
+	case rsp.StatusCode == 200:
+		// Content-type (text/event-stream) unsupported
+
 	}
 
 	return response, nil
@@ -101070,6 +100163,32 @@ func ParseProxyXaiV1ProxyXaiPostResponse(rsp *http.Response) (*ProxyXaiV1ProxyXa
 			return nil, err
 		}
 		response.JSON422 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetPublicStatusArtifactV1PublicStatusArtifactGetResponse parses an HTTP response from a GetPublicStatusArtifactV1PublicStatusArtifactGetWithResponse call
+func ParseGetPublicStatusArtifactV1PublicStatusArtifactGetResponse(rsp *http.Response) (*GetPublicStatusArtifactV1PublicStatusArtifactGetResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetPublicStatusArtifactV1PublicStatusArtifactGetResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PublicStatusArtifact
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	}
 
@@ -101181,157 +100300,6 @@ func ParseGetRequestTimelineV1RequestsRequestIdTimelineGetResponse(rsp *http.Res
 			return nil, err
 		}
 		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseAcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse parses an HTTP response from a AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostWithResponse call
-func ParseAcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse(rsp *http.Response) (*AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &AcceptPermitReviewInvitationV1ReviewInvitationsAcceptPostResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest PermitReviewInvitationAcceptResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseCreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse parses an HTTP response from a CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostWithResponse call
-func ParseCreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse(rsp *http.Response) (*CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &CreateGuestPermitCoSignatureV1ReviewSessionCoSignaturePostResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest PermitReviewGuestSignResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetPermitReviewContextV1ReviewSessionContextGetResponse parses an HTTP response from a GetPermitReviewContextV1ReviewSessionContextGetWithResponse call
-func ParseGetPermitReviewContextV1ReviewSessionContextGetResponse(rsp *http.Response) (*GetPermitReviewContextV1ReviewSessionContextGetResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetPermitReviewContextV1ReviewSessionContextGetResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest PermitReviewGuestContextResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseCompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse parses an HTTP response from a CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostWithResponse call
-func ParseCompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse(rsp *http.Response) (*CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &CompleteGuestPasskeyRegistrationV1ReviewSessionPasskeyRegistrationCompletePostResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest PermitCoSignerKeyResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseCreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostResponse parses an HTTP response from a CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostWithResponse call
-func ParseCreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostResponse(rsp *http.Response) (*CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &CreateGuestPasskeyRegistrationOptionsV1ReviewSessionPasskeyRegistrationOptionsPostResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest PermitCoSignerRegistrationOptions
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
 
 	}
 
@@ -101649,79 +100617,6 @@ func ParseSessionEventsStreamV1SessionsSessionIdEventsGetResponse(rsp *http.Resp
 	}
 
 	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest interface{}
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseCreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse parses an HTTP response from a CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostWithResponse call
-func ParseCreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse(rsp *http.Response) (*CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &CreateGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsPostResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest GoogleGeminiToolRunCreateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON201 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetResponse parses an HTTP response from a GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetWithResponse call
-func ParseGetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetResponse(rsp *http.Response) (*GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetGoogleGeminiToolRunV1SessionsSessionIdGoogleGeminiToolRunsRunIdGetResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GoogleGeminiToolRunEvidenceResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
 		var dest HTTPValidationError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -101783,72 +100678,6 @@ func ParseListSessionMcpToolCallsV1SessionsSessionIdMcpToolCallsGetResponse(rsp 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []MCPToolCallEvidenceResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseCreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse parses an HTTP response from a CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostWithResponse call
-func ParseCreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse(rsp *http.Response) (*CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &CreateOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsPostResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
-		var dest OpenAIResponsesToolRunCreateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON201 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetResponse parses an HTTP response from a GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetWithResponse call
-func ParseGetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetResponse(rsp *http.Response) (*GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetOpenaiResponsesToolRunV1SessionsSessionIdOpenaiResponsesToolRunsRunIdGetResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest OpenAIResponsesToolRunEvidenceResponse
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

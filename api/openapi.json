@@ -1597,7 +1597,15 @@
           }
         ],
         "responses": {
-          "200": {},
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
           "422": {
             "content": {
               "application/json": {
@@ -1646,7 +1654,16 @@
           }
         ],
         "responses": {
-          "200": {},
+          "200": {
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
           "422": {
             "content": {
               "application/json": {
@@ -5098,6 +5115,56 @@
         }
       }
     },
+    "/v1/authority/verifier-keys": {
+      "get": {
+        "operationId": "get_authority_verifier_keys_v1_authority_verifier_keys_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Authority Verifier Keys V1 Authority Verifier Keys Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/authority/simulate-revoke": {
       "post": {
         "operationId": "post_authority_simulate_revoke_v1_authority_simulate_revoke_post",
@@ -7224,6 +7291,11 @@
             "content": {
               "application/json": {
                 "schema": {}
+              },
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
               }
             }
           },
@@ -10513,6 +10585,23 @@
         }
       }
     },
+    "/v1/public/status/artifact": {
+      "get": {
+        "operationId": "get_public_status_artifact_v1_public_status_artifact_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicStatusArtifact"
+                }
+              }
+            }
+          },
+          "503": {}
+        }
+      }
+    },
     "/v1/providers/capabilities": {
       "get": {
         "operationId": "v1_provider_capabilities_v1_providers_capabilities_get",
@@ -13595,6 +13684,115 @@
         }
       }
     },
+    "/v1/dashboard/projects/{project_id}/sessions/{session_id}/events": {
+      "get": {
+        "operationId": "stream_dashboard_session_events_v1_dashboard_projects__project_id__sessions__session_id__events_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Session Id"
+            }
+          },
+          {
+            "name": "event_types",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Event Types"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dashboard/projects/{project_id}/sessions/{session_id}/action-ledger": {
+      "get": {
+        "operationId": "get_dashboard_session_action_ledger_v1_dashboard_projects__project_id__sessions__session_id__action_ledger_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Session Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionLedgerResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/dashboard/projects/{project_id}/cost-permits": {
       "get": {
         "operationId": "get_dashboard_project_cost_permits_v1_dashboard_projects__project_id__cost_permits_get",
@@ -14314,8 +14512,10 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
               }
             }
           },
@@ -16116,134 +16316,6 @@
         }
       }
     },
-    "/v1/dashboard/projects/{project_id}/permit-co-signer-keys/registration/options": {
-      "post": {
-        "operationId": "create_passkey_registration_options_v1_dashboard_projects__project_id__permit_co_signer_keys_registration_options_post",
-        "parameters": [
-          {
-            "name": "project_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Project Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PermitCoSignerRegistrationOptions"
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/dashboard/projects/{project_id}/permit-co-signer-keys/registration/complete": {
-      "post": {
-        "operationId": "complete_passkey_registration_route_v1_dashboard_projects__project_id__permit_co_signer_keys_registration_complete_post",
-        "parameters": [
-          {
-            "name": "project_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Project Id"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PermitCoSignerRegistrationCompleteRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PermitCoSignerKeyResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/permits/{permit_id}/co-signature": {
-      "post": {
-        "operationId": "create_permit_co_signature_v1_permits__permit_id__co_signature_post",
-        "parameters": [
-          {
-            "name": "permit_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Permit Id"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PermitCoSignatureClaim-Input"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PermitCoSignatureResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/dashboard/projects/{project_id}/permits/{permit_id}/co-signature-context": {
       "get": {
         "operationId": "get_permit_co_signature_context_v1_dashboard_projects__project_id__permits__permit_id__co_signature_context_get",
@@ -17024,143 +17096,6 @@
         }
       }
     },
-    "/v1/review-invitations/accept": {
-      "post": {
-        "operationId": "accept_permit_review_invitation_v1_review_invitations_accept_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PermitReviewInvitationAcceptRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PermitReviewInvitationAcceptResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/review-session/context": {
-      "get": {
-        "operationId": "get_permit_review_context_v1_review_session_context_get",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PermitReviewGuestContextResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/review-session/passkey/registration/options": {
-      "post": {
-        "operationId": "create_guest_passkey_registration_options_v1_review_session_passkey_registration_options_post",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PermitCoSignerRegistrationOptions"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/review-session/passkey/registration/complete": {
-      "post": {
-        "operationId": "complete_guest_passkey_registration_v1_review_session_passkey_registration_complete_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PermitCoSignerRegistrationCompleteRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PermitCoSignerKeyResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/review-session/co-signature": {
-      "post": {
-        "operationId": "create_guest_permit_co_signature_v1_review_session_co_signature_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PermitCoSignatureClaim-Input"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PermitReviewGuestSignResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/dashboard/projects/{project_id}/usage/summary": {
       "get": {
         "operationId": "get_dashboard_project_usage_summary_rollup_v1_dashboard_projects__project_id__usage_summary_get",
@@ -17625,6 +17560,11 @@
             "content": {
               "application/json": {
                 "schema": {}
+              },
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -17654,6 +17594,11 @@
             "content": {
               "application/json": {
                 "schema": {}
+              },
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
               }
             }
           },
@@ -19662,6 +19607,11 @@
                   "title": "Response Post Mcp Tool Call V1 Mcp Servers  Server Ref  Tools  Tool Name  Call Post",
                   "$ref": "#/components/schemas/McpCallPermittedResponse"
                 }
+              },
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
               }
             }
           },
@@ -19713,6 +19663,29 @@
             }
           }
         }
+      }
+    },
+    "/v1/mcp/runtime-tools": {
+      "get": {
+        "operationId": "get_mcp_runtime_tools_v1_mcp_runtime_tools_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Get Mcp Runtime Tools V1 Mcp Runtime Tools Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
       }
     },
     "/v1/mcp/connector-contracts": {
@@ -20957,276 +20930,6 @@
         }
       }
     },
-    "/v1/sessions/{session_id}/openai-responses-tool-runs": {
-      "post": {
-        "operationId": "create_openai_responses_tool_run_v1_sessions__session_id__openai_responses_tool_runs_post",
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "session_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Session Id"
-            }
-          },
-          {
-            "name": "X-API-Key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Api-Key"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "additionalProperties": true,
-                "title": "Body"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OpenAIResponsesToolRunCreateResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/sessions/{session_id}/openai-responses-tool-runs/{run_id}": {
-      "get": {
-        "operationId": "get_openai_responses_tool_run_v1_sessions__session_id__openai_responses_tool_runs__run_id__get",
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "session_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Session Id"
-            }
-          },
-          {
-            "name": "run_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Run Id"
-            }
-          },
-          {
-            "name": "X-API-Key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Api-Key"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OpenAIResponsesToolRunEvidenceResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/sessions/{session_id}/google-gemini-tool-runs": {
-      "post": {
-        "operationId": "create_google_gemini_tool_run_v1_sessions__session_id__google_gemini_tool_runs_post",
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "session_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Session Id"
-            }
-          },
-          {
-            "name": "X-API-Key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Api-Key"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "additionalProperties": true,
-                "title": "Body"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GoogleGeminiToolRunCreateResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/sessions/{session_id}/google-gemini-tool-runs/{run_id}": {
-      "get": {
-        "operationId": "get_google_gemini_tool_run_v1_sessions__session_id__google_gemini_tool_runs__run_id__get",
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "session_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Session Id"
-            }
-          },
-          {
-            "name": "run_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Run Id"
-            }
-          },
-          {
-            "name": "X-API-Key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "X-Api-Key"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GoogleGeminiToolRunEvidenceResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/sessions/{session_id}/mcp-tool-calls": {
       "get": {
         "operationId": "list_session_mcp_tool_calls_v1_sessions__session_id__mcp_tool_calls_get",
@@ -21480,8 +21183,10 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
               }
             }
           },
@@ -22044,8 +21749,10 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
               }
             }
           },
@@ -23820,7 +23527,34 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/x-ndjson": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/gzip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
               }
             }
           },
@@ -23875,8 +23609,11 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": {
-                "schema": {}
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
               }
             }
           },
@@ -24092,7 +23829,81 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/x-ndjson": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/gzip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dashboard/projects/{project_id}/compliance/exports/{export_id}/proof-pack": {
+      "get": {
+        "operationId": "download_dashboard_compliance_export_proof_pack_v1_dashboard_projects__project_id__compliance_exports__export_id__proof_pack_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "export_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Export Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
               }
             }
           },
@@ -35405,7 +35216,8 @@
             "enum": [
               "json",
               "jsonl",
-              "csv"
+              "csv",
+              "chain_proof_json"
             ],
             "title": "Format",
             "default": "jsonl"
@@ -35880,7 +35692,7 @@
           "verify_closure": {
             "type": "boolean",
             "title": "Verify Closure",
-            "default": true
+            "default": false
           },
           "verifier_command": {
             "anyOf": [
@@ -35891,7 +35703,8 @@
                 "type": "null"
               }
             ],
-            "title": "Verifier Command"
+            "title": "Verifier Command",
+            "deprecated": true
           }
         },
         "additionalProperties": false,
@@ -35900,6 +35713,21 @@
       },
       "ComplianceExportVerifyResponse": {
         "properties": {
+          "verification_scope": {
+            "type": "string",
+            "const": "export_integrity",
+            "title": "Verification Scope"
+          },
+          "chain_walk_verified": {
+            "type": "boolean",
+            "const": false,
+            "title": "Chain Walk Verified"
+          },
+          "closure_verified": {
+            "type": "boolean",
+            "const": false,
+            "title": "Closure Verified"
+          },
           "status": {
             "type": "string",
             "enum": [
@@ -35974,6 +35802,9 @@
         },
         "type": "object",
         "required": [
+          "verification_scope",
+          "chain_walk_verified",
+          "closure_verified",
           "status",
           "result_id",
           "result_path",
@@ -43430,109 +43261,6 @@
           "allowed"
         ],
         "title": "FeatureAccessInfo"
-      },
-      "GoogleGeminiToolRunCreateResponse": {
-        "properties": {
-          "run_id": {
-            "type": "string",
-            "title": "Run Id"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "review",
-              "completed",
-              "failed"
-            ],
-            "title": "Status"
-          },
-          "provider_status_code": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Provider Status Code"
-          },
-          "action_permits": {
-            "items": {
-              "$ref": "#/components/schemas/ActionPermitIssueResponse"
-            },
-            "type": "array",
-            "title": "Action Permits"
-          },
-          "provider_response": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Provider Response"
-          },
-          "signed_event": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Signed Event"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "run_id",
-          "status",
-          "action_permits"
-        ],
-        "title": "GoogleGeminiToolRunCreateResponse"
-      },
-      "GoogleGeminiToolRunEvidenceResponse": {
-        "properties": {
-          "session_id": {
-            "type": "string",
-            "title": "Session Id"
-          },
-          "project_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Project Id"
-          },
-          "run_id": {
-            "type": "string",
-            "title": "Run Id"
-          },
-          "event_id": {
-            "type": "string",
-            "title": "Event Id"
-          },
-          "signed_event": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Signed Event"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "session_id",
-          "project_id",
-          "run_id",
-          "event_id",
-          "signed_event"
-        ],
-        "title": "GoogleGeminiToolRunEvidenceResponse"
       },
       "GoogleGenerateContentProxyRequest": {
         "properties": {
@@ -51545,109 +51273,6 @@
         ],
         "title": "OpenAIChatCompletionsProxyRequest"
       },
-      "OpenAIResponsesToolRunCreateResponse": {
-        "properties": {
-          "run_id": {
-            "type": "string",
-            "title": "Run Id"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "review",
-              "completed",
-              "failed"
-            ],
-            "title": "Status"
-          },
-          "provider_status_code": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Provider Status Code"
-          },
-          "action_permits": {
-            "items": {
-              "$ref": "#/components/schemas/ActionPermitIssueResponse"
-            },
-            "type": "array",
-            "title": "Action Permits"
-          },
-          "provider_response": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Provider Response"
-          },
-          "signed_event": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Signed Event"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "run_id",
-          "status",
-          "action_permits"
-        ],
-        "title": "OpenAIResponsesToolRunCreateResponse"
-      },
-      "OpenAIResponsesToolRunEvidenceResponse": {
-        "properties": {
-          "session_id": {
-            "type": "string",
-            "title": "Session Id"
-          },
-          "project_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Project Id"
-          },
-          "run_id": {
-            "type": "string",
-            "title": "Run Id"
-          },
-          "event_id": {
-            "type": "string",
-            "title": "Event Id"
-          },
-          "signed_event": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Signed Event"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "session_id",
-          "project_id",
-          "run_id",
-          "event_id",
-          "signed_event"
-        ],
-        "title": "OpenAIResponsesToolRunEvidenceResponse"
-      },
       "OpenAcpAddressEvidence": {
         "properties": {
           "name": {
@@ -54933,90 +54558,7 @@
         ],
         "title": "PermitAuditListResponse"
       },
-      "PermitCoSignatureClaim-Input": {
-        "properties": {
-          "payload_type": {
-            "type": "string",
-            "const": "permit.co_signature.v1",
-            "title": "Payload Type"
-          },
-          "permit_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Permit Id"
-          },
-          "permit_canonical_hash": {
-            "type": "string",
-            "pattern": "^[a-f0-9]{64}$",
-            "title": "Permit Canonical Hash"
-          },
-          "action": {
-            "type": "string",
-            "minLength": 1,
-            "title": "Action"
-          },
-          "resource": {
-            "type": "string",
-            "minLength": 1,
-            "title": "Resource"
-          },
-          "modality": {
-            "type": "string",
-            "minLength": 1,
-            "title": "Modality"
-          },
-          "co_signer_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Co Signer Id"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "approver",
-              "witness"
-            ],
-            "title": "Role"
-          },
-          "key_id": {
-            "type": "string",
-            "maxLength": 255,
-            "minLength": 1,
-            "title": "Key Id"
-          },
-          "custody_tier": {
-            "type": "string",
-            "const": "human_passkey",
-            "title": "Custody Tier"
-          },
-          "signed_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Signed At"
-          },
-          "assertion": {
-            "$ref": "#/components/schemas/WebAuthnAssertionEnvelope"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "payload_type",
-          "permit_id",
-          "permit_canonical_hash",
-          "action",
-          "resource",
-          "modality",
-          "co_signer_id",
-          "role",
-          "key_id",
-          "custody_tier",
-          "signed_at",
-          "assertion"
-        ],
-        "title": "PermitCoSignatureClaim"
-      },
-      "PermitCoSignatureClaim-Output": {
+      "PermitCoSignatureClaim": {
         "properties": {
           "payload_type": {
             "type": "string",
@@ -55301,7 +54843,7 @@
       "PermitCoSignatureEvidence": {
         "properties": {
           "claim": {
-            "$ref": "#/components/schemas/PermitCoSignatureClaim-Output"
+            "$ref": "#/components/schemas/PermitCoSignatureClaim"
           },
           "target_permit": {
             "$ref": "#/components/schemas/PermitCoSignatureTargetContext"
@@ -55501,30 +55043,6 @@
         ],
         "title": "PermitCoSignatureRequirementStatus"
       },
-      "PermitCoSignatureResponse": {
-        "properties": {
-          "claim": {
-            "$ref": "#/components/schemas/PermitCoSignatureClaim-Output"
-          },
-          "permit": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Permit"
-          },
-          "already_recorded": {
-            "type": "boolean",
-            "title": "Already Recorded"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "claim",
-          "permit",
-          "already_recorded"
-        ],
-        "title": "PermitCoSignatureResponse"
-      },
       "PermitCoSignatureTargetContext": {
         "properties": {
           "permit_id": {
@@ -55716,69 +55234,6 @@
           "rp_id"
         ],
         "title": "PermitCoSignerKeyResponse"
-      },
-      "PermitCoSignerRegistrationCompleteRequest": {
-        "properties": {
-          "registration_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Registration Id"
-          },
-          "credential_id": {
-            "type": "string",
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9_-]+$",
-            "title": "Credential Id"
-          },
-          "client_data_json": {
-            "type": "string",
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9_-]+$",
-            "title": "Client Data Json"
-          },
-          "attestation_object": {
-            "type": "string",
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9_-]+$",
-            "title": "Attestation Object"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "registration_id",
-          "credential_id",
-          "client_data_json",
-          "attestation_object"
-        ],
-        "title": "PermitCoSignerRegistrationCompleteRequest"
-      },
-      "PermitCoSignerRegistrationOptions": {
-        "properties": {
-          "registration_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Registration Id"
-          },
-          "public_key": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Public Key"
-          },
-          "expires_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Expires At"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "registration_id",
-          "public_key",
-          "expires_at"
-        ],
-        "title": "PermitCoSignerRegistrationOptions"
       },
       "PermitConditionEvaluation": {
         "properties": {
@@ -60578,179 +60033,6 @@
           "permit"
         ],
         "title": "PermitResponse"
-      },
-      "PermitReviewGuestContextResponse": {
-        "properties": {
-          "guest_principal_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Guest Principal Id"
-          },
-          "permit_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Permit Id"
-          },
-          "purpose": {
-            "type": "string",
-            "enum": [
-              "review",
-              "witness"
-            ],
-            "title": "Purpose"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "approver",
-              "witness"
-            ],
-            "title": "Role"
-          },
-          "permit_status": {
-            "type": "string",
-            "title": "Permit Status"
-          },
-          "expires_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Expires At"
-          },
-          "revoked_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Revoked At"
-          },
-          "first_dispatch_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "First Dispatch At"
-          },
-          "target_permit": {
-            "$ref": "#/components/schemas/PermitCoSignatureTargetContext"
-          },
-          "requirement": {
-            "$ref": "#/components/schemas/PermitCoSignatureRequirementStatus"
-          },
-          "current_guest_keys": {
-            "items": {
-              "$ref": "#/components/schemas/PermitCoSignerKeyResponse"
-            },
-            "type": "array",
-            "title": "Current Guest Keys"
-          },
-          "already_signed": {
-            "type": "boolean",
-            "title": "Already Signed"
-          },
-          "containment": {
-            "$ref": "#/components/schemas/PermitCoSignatureContainmentStatus"
-          },
-          "mailbox_control_established": {
-            "type": "boolean",
-            "const": true,
-            "title": "Mailbox Control Established",
-            "default": true
-          },
-          "identity_scope": {
-            "type": "string",
-            "const": "mailbox_control_and_passkey_possession",
-            "title": "Identity Scope",
-            "default": "mailbox_control_and_passkey_possession"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "guest_principal_id",
-          "permit_id",
-          "purpose",
-          "role",
-          "permit_status",
-          "target_permit",
-          "requirement",
-          "already_signed"
-        ],
-        "title": "PermitReviewGuestContextResponse"
-      },
-      "PermitReviewGuestSignResponse": {
-        "properties": {
-          "claim": {
-            "$ref": "#/components/schemas/PermitCoSignatureClaim-Output"
-          },
-          "context": {
-            "$ref": "#/components/schemas/PermitReviewGuestContextResponse"
-          },
-          "already_recorded": {
-            "type": "boolean",
-            "title": "Already Recorded"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "claim",
-          "context",
-          "already_recorded"
-        ],
-        "title": "PermitReviewGuestSignResponse"
-      },
-      "PermitReviewInvitationAcceptRequest": {
-        "properties": {
-          "raw_token": {
-            "type": "string",
-            "maxLength": 256,
-            "minLength": 37,
-            "pattern": "^rinv_[A-Za-z0-9_-]{32,128}$",
-            "title": "Raw Token"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "raw_token"
-        ],
-        "title": "PermitReviewInvitationAcceptRequest"
-      },
-      "PermitReviewInvitationAcceptResponse": {
-        "properties": {
-          "context": {
-            "$ref": "#/components/schemas/PermitReviewGuestContextResponse"
-          },
-          "session_expires_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Session Expires At"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "context",
-          "session_expires_at"
-        ],
-        "title": "PermitReviewInvitationAcceptResponse"
       },
       "PermitRevocationRequest": {
         "properties": {
@@ -67477,6 +66759,47 @@
         ],
         "title": "ProviderMeta"
       },
+      "PublicStatusArtifact": {
+        "properties": {
+          "schema_version": {
+            "type": "integer",
+            "const": 1,
+            "title": "Schema Version"
+          },
+          "source": {
+            "type": "string",
+            "const": "first_party",
+            "title": "Source"
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Generated At"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/PublicStatusSummaryResponse"
+          },
+          "history": {
+            "$ref": "#/components/schemas/PublicStatusSampleHistory"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "schema_version",
+          "source",
+          "generated_at",
+          "expires_at",
+          "summary",
+          "history"
+        ],
+        "title": "PublicStatusArtifact"
+      },
       "PublicStatusComponent": {
         "properties": {
           "key": {
@@ -67730,6 +67053,109 @@
           "coverage_percentage"
         ],
         "title": "PublicStatusHistoryRow"
+      },
+      "PublicStatusSampleHistory": {
+        "properties": {
+          "generated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Generated At"
+          },
+          "window_days": {
+            "type": "integer",
+            "const": 90,
+            "title": "Window Days"
+          },
+          "range_label": {
+            "type": "string",
+            "title": "Range Label"
+          },
+          "methodology": {
+            "type": "string",
+            "title": "Methodology"
+          },
+          "coverage_basis": {
+            "type": "string",
+            "const": "scheduled_checks",
+            "title": "Coverage Basis"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/PublicStatusSampleRow"
+            },
+            "type": "array",
+            "maxItems": 4,
+            "minItems": 4,
+            "title": "Rows"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "generated_at",
+          "window_days",
+          "range_label",
+          "methodology",
+          "coverage_basis",
+          "rows"
+        ],
+        "title": "PublicStatusSampleHistory"
+      },
+      "PublicStatusSampleRow": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "enum": [
+              "api",
+              "execution_pipeline",
+              "policy",
+              "accounting"
+            ],
+            "title": "Key"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "days": {
+            "items": {
+              "$ref": "#/components/schemas/PublicStatusHistoryDay"
+            },
+            "type": "array",
+            "maxItems": 90,
+            "minItems": 90,
+            "title": "Days"
+          },
+          "verified_checks": {
+            "type": "integer",
+            "maximum": 25920.0,
+            "minimum": 0.0,
+            "title": "Verified Checks"
+          },
+          "expected_checks": {
+            "type": "integer",
+            "maximum": 25920.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Expected Checks"
+          },
+          "coverage_percentage": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Coverage Percentage"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "key",
+          "name",
+          "days",
+          "verified_checks",
+          "expected_checks",
+          "coverage_percentage"
+        ],
+        "title": "PublicStatusSampleRow"
       },
       "PublicStatusSummaryResponse": {
         "properties": {
